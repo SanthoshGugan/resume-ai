@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 
-const UploadResume = ({ }) => {
+const UploadResume = ({ onFileUpload = () => {} }) => {
 
     const [ files, setFiles] = useState([]);
 
     const handleFileUpload = (event) => {
         const files = event.target.files;
         setFiles(files);
+        onFileUpload({ files })
     };
 
     const handleMockFileUpload = () => {

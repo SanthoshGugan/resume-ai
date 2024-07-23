@@ -2,10 +2,12 @@ import React from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import useResumeAI from "../../hooks/useResumeAI";
 import Answers from "./Answers";
-import JD from "../JD/JD";
+import JD from "../JD/JDSummary";
 import Questions from "./Questions";
 import Filters from "../Filters/Filters";
 import UploadResume from "./UploadResume";
+import JDSummary from "../JD/JDSummary";
+import JDUpload from "../JD/JDUpload";
 
 const ResumeAi = () => {
 
@@ -48,13 +50,10 @@ const ResumeAi = () => {
         <div fuild className="mx-2 my-1">
             <Container fuild className="flex justify-content-start my-5 bg-primary-subtle border-primary-subtle py-5 px-10">
                 <Questions>
-                    <div>What do u think of these resumes?</div>
+                    <JDUpload />
                 </Questions>
-                <Answers>
-                    <div>Certainly!. The summary of the resume submitted. It can be understood that most of the resumes are full stack eligible. Few are purely front end.Some are purely backend. Total of 65% of the resume are eligible for the position.</div>
-                </Answers>
                 <Answers colW={11}>
-                    <JD />
+                    <JDSummary />
                 </Answers>
                 <Answers colW={10}>
                     <Filters />

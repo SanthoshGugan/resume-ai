@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 
-const JD = ({ jd }) => {
+const JDSummary = ({ jd }) => {
 
     return (
         <Container>
@@ -57,4 +57,4 @@ const JD = ({ jd }) => {
     );
 };
 
-export default JD;
+export default JDSummary;
