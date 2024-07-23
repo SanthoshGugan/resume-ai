@@ -12,8 +12,8 @@ const BUCKET_NAME = "resume-filtering-ai";
 const client = new S3Client({
     region: 'us-east-1',
     credentials: {
-        accessKeyId: "",
-        secretAccessKey: ""
+        accessKeyId: process.env.REACT_APP_ACCESS_KEY,
+        secretAccessKey: process.env.REACT_APP_ACCESS_SECRET_KEY
     }
 });
 
