@@ -6,11 +6,11 @@ import AWS from "aws-sdk";
 
 
 // move to secrets!!!!!
-const AWS_REGION="us-east-1";
-const BUCKET_NAME = "resume-filtering-ai";
+const AWS_REGION="ap-south-1";
+const BUCKET_NAME = "jd-assets-009594049963";
 
 const client = new S3Client({
-    region: 'us-east-1',
+    region: AWS_REGION,
     credentials: {
         accessKeyId: process.env.REACT_APP_ACCESS_KEY,
         secretAccessKey: process.env.REACT_APP_ACCESS_SECRET_KEY
