@@ -7,7 +7,7 @@ import AWS from "aws-sdk";
 
 // move to secrets!!!!!
 const AWS_REGION="ap-south-1";
-const BUCKET_NAME = "jd-assets-009594049963";
+const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
 const client = new S3Client({
     region: AWS_REGION,
@@ -34,7 +34,9 @@ const useUploadToS3 = ({}) => {
             //     ...params
             // }).promise();
             console.log(data);
-            return data;
+            return {
+                key: Key
+            };
         } catch(err) {
             console.error(err);
         }

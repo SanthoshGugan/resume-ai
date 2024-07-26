@@ -2,19 +2,29 @@ import React, { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import UploadResume from "../ResumeAi/UploadResume";
 import useUploadToS3 from "../../hooks/useUploadToS3";
+import useLongPollJDSummary from "../../hooks/useLongPollJDSummary";
 
-const JDUpload = ({ }) => {
+const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
+
+
+const JDUpload = ({  }) => {
 
     const [ files, setFiles] = useState([]);
+    const { 
+        fetchJDSummary,
+        summary,
+        dimensions
+    } = useLongPollJDSummary({});
 
     const { 
         uploadFile
     } = useUploadToS3({});
 
-    const onFileUpload = ({files }) => {
+    const onFileUpload = async ({files }) => {
         console.log(`files : ${JSON.stringify(files)}`, files);
         const [file] = files;
-        uploadFile({ file });
+        const { Key } = await uploadFile({ file });
+        await fetchJDSummary({ key: Key, bucket: BUCKET_NAME });
     }
 
     const handleFileUpload = (event) => {
@@ -34,6 +44,10 @@ const JDUpload = ({ }) => {
             <div>JD Upload</div>
             <input type="file" accept=".pdf,image/*" onChange={handleFileUpload} id="jd_upload_key" style={{ display: "none"}}/>
             <Button onClick={handleMockFileUpload}>Upload</Button>
+            <div>
+                {summary}
+                {dimensions}
+            </div>
         </Container>
     );
 }
