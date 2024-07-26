@@ -35,7 +35,7 @@ const useUploadToS3 = ({}) => {
             // }).promise();
             console.log(data);
             return {
-                key: Key
+                Key: Key
             };
         } catch(err) {
             console.error(err);
