@@ -68,3 +68,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+PORT=3000
+REACT_APP_ACCESS_KEY=abc
+REACT_APP_ACCESS_SECRET_KEY=abc
+REACT_APP_JD_BUCKET_NAME=jd-assets-009594049963
+REACT_APP_JD_API_GATEWAY_URL=https://duadfu0kfe.execute-api.ap-south-1.amazonaws.com/prod/poll_jd
