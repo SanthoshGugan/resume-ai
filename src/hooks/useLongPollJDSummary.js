@@ -13,19 +13,19 @@ const useLongPollJDSummary = ({ interval = 5000 }) => {
             s3_bucket: bucket
         };
         const res = await fetchJDSummaryApi(req);
-        // const { status, retry, dimensions, summary } = res?.data;
-        // if (retry && (!dimensions && !summary)) {
-        //     setTimeout(() => {
-        //         fetchJDSummary({ key, bucket});
-        //     }, interval)
-        //     setStatus(status);
-        //     setRetry(retry);
-        //     return;
-        // }
-        // setStatus(status);
-        // setDimensions(dimensions);
-        // setRetry(retry);
-        // setSummary(summary);
+        const { status, retry, dimensions, summary } = res?.data;
+        if (retry && !dimensions && !summary) {
+            setTimeout(() => {
+                fetchJDSummary({ key, bucket});
+            }, interval)
+            setStatus(status);
+            setRetry(retry);
+            return;
+        }
+        setStatus(status);
+        setDimensions(dimensions);
+        setRetry(retry);
+        setSummary(summary);
     }
 
     return {

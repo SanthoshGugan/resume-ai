@@ -45,8 +45,8 @@ const JDUpload = ({  }) => {
             <input type="file" accept=".pdf,image/*" onChange={handleFileUpload} id="jd_upload_key" style={{ display: "none"}}/>
             <Button onClick={handleMockFileUpload}>Upload</Button>
             <div>
-                {summary}
-                {dimensions}
+                <>{JSON.stringify(summary)}</>
+                <>{JSON.stringify(dimensions)}</>
             </div>
         </Container>
     );
