@@ -8,6 +8,7 @@ import Filters from "../Filters/Filters";
 import UploadResume from "./UploadResume";
 import JDSummary from "../JD/JDSummary";
 import JDUpload from "../JD/JDUpload";
+import ResumeUpload from "../Resume/ResumeUpload";
 
 const ResumeAi = () => {
 
@@ -17,40 +18,14 @@ const ResumeAi = () => {
         register
      } = useResumeAI();
 
-     const renderText = ({ text = "Hello word"}) => {
-        return (
-            <Row className="d-flex justify-content-end mx-2 mb-5">
-                <Col md={8}>
-                    <Card>
-                        <Card.Body>
-                                    {text}
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        )
-     };
-
-     const renderQuestion = ({ q = ""}) => {
-        return (
-            <Row className="d-flex justify-content-start mx-2 mb-5">
-                <Col md={8}>
-                    <Card>
-                        <Card.Body>
-                                    {q}
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        )
-
-     }
-
     return (
         <div fuild className="mx-2 my-1">
             <Container fuild className="flex justify-content-start my-5 bg-primary-subtle border-primary-subtle py-5 px-10">
                 <Questions>
                     <JDUpload />
+                </Questions>
+                <Questions>
+                    <ResumeUpload />
                 </Questions>
                 <Answers colW={11}>
                     <JDSummary />
