@@ -7,7 +7,7 @@ import useLongPollJDSummary from "../../hooks/useLongPollJDSummary";
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
 
-const JDUpload = ({  }) => {
+const JDUpload = ({ setJdKey  }) => {
 
     const [ files, setFiles] = useState([]);
     const { 
@@ -24,6 +24,7 @@ const JDUpload = ({  }) => {
         console.log(`files : ${JSON.stringify(files)}`, files);
         const [file] = files;
         const { Key } = await uploadFile({ file, Bucket: BUCKET_NAME });
+        setJdKey(`${BUCKET_NAME}_${Key}`);
         await fetchJDSummary({ key: Key, bucket: BUCKET_NAME });
     }
 

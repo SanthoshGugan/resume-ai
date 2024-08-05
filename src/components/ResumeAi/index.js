@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import useResumeAI from "../../hooks/useResumeAI";
 import Answers from "./Answers";
@@ -12,6 +12,8 @@ import ResumeUpload from "../Resume/ResumeUpload";
 
 const ResumeAi = () => {
 
+    const [ jdKey, setJdKey ] = useState("");
+
     const {
         handleSubmit,
         onSubmit,
@@ -22,10 +24,10 @@ const ResumeAi = () => {
         <div fuild className="mx-2 my-1">
             <Container fuild className="flex justify-content-start my-5 bg-primary-subtle border-primary-subtle py-5 px-10">
                 <Questions>
-                    <JDUpload />
+                    <JDUpload setJdKey={setJdKey}/>
                 </Questions>
                 <Questions>
-                    <ResumeUpload />
+                    <ResumeUpload jd_key={jdKey}/>
                 </Questions>
                 <Answers colW={11}>
                     <JDSummary />
