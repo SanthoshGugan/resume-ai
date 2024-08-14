@@ -24,7 +24,7 @@ const JDUpload = ({ setJdKey  }) => {
         console.log(`files : ${JSON.stringify(files)}`, files);
         const [file] = files;
         const { Key } = await uploadFile({ file, Bucket: BUCKET_NAME });
-        setJdKey(`${BUCKET_NAME}_${Key}`);
+        setJdKey(`${Key}_${BUCKET_NAME}`);
         await fetchJDSummary({ key: Key, bucket: BUCKET_NAME });
     }
 

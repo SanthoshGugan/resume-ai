@@ -27,7 +27,7 @@ const ResumeUpload = ({ jd_key }) => {
     const uploadFileAfterIntialize = async ({ files }) => {
         const [ file ] = files;
         const resume_name = file.name;
-        const resume_key = `${BUCKET_NAME}_${resume_name}`;
+        const resume_key = `${resume_name}_${BUCKET_NAME}`;
         const id = await initializeResumeUpload({ jd_key, resume_key })
         const { Key } = await uploadFile({ file, Bucket: BUCKET_NAME });
         await fetchResumeSummary({ key: Key, bucket: BUCKET_NAME });

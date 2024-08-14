@@ -9,6 +9,7 @@ import UploadResume from "./UploadResume";
 import JDSummary from "../JD/JDSummary";
 import JDUpload from "../JD/JDUpload";
 import ResumeUpload from "../Resume/ResumeUpload";
+import Matching from "../Matching/Matching";
 
 const ResumeAi = () => {
 
@@ -28,6 +29,9 @@ const ResumeAi = () => {
                 </Questions>
                 <Questions>
                     <ResumeUpload jd_key={jdKey}/>
+                </Questions>
+                <Questions>
+                    <Matching jd_key={jdKey} />
                 </Questions>
                 <Answers colW={11}>
                     <JDSummary />
