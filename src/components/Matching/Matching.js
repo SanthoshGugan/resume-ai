@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import useMatching from "../../hooks/useMatching";
 import useLongPollMatchingSummary from "../../hooks/useLongPollMatchingSummary";
 
 
-const Matching = ({ jd_key }) => {
+const Matching = ({ jd_key, setCanShowMatchSummaryCard, setMatchSummary }) => {
 
     const { 
         triggerMatching
@@ -19,6 +19,11 @@ const Matching = ({ jd_key }) => {
         await triggerMatching({ jd_key });
         await fetchMatchingSummary({ jd_key });
     }
+
+    useEffect(() => {
+        setMatchSummary(summary);
+        setCanShowMatchSummaryCard(!!summary)
+    }, [summary])
 
     if (!jd_key) return <></>;
 
