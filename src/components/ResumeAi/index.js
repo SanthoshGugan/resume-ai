@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import useResumeAI from "../../hooks/useResumeAI";
 import Answers from "./Answers";
@@ -10,10 +10,20 @@ import JDSummary from "../JD/JDSummary";
 import JDUpload from "../JD/JDUpload";
 import ResumeUpload from "../Resume/ResumeUpload";
 import Matching from "../Matching/Matching";
+import MatchSummary from "../Matching/MatchSummary";
 
 const ResumeAi = () => {
 
-    const [ jdKey, setJdKey ] = useState("");
+    const [ canShowJDUploadCard, setCanShowJDUploadCard ] = useState(false);
+    const [ canShowJDSummaryCard, setCanShowJDSummaryCard ] = useState(false);
+    const [ canShowResumeUploadCard, setCanShowResumeUploadCard ] = useState(false);
+    const [ canShowMatchCard, setCanShowMatchCard ] = useState(false);
+    const [ canShowMatchSummaryCard, setCanShowMatchSummaryCard ] = useState(false);
+
+    const [ canShowFilterCard, setCanShowFilterCard ] = useState(false);
+    const [ jdKey, setJdKey ] = useState(null);
+    const [ jdSummary, setJDSummary] = useState(null);
+    const [ matchSummary, setMatchSummary] = useState(null);
 
     const {
         handleSubmit,
@@ -21,24 +31,56 @@ const ResumeAi = () => {
         register
      } = useResumeAI();
 
+     useEffect(() => {
+        setCanShowJDUploadCard(true);
+     }, [])
+
+     useEffect(() => {
+        setCanShowJDSummaryCard(!!jdSummary); 
+     }, [jdSummary])
+
     return (
         <div fuild className="mx-2 my-1">
             <Container fuild className="flex justify-content-start my-5 bg-primary-subtle border-primary-subtle py-5 px-10">
-                <Questions>
-                    <JDUpload setJdKey={setJdKey}/>
-                </Questions>
-                <Questions>
-                    <ResumeUpload jd_key={jdKey}/>
-                </Questions>
-                <Questions>
-                    <Matching jd_key={jdKey} />
-                </Questions>
-                <Answers colW={11}>
-                    <JDSummary />
-                </Answers>
-                <Answers colW={10}>
-                    <Filters />
-                </Answers>
+                {canShowJDUploadCard && (
+                    <Questions>
+                        <JDUpload
+                            setJdKey={setJdKey}
+                            setCanShowJDSummaryCard={setCanShowJDSummaryCard}
+                            setCanShowResumeUploadCard={setCanShowResumeUploadCard}
+                            setJDSummary={setJDSummary}
+                            />
+                    </Questions>
+                )}
+                {canShowJDSummaryCard && (
+                    <Answers colW={11}>
+                        <JDSummary jdSummary={jdSummary}/>
+                    </Answers>
+                )}
+                {canShowResumeUploadCard && (
+                    <Questions>
+                        <ResumeUpload jd_key={jdKey} setCanShowMatchCard={setCanShowMatchCard}/>
+                    </Questions>
+                )}
+                {canShowMatchCard && (
+                    <Questions>
+                        <Matching jd_key={jdKey}
+                            setMatchSummary={setMatchSummary}
+                            setCanShowMatchSummaryCard={setCanShowMatchSummaryCard}
+                        />
+                    </Questions>
+                )}
+                {canShowMatchSummaryCard && (
+                    <Questions>
+                        <MatchSummary summary={matchSummary} />
+                    </Questions>
+                )}
+                
+                {canShowFilterCard && (
+                    <Answers colW={10}>
+                        <Filters />
+                    </Answers>
+                )}
             </Container>
             <Container fuild className="flex justify-content-end">
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -61,10 +103,10 @@ const ResumeAi = () => {
                                 <div>
                                     <Button type="submit">Submit</Button>
                                 </div>
-                                <div>
+                                {/* <div>
 
                                     <UploadResume />
-                                </div>
+                                </div> */}
                             </div>
                         </Col>
                     </Row>

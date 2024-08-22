@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import UploadResume from "../ResumeAi/UploadResume";
 import useUploadToS3 from "../../hooks/useUploadToS3";
@@ -7,13 +7,13 @@ import useLongPollJDSummary from "../../hooks/useLongPollJDSummary";
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
 
-const JDUpload = ({ setJdKey  }) => {
+const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCard, setJDSummary  }) => {
 
     const [ files, setFiles] = useState([]);
     const { 
         fetchJDSummary,
         summary,
-        dimensions
+        // dimensions
     } = useLongPollJDSummary({});
 
     const { 
@@ -37,8 +37,15 @@ const JDUpload = ({ setJdKey  }) => {
     const handleMockFileUpload = () => {
         const inputEle = document.getElementById("jd_upload_key");
         inputEle.click();
-
     }
+
+    useEffect(() => {
+        setCanShowJDSummaryCard(!!summary);
+        setCanShowResumeUploadCard(!!summary);
+        setJDSummary(summary);
+    }, [
+        summary
+    ])
 
     return (
         <Container>
@@ -46,8 +53,8 @@ const JDUpload = ({ setJdKey  }) => {
             <input type="file" accept=".pdf,image/*" onChange={handleFileUpload} id="jd_upload_key" style={{ display: "none"}}/>
             <Button onClick={handleMockFileUpload}>Upload</Button>
             <div>
-                <>{JSON.stringify(summary)}</>
-                <>{JSON.stringify(dimensions)}</>
+                {/* <>{summary && JSON.stringify(summary)}</> */}
+                {/* <>{dimensions && JSON.stringify(dimensions)}</> */}
             </div>
         </Container>
     );
