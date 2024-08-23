@@ -3,17 +3,74 @@ import { Card, Col, Container, Row } from "react-bootstrap";
 
 const MatchSummary = ({ summary }) => {
 
+    const { topResume, topListResume, groupByLabels } = summary || {}; 
+
+    const renderTopResume = () => {
+        const {sentence, matchPercent} = topResume;
+        return (
+            <Card  className="p-3 d-flex justify-content-center">
+                <Card.Title>Top Resume</Card.Title>
+                <Card.Body>
+                    <div>{sentence}</div>
+                    <div>{matchPercent}</div>
+                </Card.Body>
+            </Card>
+        );
+    }
+
+    const renderList = (list) => {
+        return (
+            <ul>
+                {list.map(({ resume_id, matchPercent }) => <li>{resume_id} matches {matchPercent} %</li> )}
+            </ul>
+        )
+    }
+    const renderTopListResume = () => {
+        const {sentence, list} = topListResume;
+        return (
+            <Card  className="p-3 d-flex justify-content-center">
+                <Card.Title>Top List</Card.Title>
+                <Card.Body>
+                    <div>{sentence}</div>
+                    <div>{renderList(list)}</div>
+                </Card.Body>
+            </Card>
+        );
+    };
+
+    const renderLabelItem = (label, list) => {
+        return (
+            <Card>
+                <Card.Title>{label}</Card.Title>
+                <Card.Body>
+                    <ul>
+                        {list.map(resume_id => <li>{resume_id}</li>)}
+                    </ul>
+                </Card.Body>
+            </Card>
+        );
+    }
+    const renderLabel = () => {
+
+        const labels = Object.keys(groupByLabels);
+        return <Card>
+            {labels.map(item => renderLabelItem(item, groupByLabels[item]))}
+        </Card>
+    }
+
+    if (!summary) return <></>;
     return (
         <Container>
-            <div className="m-4">JD</div>
+            <h2 className="m-4">Resume JD Match Summary</h2>
             <Row className="d-flex justify-content-center">
-                <Col md={9}>
-                    <Card  className="p-3 d-flex justify-content-center">
-                        <Card.Title>Resume JD Match Summary</Card.Title>
-                        <Card.Body>
-                            <div>{summary && JSON.stringify(summary)}</div>
-                        </Card.Body>
-                    </Card>
+                <Col md={3}>
+                    {renderTopResume()}
+                </Col>
+                <Col md={3}>
+                    {renderTopListResume()}
+                </Col>
+                <Col md={3}>
+                    {renderLabel()}
                 </Col>
             </Row>
         </Container>

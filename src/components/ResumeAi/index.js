@@ -9,8 +9,10 @@ import UploadResume from "./UploadResume";
 import JDSummary from "../JD/JDSummary";
 import JDUpload from "../JD/JDUpload";
 import ResumeUpload from "../Resume/ResumeUpload";
-import Matching from "../Matching/Matching";
+import Matching, { MOCK_MATCHING_SUMMARY } from "../Matching/Matching";
 import MatchSummary from "../Matching/MatchSummary";
+import { MOCK_JD_SUMMARY } from "../../hooks/useLongPollJDSummary";
+import { MOCK_QUERY_SUMMARY } from "../../hooks/useLongPollMatchingSummary";
 
 const ResumeAi = () => {
 
@@ -52,7 +54,7 @@ const ResumeAi = () => {
                             />
                     </Questions>
                 )}
-                {canShowJDSummaryCard && (
+                {(canShowJDSummaryCard) && (
                     <Answers colW={11}>
                         <JDSummary jdSummary={jdSummary}/>
                     </Answers>
@@ -70,7 +72,7 @@ const ResumeAi = () => {
                         />
                     </Questions>
                 )}
-                {canShowMatchSummaryCard && (
+                {(canShowMatchSummaryCard) && (
                     <Questions>
                         <MatchSummary summary={matchSummary} />
                     </Questions>
