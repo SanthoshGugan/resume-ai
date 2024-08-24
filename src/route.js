@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import ResumeAi from "./components/ResumeAi";
+import Landing from "./components/Landing";
 
 const route = createBrowserRouter([
     {
@@ -10,6 +11,10 @@ const route = createBrowserRouter([
     {
         path: '/chatresume',
         element: <ResumeAi />
+    },
+    {
+        path: '/landing',
+        element: <Landing />
     }
 ]);;
 
