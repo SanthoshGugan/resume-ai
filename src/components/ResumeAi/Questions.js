@@ -5,6 +5,8 @@ const Questions = ({
     children
 }) => {
 
+    if (!children) return <></>;
+
     return (
         <Row className="d-flex justify-content-start mx-2 mb-5">
                 <Col md={8}>
