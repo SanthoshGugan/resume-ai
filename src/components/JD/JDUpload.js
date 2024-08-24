@@ -23,6 +23,7 @@ const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCar
     const onFileUpload = async ({files }) => {
         console.log(`files : ${JSON.stringify(files)}`, files);
         const [file] = files;
+        if (!files || file) return;
         const { Key } = await uploadFile({ file, Bucket: BUCKET_NAME });
         setJdKey(`${Key}_${BUCKET_NAME}`);
         await fetchJDSummary({ key: Key, bucket: BUCKET_NAME });

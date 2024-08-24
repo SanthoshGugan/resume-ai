@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import ResumeAi from "../ResumeAi";
 
 const Landing = ({}) => {
 
@@ -33,7 +34,9 @@ const Landing = ({}) => {
 
     const renderDemo = () => {
         return (
-            <Row>Demo</Row>
+            <Row>
+                <ResumeAi />
+            </Row>
         )
     };
 

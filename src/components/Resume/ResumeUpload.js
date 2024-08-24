@@ -26,6 +26,7 @@ const ResumeUpload = ({ jd_key, setCanShowMatchCard }) => {
 
     const uploadFileAfterIntialize = async ({ files }) => {
         const [ file ] = files;
+        if (!files || !file) return;
         const resume_name = file.name;
         const resume_key = `${resume_name}_${BUCKET_NAME}`;
         const id = await initializeResumeUpload({ jd_key, resume_key })
