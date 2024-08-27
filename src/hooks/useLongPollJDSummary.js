@@ -102,7 +102,7 @@ const useLongPollJDSummary = ({ interval = 5000 }) => {
         setStatus(status);
         setDimensions(dimensions);
         setRetry(retry);
-        setSummary(MOCK_JD_SUMMARY);
+        setSummary(summary);
     }
 
     return {
