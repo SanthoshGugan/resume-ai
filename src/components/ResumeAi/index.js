@@ -25,6 +25,7 @@ const ResumeAi = () => {
     const [ canShowFilterCard, setCanShowFilterCard ] = useState(false);
     const [ jdKey, setJdKey ] = useState(null);
     const [ jdSummary, setJDSummary] = useState(null);
+    const [ jdDimensions, setJDDimensions] = useState(null);
     const [ matchSummary, setMatchSummary] = useState(null);
 
     const {
@@ -51,12 +52,13 @@ const ResumeAi = () => {
                             setCanShowJDSummaryCard={setCanShowJDSummaryCard}
                             setCanShowResumeUploadCard={setCanShowResumeUploadCard}
                             setJDSummary={setJDSummary}
+                            setJDDimensions={setJDDimensions}
                             />
                     </Questions>
                 )}
                 {(canShowJDSummaryCard) && (
                     <Answers colW={11}>
-                        <JDSummary jdSummary={jdSummary}/>
+                        <JDSummary jdSummary={jdSummary} jdDimensions={jdDimensions}/>
                     </Answers>
                 )}
                 {canShowResumeUploadCard && (

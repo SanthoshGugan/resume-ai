@@ -1,11 +1,12 @@
 import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 
-const JDSummary = ({ jdSummary }) => {
+const JDSummary = ({ jdSummary, jdDimensions: cards = [] }) => {
 
-    if (!jdSummary) return <></>;
+    if (cards.length === 0) return <></>;
 
-    const { cards = [] } = jdSummary;
+    // const { cards = [] } = jdDimensions;
+    // console.log(`cards ::: ${JSON.stringify(cards)}`)
 
     const renderListItem  = (heading, items) => {
         return (

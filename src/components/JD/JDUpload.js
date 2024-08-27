@@ -7,13 +7,13 @@ import useLongPollJDSummary from "../../hooks/useLongPollJDSummary";
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
 
-const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCard, setJDSummary  }) => {
+const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCard, setJDSummary, setJDDimensions  }) => {
 
     const [ files, setFiles] = useState([]);
     const { 
         fetchJDSummary,
         summary,
-        // dimensions
+        dimensions
     } = useLongPollJDSummary({});
 
     const { 
@@ -47,6 +47,10 @@ const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCar
     }, [
         summary
     ])
+
+    useEffect(() => {
+        setJDDimensions(dimensions)
+    }, [dimensions])
 
     return (
         <Container>
