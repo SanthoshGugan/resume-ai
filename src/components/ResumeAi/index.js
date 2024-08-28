@@ -13,19 +13,29 @@ import Matching, { MOCK_MATCHING_SUMMARY } from "../Matching/Matching";
 import MatchSummary from "../Matching/MatchSummary";
 import { MOCK_JD_SUMMARY } from "../../hooks/useLongPollJDSummary";
 import { MOCK_QUERY_SUMMARY } from "../../hooks/useLongPollMatchingSummary";
+import ResumeSummary from "../Resume/ResumeSummary";
 
 const ResumeAi = () => {
 
     const [ canShowJDUploadCard, setCanShowJDUploadCard ] = useState(false);
     const [ canShowJDSummaryCard, setCanShowJDSummaryCard ] = useState(false);
+
     const [ canShowResumeUploadCard, setCanShowResumeUploadCard ] = useState(false);
+    const [ canShowResumeSummaryCard, setCanShowResumeSummaryCard ] = useState(false);
+
     const [ canShowMatchCard, setCanShowMatchCard ] = useState(false);
     const [ canShowMatchSummaryCard, setCanShowMatchSummaryCard ] = useState(false);
 
     const [ canShowFilterCard, setCanShowFilterCard ] = useState(false);
+
     const [ jdKey, setJdKey ] = useState(null);
     const [ jdSummary, setJDSummary] = useState(null);
     const [ jdDimensions, setJDDimensions] = useState(null);
+
+
+    const [ resumeSummary, setResumeSummary] = useState(null);
+    const [ resumeDimensions, setResumeDimensions] = useState(null);
+
     const [ matchSummary, setMatchSummary] = useState(null);
 
     const {
@@ -63,8 +73,19 @@ const ResumeAi = () => {
                 )}
                 {canShowResumeUploadCard && (
                     <Questions>
-                        <ResumeUpload jd_key={jdKey} setCanShowMatchCard={setCanShowMatchCard}/>
+                        <ResumeUpload
+                            jd_key={jdKey}
+                            setCanShowMatchCard={setCanShowMatchCard}
+                            setCanShowResumeSummaryCard={setCanShowResumeSummaryCard}
+                            setResumeSummary={setResumeSummary}
+                            setResumeDimensions={setResumeDimensions}
+                        />
                     </Questions>
+                )}
+                {(canShowResumeSummaryCard) && (
+                    <Answers colW={11}>
+                        <ResumeSummary resumeSummary={resumeSummary} resumeDimensions={resumeDimensions}/>
+                    </Answers>
                 )}
                 {canShowMatchCard && (
                     <Questions>

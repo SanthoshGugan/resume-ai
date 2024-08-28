@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { fetchResumeSummaryApi } from "../api/resumeApi";
+import { domainToCardMapper } from "../utils/jdUtils";
 
 const useLongPollResumeSummary = ({ interval = 5000 }) => {
     const [ status, setStatus ] = useState(null);
@@ -23,7 +24,7 @@ const useLongPollResumeSummary = ({ interval = 5000 }) => {
             return;
         }
         setStatus(status);
-        setDimensions(dimensions);
+        setDimensions(domainToCardMapper(dimensions));
         setRetry(retry);
         setSummary(summary);
     }

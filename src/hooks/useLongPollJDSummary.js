@@ -92,7 +92,7 @@ const useLongPollJDSummary = ({ interval = 5000 }) => {
             s3_bucket: bucket
         };
         const res = await fetchJDSummaryApi(req);
-        const { status, retry, dimensions: dimensionStr, summary } = res?.data;
+        const { status, retry, dimensions, summary } = res?.data;
         if (retry && (!summary || !dimensions)) {
             setTimeout(() => {
                 fetchJDSummary({ key, bucket});
@@ -101,11 +101,8 @@ const useLongPollJDSummary = ({ interval = 5000 }) => {
             setRetry(retry);
             return;
         }
-		// const dimensions = JSON.parse(dimensionStr);
-		console.log(dimensions);
         setStatus(status);
-        setDimensions(domainToCardMapper(dimensionStr));
-		// console.log(domainToCardMapper(dimensionStr));
+        setDimensions(domainToCardMapper(dimensions));
         setRetry(retry);
         setSummary(summary);
     }

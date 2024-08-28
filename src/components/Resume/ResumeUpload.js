@@ -7,7 +7,7 @@ import useInitializeResume from "../../hooks/useInitializeResume";
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
 
-const ResumeUpload = ({ jd_key, setCanShowMatchCard }) => {
+const ResumeUpload = ({ jd_key, setCanShowMatchCard, setResumeSummary, setResumeDimensions, setCanShowResumeSummaryCard }) => {
 
     const [ files, setFiles] = useState([]);
     const { 
@@ -52,7 +52,13 @@ const ResumeUpload = ({ jd_key, setCanShowMatchCard }) => {
 
     useEffect(() => {
         setCanShowMatchCard(!!summary);
-    }, [summary])
+        setResumeSummary(summary)
+    }, [summary]);
+
+    useEffect(() => {
+        setCanShowResumeSummaryCard(!!dimensions);
+        setResumeDimensions(dimensions);
+    }, [dimensions]);
 
     return (
         <Container>
