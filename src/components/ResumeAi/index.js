@@ -95,7 +95,7 @@ const ResumeAi = () => {
                         />
                     </Questions>
                 )}
-                {(canShowMatchSummaryCard) && (
+                {(canShowMatchSummaryCard || true) && (
                     <Questions>
                         <MatchSummary summary={matchSummary} />
                     </Questions>

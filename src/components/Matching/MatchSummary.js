@@ -1,5 +1,55 @@
 import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import ResumeTable from "../match-list/ResumeTable";
+
+const resumes = [
+    {
+      name: 'John Doe',
+      domain: 'fullstack',
+      frontEnd: 80,
+      backEnd: 70,
+      companies: ['Infosys', 'Capgemini', 'Tekion'],
+      yoe: 10,
+      location: 'Chennai',
+      phone: '123-456-7890',
+      email: 'john@example.com',
+      frontEndSkills: [
+        { name: 'React', inResume: true },
+        { name: 'Vue', inResume: true },
+        { name: 'Angular', inResume: true },
+        { name: 'Ember', inResume: false }
+      ],
+      backEndSkills: [
+        { name: 'Node.js', inResume: true },
+        { name: 'Django', inResume: false },
+        { name: 'Spring', inResume: true }
+      ],
+      details: 'John has 5 years of experience in full stack development...'
+    },
+    {
+      name: 'Jane Smith',
+      domain: 'frontend',
+      frontEnd: 90,
+      backEnd: 40,
+      companies: ['Google', 'Facebook'],
+      yoe: 8,
+      location: 'Bangalore',
+      phone: '987-654-3210',
+      email: 'jane@example.com',
+      frontEndSkills: [
+        { name: 'React', inResume: true },
+        { name: 'Vue', inResume: true },
+        { name: 'Angular', inResume: false }
+      ],
+      backEndSkills: [
+        { name: 'Node.js', inResume: false },
+        { name: 'Django', inResume: false },
+        { name: 'Spring', inResume: false }
+      ],
+      details: 'Jane specializes in front end development with a strong focus on UX/UI...'
+    },
+    // Add more resume objects here
+  ];
 
 const MatchSummary = ({ summary }) => {
 
@@ -58,11 +108,11 @@ const MatchSummary = ({ summary }) => {
         </Card>
     }
 
-    if (!summary) return <></>;
+    // if (!summary) return <></>;
     return (
         <Container>
             <h2 className="m-4">Resume JD Match Summary</h2>
-            <Row className="d-flex justify-content-center">
+            {/* <Row className="d-flex justify-content-center">
                 <Col md={5}>
                     {renderTopResume()}
                 </Col>
@@ -72,6 +122,9 @@ const MatchSummary = ({ summary }) => {
                 <Col md={4}>
                     {renderLabel()}
                 </Col>
+            </Row> */}
+            <Row>
+                <ResumeTable resumes={resumes} />
             </Row>
         </Container>
     );
