@@ -4,7 +4,7 @@ import './PromptActions.css';
 import { FaUser, FaUserCheck, FaStar, FaLock } from 'react-icons/fa';
 
 const prompts = [
-  { id: 1, label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
+  { id: "jd_resume_similarity", label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
   { id: 2, label: "List candidates with the highest percentage match for full stack skills", category: 'Skills Match', accessibility: 'signup' },
   { id: 3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
   { id: 4, label: "Show resumes of candidates who have worked at top tech companies like Google, Amazon, or Facebook", category: 'Experience and Companies', accessibility: 'premium' },

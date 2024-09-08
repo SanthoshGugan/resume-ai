@@ -70,8 +70,8 @@ const ResumeAi = () => {
     const onSelectPrompt = async (event) => {
         console.log(event)
         const response = await queryFunctionTriggerApi({
-            "queries": ["jd_resume_similarity"],
-            "jd_key": "full_stack_engineer_job_description_1.pdf_jd-assets-008971676609"
+            "queries": [event],
+            "jd_key": jdKey
         });
         console.log(response);
     }
