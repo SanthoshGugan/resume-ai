@@ -1,0 +1,105 @@
+/* PromptActions.css */
+.prompt-actions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .filter-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .filter-box label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .prompt-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .prompt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: normal;
+  }
+  
+  .prompt-badge.guest {
+    background-color: #f0f8ff; /* Light blue background for guest */
+    color: #000080; /* Navy text for guest */
+  }
+  
+  .prompt-badge.signup {
+    background-color: #f5f5dc; /* Beige background for signup */
+    color: #8b4513; /* Saddle brown text for signup */
+  }
+  
+  .prompt-badge.early-access {
+    background-color: #fffacd; /* Lemon chiffon background for early access */
+    color: #daa520; /* Golden rod text for early access */
+  }
+  
+  .prompt-badge.premium {
+    background-color: #ffe4e1; /* Light rose background for premium */
+    color: #ff69b4; /* Hot pink text for premium */
+    cursor: not-allowed;
+    position: relative;
+  }
+  
+  .prompt-badge:hover {
+    background-color: #dcdcdc; /* Gainsboro background on hover */
+    font-weight: bold;
+  }
+  
+  .prompt-badge.premium:hover {
+    background-color: #ffe4e1;
+    font-weight: normal;
+  }
+  
+  .prompt-badge.premium::after {
+    content: 'Available on Premium';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 5px;
+    white-space: nowrap;
+    display: none;
+  }
+  
+  .prompt-badge.premium:hover::after {
+    display: block;
+  }
+  
+  .prompt-badge svg {
+    font-size: 1.2em;
+  }
+  
+  .prompt-badge.guest svg {
+    color: #000080; /* Navy icon for guest */
+  }
+  
+  .prompt-badge.signup svg {
+    color: #8b4513; /* Saddle brown icon for signup */
+  }
+  
+  .prompt-badge.early-access svg {
+    color: #daa520; /* Golden rod icon for early access */
+  }
+  
+  .prompt-badge.premium svg {
+    color: #ff69b4; /* Hot pink icon for premium */
+  }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import ResumeTable from "../match-list/ResumeTable";
+import PromptActions from "../match-list/PromptActions";
 
 const resumes = [
     {
