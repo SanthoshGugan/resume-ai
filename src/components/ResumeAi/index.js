@@ -15,6 +15,8 @@ import { MOCK_JD_SUMMARY } from "../../hooks/useLongPollJDSummary";
 import { MOCK_QUERY_SUMMARY } from "../../hooks/useLongPollMatchingSummary";
 import ResumeSummary from "../Resume/ResumeSummary";
 import PromptActions from "../match-list/PromptActions";
+import useLongPollQueries from "../../hooks/useLongPollQueries";
+import useQueryFunction from "../../hooks/useQueryFunction";
 
 const ResumeAi = () => {
 
@@ -40,6 +42,15 @@ const ResumeAi = () => {
     const [matchSummary, setMatchSummary] = useState(null);
 
     const {
+        fetchQuerySummary,
+        queries
+    } = useLongPollQueries({ interval: 30000}); // keeping long time to avoid over call
+
+    const {
+        queryFunctionTriggerApi
+    } = useQueryFunction({})
+
+    const {
         handleSubmit,
         onSubmit,
         register
@@ -47,11 +58,23 @@ const ResumeAi = () => {
 
     useEffect(() => {
         setCanShowJDUploadCard(true);
+        fetchQuerySummary({jd_key:"full_stack_engineer_job_description_1.pdf_jd-assets-008971676609"});
     }, [])
+    
 
     useEffect(() => {
         setCanShowJDSummaryCard(!!jdSummary);
     }, [jdSummary])
+
+
+    const onSelectPrompt = async (event) => {
+        console.log(event)
+        const response = await queryFunctionTriggerApi({
+            "queries": ["jd_resume_similarity"],
+            "jd_key": "full_stack_engineer_job_description_1.pdf_jd-assets-008971676609"
+        });
+        console.log(response);
+    }
 
     return (
         <div fuild className="mx-2 my-1">
@@ -88,6 +111,13 @@ const ResumeAi = () => {
                         <ResumeSummary resumeSummary={resumeSummary} resumeDimensions={resumeDimensions} />
                     </Answers>
                 )}
+                
+               {queries && queries.map((query) => (
+                    <div key={query.query_id}>
+                        <h4>{query.result.summary}</h4>
+                    </div>
+                ))}
+
                 {canShowMatchCard && (
                     <Questions>
                         <Matching jd_key={jdKey}
@@ -112,7 +142,7 @@ const ResumeAi = () => {
 
                 <Row>
                     <PromptActions
-                        onSelectPrompt={() => { }}
+                        onSelectPrompt={onSelectPrompt}
                     />
                 </Row>
                 <Form onSubmit={handleSubmit(onSubmit)}>
