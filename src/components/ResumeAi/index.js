@@ -14,43 +14,44 @@ import MatchSummary from "../Matching/MatchSummary";
 import { MOCK_JD_SUMMARY } from "../../hooks/useLongPollJDSummary";
 import { MOCK_QUERY_SUMMARY } from "../../hooks/useLongPollMatchingSummary";
 import ResumeSummary from "../Resume/ResumeSummary";
+import PromptActions from "../match-list/PromptActions";
 
 const ResumeAi = () => {
 
-    const [ canShowJDUploadCard, setCanShowJDUploadCard ] = useState(false);
-    const [ canShowJDSummaryCard, setCanShowJDSummaryCard ] = useState(false);
+    const [canShowJDUploadCard, setCanShowJDUploadCard] = useState(false);
+    const [canShowJDSummaryCard, setCanShowJDSummaryCard] = useState(false);
 
-    const [ canShowResumeUploadCard, setCanShowResumeUploadCard ] = useState(false);
-    const [ canShowResumeSummaryCard, setCanShowResumeSummaryCard ] = useState(false);
+    const [canShowResumeUploadCard, setCanShowResumeUploadCard] = useState(false);
+    const [canShowResumeSummaryCard, setCanShowResumeSummaryCard] = useState(false);
 
-    const [ canShowMatchCard, setCanShowMatchCard ] = useState(false);
-    const [ canShowMatchSummaryCard, setCanShowMatchSummaryCard ] = useState(false);
+    const [canShowMatchCard, setCanShowMatchCard] = useState(false);
+    const [canShowMatchSummaryCard, setCanShowMatchSummaryCard] = useState(false);
 
-    const [ canShowFilterCard, setCanShowFilterCard ] = useState(false);
+    const [canShowFilterCard, setCanShowFilterCard] = useState(false);
 
-    const [ jdKey, setJdKey ] = useState(null);
-    const [ jdSummary, setJDSummary] = useState(null);
-    const [ jdDimensions, setJDDimensions] = useState(null);
+    const [jdKey, setJdKey] = useState(null);
+    const [jdSummary, setJDSummary] = useState(null);
+    const [jdDimensions, setJDDimensions] = useState(null);
 
 
-    const [ resumeSummary, setResumeSummary] = useState(null);
-    const [ resumeDimensions, setResumeDimensions] = useState(null);
+    const [resumeSummary, setResumeSummary] = useState(null);
+    const [resumeDimensions, setResumeDimensions] = useState(null);
 
-    const [ matchSummary, setMatchSummary] = useState(null);
+    const [matchSummary, setMatchSummary] = useState(null);
 
     const {
         handleSubmit,
         onSubmit,
         register
-     } = useResumeAI();
+    } = useResumeAI();
 
-     useEffect(() => {
+    useEffect(() => {
         setCanShowJDUploadCard(true);
-     }, [])
+    }, [])
 
-     useEffect(() => {
-        setCanShowJDSummaryCard(!!jdSummary); 
-     }, [jdSummary])
+    useEffect(() => {
+        setCanShowJDSummaryCard(!!jdSummary);
+    }, [jdSummary])
 
     return (
         <div fuild className="mx-2 my-1">
@@ -63,12 +64,12 @@ const ResumeAi = () => {
                             setCanShowResumeUploadCard={setCanShowResumeUploadCard}
                             setJDSummary={setJDSummary}
                             setJDDimensions={setJDDimensions}
-                            />
+                        />
                     </Questions>
                 )}
                 {(canShowJDSummaryCard) && (
                     <Answers colW={11}>
-                        <JDSummary jdSummary={jdSummary} jdDimensions={jdDimensions}/>
+                        <JDSummary jdSummary={jdSummary} jdDimensions={jdDimensions} />
                     </Answers>
                 )}
                 {canShowResumeUploadCard && (
@@ -84,7 +85,7 @@ const ResumeAi = () => {
                 )}
                 {(canShowResumeSummaryCard) && (
                     <Answers colW={11}>
-                        <ResumeSummary resumeSummary={resumeSummary} resumeDimensions={resumeDimensions}/>
+                        <ResumeSummary resumeSummary={resumeSummary} resumeDimensions={resumeDimensions} />
                     </Answers>
                 )}
                 {canShowMatchCard && (
@@ -95,12 +96,12 @@ const ResumeAi = () => {
                         />
                     </Questions>
                 )}
-                {(canShowMatchSummaryCard) && (
+                {(canShowMatchSummaryCard || true) && (
                     <Questions>
                         <MatchSummary summary={matchSummary} />
                     </Questions>
                 )}
-                
+
                 {canShowFilterCard && (
                     <Answers colW={10}>
                         <Filters />
@@ -108,20 +109,26 @@ const ResumeAi = () => {
                 )}
             </Container>
             <Container fuild className="flex justify-content-end">
+
+                <Row>
+                    <PromptActions
+                        onSelectPrompt={() => { }}
+                    />
+                </Row>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <Row className="my-5">
 
                         <Col md={9}>
-                                <Container>
-                                    <Form.Control 
-                                        as="textarea"
-                                        rows={5}
-                                        {...register("input",{
-                                            required: true
-                                        })}
-                                    />
-                                </Container>
-                            
+                            <Container>
+                                <Form.Control
+                                    as="textarea"
+                                    rows={5}
+                                    {...register("input", {
+                                        required: true
+                                    })}
+                                />
+                            </Container>
+
                         </Col>
                         <Col md={3}>
                             <div className="d-flex flex-column justify-content-center align-items-center " >
@@ -136,7 +143,7 @@ const ResumeAi = () => {
                         </Col>
                     </Row>
                 </Form>
-            </Container>    
+            </Container>
         </div>
     );
 };
