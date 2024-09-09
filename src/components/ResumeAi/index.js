@@ -58,8 +58,13 @@ const ResumeAi = () => {
 
     useEffect(() => {
         setCanShowJDUploadCard(true);
-        fetchQuerySummary({jd_key:"full_stack_engineer_job_description_1.pdf_jd-assets-008971676609"});
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if(jdKey){
+            fetchQuerySummary({jd_key:jdKey});
+        }
+    }, [jdKey])
     
 
     useEffect(() => {
