@@ -71,6 +71,11 @@ const ResumeAi = () => {
         setCanShowJDSummaryCard(!!jdSummary);
     }, [jdSummary])
 
+    // hard coding for testing!!!!
+    useEffect(() => {
+        setJdKey('full_stack_engineer_job_description_1.pdf_jd-assets-008971676609');
+    }, [])
+
 
     const onSelectPrompt = async (event) => {
         console.log(event)
