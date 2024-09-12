@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';  // Import Provider
+import  store  from './store/store'; // Import your Redux store
 import route from './route';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,7 +13,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={route} />
+    {/* Wrap your app with the Redux Provider */}
+    <Provider store={store}>
+      <RouterProvider router={route} />
+    </Provider>
   </React.StrictMode>
 );
 
