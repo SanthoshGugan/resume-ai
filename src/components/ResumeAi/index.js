@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { longPollQueries } from '../../store/thunks/queryThunks';
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import useResumeAI from "../../hooks/useResumeAI";
 import Answers from "./Answers";
@@ -18,7 +20,13 @@ import PromptActions from "../match-list/PromptActions";
 import useLongPollQueries from "../../hooks/useLongPollQueries";
 import useQueryFunction from "../../hooks/useQueryFunction";
 
+import { addRemainingQuery } from '../../store/queryResultsSlice';
+
 const ResumeAi = () => {
+
+    const dispatch = useDispatch();
+    const remainingQueries = useSelector(state => state.queryResults.remainingQueries);
+    const queryResults = useSelector(state => state.queryResults.byQueryId);
 
     const [canShowJDUploadCard, setCanShowJDUploadCard] = useState(false);
     const [canShowJDSummaryCard, setCanShowJDSummaryCard] = useState(false);
@@ -44,7 +52,7 @@ const ResumeAi = () => {
     const {
         fetchQuerySummary,
         queries
-    } = useLongPollQueries({ interval: 30000}); // keeping long time to avoid over call
+    } = useLongPollQueries({ interval: 30000 }); // keeping long time to avoid over call
 
     const {
         queryFunctionTriggerApi
@@ -61,11 +69,11 @@ const ResumeAi = () => {
     }, []);
 
     useEffect(() => {
-        if(jdKey){
-            fetchQuerySummary({jd_key:jdKey});
+        if (jdKey) {
+            fetchQuerySummary({ jd_key: jdKey });
         }
     }, [jdKey])
-    
+
 
     useEffect(() => {
         setCanShowJDSummaryCard(!!jdSummary);
@@ -76,14 +84,22 @@ const ResumeAi = () => {
         setJdKey('full_stack_engineer_job_description_1.pdf_jd-assets-008971676609');
     }, [])
 
+    useEffect(() => {
+        if (remainingQueries.length > 0) {
+          dispatch(longPollQueries(jdKey));
+        console.log(`triggering long pollling`);
+        }
+      }, [jdKey, remainingQueries.length]);
 
-    const onSelectPrompt = async (event) => {
-        console.log(event)
-        const response = await queryFunctionTriggerApi({
-            "queries": [event],
-            "jd_key": jdKey
-        });
-        console.log(response);
+
+    const onSelectPrompt = async (query) => {
+        console.log(`query clicked :::: ${query}`);
+        // const response = await queryFunctionTriggerApi({
+        //     "queries": [query],
+        //     "jd_key": jdKey
+        // });
+        dispatch(addRemainingQuery(query))
+        // console.log(response);
     }
 
     return (
@@ -121,8 +137,8 @@ const ResumeAi = () => {
                         <ResumeSummary resumeSummary={resumeSummary} resumeDimensions={resumeDimensions} />
                     </Answers>
                 )}
-                
-               {queries && queries.map((query) => (
+
+                {queries && queries.map((query) => (
                     <div key={query.query_id}>
                         <h4>{query.result.summary}</h4>
                     </div>
