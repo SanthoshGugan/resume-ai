@@ -21,6 +21,7 @@ import useLongPollQueries from "../../hooks/useLongPollQueries";
 import useQueryFunction from "../../hooks/useQueryFunction";
 
 import { addRemainingQuery } from '../../store/queryResultsSlice';
+import JDResumeSimilarityWidget from "../Widget/JdResumeSimilarityWidget";
 
 const ResumeAi = () => {
 
@@ -163,6 +164,9 @@ const ResumeAi = () => {
                         <Filters />
                     </Answers>
                 )}
+            </Container>
+            <Container>
+                <JDResumeSimilarityWidget />
             </Container>
             <Container fuild className="flex justify-content-end">
 
