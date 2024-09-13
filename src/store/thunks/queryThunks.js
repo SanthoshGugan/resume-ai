@@ -20,7 +20,7 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
       // Dispatch results for each fetched query
       queries.forEach(query => {
         dispatch(addQueryResult({ queryId: query.query_id, result: query.result }));
-        dispatch(queryComplete({ payload: { queryId: query.query_id }}));
+        dispatch(queryComplete({ queryId: query.query_id }));
       });
 
       // After the results are fetched, continue long polling after the interval

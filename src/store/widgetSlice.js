@@ -25,6 +25,7 @@ const widgetSlice = createSlice({
     },
     queryComplete: (state, action) => {
       const { queryId } = action.payload;
+      console.log(`queryId :::: ${queryId}`);
       switch(queryId) {
         case "jd_resume_similarity":
           state.flags.showSimilarity = true;
