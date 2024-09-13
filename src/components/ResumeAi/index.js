@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { longPollQueries } from '../../store/thunks/queryThunks';
+import { longPollQueries, triggerQueries } from '../../store/thunks/queryThunks';
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import useResumeAI from "../../hooks/useResumeAI";
 import Answers from "./Answers";
@@ -88,7 +88,7 @@ const ResumeAi = () => {
     useEffect(() => {
         if (remainingQueries.length > 0) {
           dispatch(longPollQueries(jdKey));
-        console.log(`triggering long pollling`);
+          console.log(`triggering long pollling`);
         }
       }, [jdKey, remainingQueries.length]);
 
@@ -99,6 +99,7 @@ const ResumeAi = () => {
         //     "queries": [query],
         //     "jd_key": jdKey
         // });
+        dispatch(triggerQueries([query], jdKey));
         dispatch(addRemainingQuery(query))
         // console.log(response);
     }

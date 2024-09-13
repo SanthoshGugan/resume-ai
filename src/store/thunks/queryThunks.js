@@ -1,5 +1,6 @@
-import { addQueryResult, setRemainingQueries, setFetching } from '../queryResultsSlice';
+import { addQueryResult, setRemainingQueries, setFetching, setQueryApiTriggered } from '../queryResultsSlice';
 import { fetchQueriesApi } from '../../api/queryApi';  // API call to fetch query results
+import { queryFunctionApi } from "../../api/queryFunctionApi";
 
 export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, getState) => {
   const { queryResults } = getState();
@@ -31,4 +32,24 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
       dispatch(setFetching(false));  // End fetching
     }
   }
+};
+
+export const triggerQueries = (queries, jd_key) => async (dispatch, getState) => {
+  // const { queryResults } = getState();
+  // console.log(`remiaing queries ::::: $${JSON.stringify(queryResults.remainingQueries)}`)
+  // Only proceed if there are queries left to fetch
+  console.log(`trigger query api queries: ${queries} jd_key: ${jd_key}`);
+  try{
+    dispatch(setQueryApiTriggered(true));
+    const response = await queryFunctionApi({
+      "queries": queries,
+      "jd_key": jd_key
+    });
+    console.log(`query trigger api response ${JSON.stringify(response)}`);
+  } catch(error) {
+    console.error('Error fetching queries:', error);
+  } finally {
+    dispatch(setQueryApiTriggered(false));
+  }
+  
 };

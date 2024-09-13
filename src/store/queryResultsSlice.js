@@ -5,6 +5,7 @@ const initialState = {
   cumulativeResults: {},        // Cumulative results from multiple queries
   fetching: false,              // Flag to indicate if fetching is ongoing
   remainingQueries: [],         // List of queryIds yet to be fetched
+  queryApiTriggered: false
 };
 
 const queryResultsSlice = createSlice({
@@ -33,6 +34,9 @@ const queryResultsSlice = createSlice({
         state.remainingQueries.push(queryId);
       }
     },
+    setQueryApiTriggered: (state, action) => {
+      state.queryApiTriggered = action.payload;
+    }
   },
 });
 
@@ -41,7 +45,8 @@ export const {
   updateCumulativeResults,
   setRemainingQueries,
   setFetching,
-  addRemainingQuery
+  addRemainingQuery,
+  setQueryApiTriggered
 } = queryResultsSlice.actions;
 
 export default queryResultsSlice.reducer;
