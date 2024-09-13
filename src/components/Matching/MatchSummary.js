@@ -125,7 +125,7 @@ const MatchSummary = ({ summary }) => {
                 </Col>
             </Row> */}
             <Row>
-                <ResumeTable resumes={resumes} />
+                {/* <ResumeTable resumes={resumes} /> */}
             </Row>
         </Container>
     );

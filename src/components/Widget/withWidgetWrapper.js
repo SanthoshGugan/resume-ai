@@ -15,18 +15,18 @@ const withWidgetWrapper = (WrappedComponent, queryIds) => {
     const queryStatus = useSelector((state) => state.queries.status);
 
     // Handle different states (loading, error, etc.)
-    if (queryStatus === 'loading') {
-      return <Loading />;
-    }
+    // if (queryStatus === 'loading') {
+    //   return <Loading />;
+    // }
     
-    if (queryStatus === 'error') {
-      return <ErrorComponent />;
-    }
-    console.log(`query results :::: ${JSON.stringify(queryResults)}`);
-    // If some queries are not available in the results, show not available
-    if (!queryResults || !areAllQueryIdsPopulated(queryResults, queryIds)) {
-      return <NotAvailable />;
-    }
+    // if (queryStatus === 'error') {
+    //   return <ErrorComponent />;
+    // }
+    // console.log(`query results :::: ${JSON.stringify(queryResults)}`);
+    // // If some queries are not available in the results, show not available
+    // if (!queryResults || !areAllQueryIdsPopulated(queryResults, queryIds)) {
+    //   return <NotAvailable />;
+    // }
     
     // Pass fetched results to the wrapped component
     return (
