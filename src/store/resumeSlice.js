@@ -1,6 +1,20 @@
 // store/resumeSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+const initialState = {
+  byId: {},                 // Each resume data keyed by resumeId
+  allIds: [],               // Array of resume IDs
+  summary: {                // Summary of total resumes
+    total: 0,
+    uploaded: 0,
+    inProgress: 0,
+    processed: 0,
+    failed: 0,
+  },
+  status: 'idle',           // 'idle' | 'uploading' | 'processing'
+  error: null,              // Error related to resumes
+};
+
 // Async thunk for uploading a resume
 export const uploadResume = createAsyncThunk(
   'resume/uploadResume',
@@ -22,15 +36,8 @@ export const uploadResume = createAsyncThunk(
 );
 
 const resumeSlice = createSlice({
-  name: 'resume',
-  initialState: {
-    resumes: {
-      byId: {},
-      allIds: [],
-    },
-    status: 'idle',
-    error: null,
-  },
+  name: 'resumes',
+  initialState,
   reducers: {
     addResume: (state, action) => {
       const { resume } = action.payload;
