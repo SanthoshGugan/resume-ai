@@ -1,10 +1,61 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import withWidgetWrapper from '../withWidgetWrapper';
+import ResumeTable from './ResumeTable';
+
+const resumes = [
+  {
+    name: 'John Doe',
+    domain: 'fullstack',
+    frontEnd: 80,
+    backEnd: 70,
+    companies: ['Infosys', 'Capgemini', 'Tekion'],
+    yoe: 10,
+    location: 'Chennai',
+    phone: '123-456-7890',
+    email: 'john@example.com',
+    frontEndSkills: [
+      { name: 'React', inResume: true },
+      { name: 'Vue', inResume: true },
+      { name: 'Angular', inResume: true },
+      { name: 'Ember', inResume: false }
+    ],
+    backEndSkills: [
+      { name: 'Node.js', inResume: true },
+      { name: 'Django', inResume: false },
+      { name: 'Spring', inResume: true }
+    ],
+    details: 'John has 5 years of experience in full stack development...'
+  },
+  {
+    name: 'Jane Smith',
+    domain: 'frontend',
+    frontEnd: 90,
+    backEnd: 40,
+    companies: ['Google', 'Facebook'],
+    yoe: 8,
+    location: 'Bangalore',
+    phone: '987-654-3210',
+    email: 'jane@example.com',
+    frontEndSkills: [
+      { name: 'React', inResume: true },
+      { name: 'Vue', inResume: true },
+      { name: 'Angular', inResume: false }
+    ],
+    backEndSkills: [
+      { name: 'Node.js', inResume: false },
+      { name: 'Django', inResume: false },
+      { name: 'Spring', inResume: false }
+    ],
+    details: 'Jane specializes in front end development with a strong focus on UX/UI...'
+  },
+  // Add more resume objects here
+];
 
 // JD-Resume Similarity Widget Component
 const JdResumeSimilarityWidget = ({ queryResults }) => {
-
+  
+  const flags = useSelector(state => state.widgets.flags);
   if (!queryResults) {
     return <div>No data available.</div>;
   }
@@ -12,29 +63,7 @@ const JdResumeSimilarityWidget = ({ queryResults }) => {
   const { label, jd_resume_similarity } = queryResults;
   return (
     <div className="jd-resume-similarity-widget">
-      <h3>JD-Resume Similarity</h3>
-
-      {/* Display JD-Resume similarity scores */}
-      <div className="similarity-section">
-        {jd_resume_similarity.data.map((similarity, index) => (
-          <div key={index} className="similarity-item">
-            <p><strong>Resume ID:</strong> {similarity.resumeId}</p>
-            <p><strong>Similarity Score:</strong> {similarity.score}</p>
-          </div>
-        ))}
-      </div>
-
-      <h3>Labels</h3>
-
-      {/* Display label data */}
-      <div className="label-section">
-        {label.data.map((label, index) => (
-          <div key={index} className="label-item">
-            <p><strong>Label:</strong> {label.labelName}</p>
-            <p><strong>Description:</strong> {label.description}</p>
-          </div>
-        ))}
-      </div>
+        <ResumeTable resumes={resumes} flags={flags} />
     </div>
   );
 };

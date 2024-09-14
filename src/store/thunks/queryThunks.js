@@ -1,6 +1,7 @@
 import { addQueryResult, setRemainingQueries, setFetching, setQueryApiTriggered } from '../queryResultsSlice';
 import { fetchQueriesApi } from '../../api/queryApi';  // API call to fetch query results
 import { queryFunctionApi } from "../../api/queryFunctionApi";
+import { queryComplete } from '../widgetSlice';
 
 export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, getState) => {
   const { queryResults } = getState();
@@ -19,6 +20,7 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
       // Dispatch results for each fetched query
       queries.forEach(query => {
         dispatch(addQueryResult({ queryId: query.query_id, result: query.result }));
+        dispatch(queryComplete({ queryId: query.query_id }));
       });
 
       // After the results are fetched, continue long polling after the interval
