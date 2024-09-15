@@ -88,13 +88,13 @@ const ResumeAi = () => {
     useEffect(() => {
         if (remainingQueries.length > 0) {
           dispatch(longPollQueries(jdKey));
-          console.log(`triggering long pollling`);
+        //   console.log(`triggering long pollling`);
         }
       }, [jdKey, remainingQueries.length]);
 
 
     const onSelectPrompt = async (query) => {
-        console.log(`query clicked :::: ${query}`);
+        // console.log(`query clicked :::: ${query}`);
         // const response = await queryFunctionTriggerApi({
         //     "queries": [query],
         //     "jd_key": jdKey

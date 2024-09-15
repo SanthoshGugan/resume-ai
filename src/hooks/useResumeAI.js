@@ -11,7 +11,7 @@ const useResumeAI = () => {
     });
 
     const onSubmit = (values) => {
-        console.log(`values ::::  ${values}`, values);
+        // console.log(`values ::::  ${values}`, values);
     };
 
 

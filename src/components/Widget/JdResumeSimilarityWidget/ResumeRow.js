@@ -3,6 +3,8 @@ import { Badge, ProgressBar, Accordion, Card, Button, Row, Col } from 'react-boo
 import ResumeCardSummary from './ResumeCardSummary';
 import SkillsList from './SkillList';
 import { useSelector } from 'react-redux';
+import SkillPercentCell from './SkillPercentCell';
+import { selectSimilarityByResumeId } from '../../../store/selectors/queryResultsByIdsSelector';
 
 const domainColors = {
     fullstack: 'primary',
@@ -23,21 +25,19 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
         showLabelBadge,
         showSimilarity
     } = useSelector(state => state.widgets.flags)
-    const { metadata = {} } = resume || {};
-     
+    const { metadata = {}, id } = resume || {};
+    const match = useSelector(state => selectSimilarityByResumeId(state, id))
+    // console.log(`match    ${match}`);
     return (
         <>
             <tr onClick={() => toggleRow(index)}>
                 {showSimilarity && (<td>
                     {metadata.name} 
                     {showLabelBadge && (<Badge bg={domainColors[resume.domain]}>{resume.domain}</Badge>)}
+                    {showSimilarity && (<Badge bg="primary">{match || 0} %</Badge>)}
                 </td>)}
                 {showSkillPercents && (<td>
-                    <ProgressBar
-                        now={resume.frontEnd}
-                        label={`${resume.frontEnd}%`}
-                        variant={getProgressBarVariant(resume.frontEnd)}
-                    />
+                    <SkillPercentCell value={`75.00%`} />
                 </td>)}
                 {showSkillPercents &&(<td>
                     <ProgressBar

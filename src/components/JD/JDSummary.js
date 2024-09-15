@@ -20,7 +20,7 @@ const JDSummary = ({ jdSummary, jdDimensions: cards = [] }) => {
     };
 
     const renderItem = (item) => {
-        console.log(`Item :::: ${JSON.stringify(item)}`);
+        // console.log(`Item :::: ${JSON.stringify(item)}`);
         const { type, items, heading } = item;
 
         if (type === "List") {

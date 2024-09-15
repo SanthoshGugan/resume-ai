@@ -21,7 +21,7 @@ const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCar
     } = useUploadToS3({ Bucket: BUCKET_NAME});
 
     const onFileUpload = async ({files }) => {
-        console.log(`files : ${JSON.stringify(files)}`, files);
+        // console.log(`files : ${JSON.stringify(files)}`, files);
         const [file] = files;
         if (!files || !file) return;
         const { Key } = await uploadFile({ file, Bucket: BUCKET_NAME });

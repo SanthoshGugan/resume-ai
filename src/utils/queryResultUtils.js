@@ -16,10 +16,10 @@ export function areAllQueryIdsPopulated(queryResults, queryIds) {
 export function getResumeIdsFromQueryResult(queryResult = {}) {
   let resume_ids = [];
   const { query_id = "" } = queryResult;
-  console.log(`queryId in getResumeIdsFromQueryResult:::: ${query_id}   ${JSON.stringify(queryResult)}`);
+  // console.log(`queryId in getResumeIdsFromQueryResult:::: ${query_id}   ${JSON.stringify(queryResult)}`);
   switch(query_id) {
     case "jd_resume_similarity":
-      console.log(`getResumeIdsFromSimilarityQuery :: ${JSON.stringify(queryResult)}`);
+      // console.log(`getResumeIdsFromSimilarityQuery :: ${JSON.stringify(queryResult)}`);
       resume_ids.push(...getResumeIdsFromSimilarityQuery(queryResult));
       break;
     case "label":
@@ -27,7 +27,7 @@ export function getResumeIdsFromQueryResult(queryResult = {}) {
     default:
       break;
   }
-  console.log(`ids from query calc ::: ${JSON.stringify(resume_ids)}`);
+  // console.log(`ids from query calc ::: ${JSON.stringify(resume_ids)}`);
   return resume_ids;
 }
 

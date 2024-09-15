@@ -3,7 +3,7 @@ import { addFetchInProgress, addResume, removeFetchInProgress } from "../resumeS
 
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
-    console.log(`keys ::: ${JSON.stringify(keys)}`);
+    // console.log(`keys ::: ${JSON.stringify(keys)}`);
     const { resumes } = getState();
     const { fetchInProgress, allIds } = resumes;
     try {

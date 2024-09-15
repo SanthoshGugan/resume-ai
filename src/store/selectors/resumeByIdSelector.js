@@ -7,7 +7,7 @@ const resumesByIdsSelector = createSelector(
     [selectResumeByIds, (state, resumeIds) => resumeIds],
     (resumesById, resumeIds) => {
         return resumeIds.reduce((results, resumeId) => {
-            console.log(`results on selector :::::: ${JSON.stringify(resumesById)}`);
+            // console.log(`results on selector :::::: ${JSON.stringify(resumesById)}`);
             if (resumesById[resumeId]) {
                 results[resumeId] = resumesById[resumeId];
             }

@@ -8,6 +8,6 @@ export const getResumeIdsForQueries = (queryResults, queryIds) => {
             resumeIds.push(resume_id);
         }
     }
-    console.log(`resumeIds :::::: ${JSON.stringify(resumeIds)}`);
+    // console.log(`resumeIds :::::: ${JSON.stringify(resumeIds)}`);
     return resumeIds;
 };

@@ -55,7 +55,7 @@ const resumes = [
 // JD-Resume Similarity Widget Component
 const JdResumeSimilarityWidget = ({ queryResults, resumes }) => {
 
-  console.log(`queryResults in wrappper:::: ${JSON.stringify(queryResults)}`)
+  // console.log(`queryResults in wrappper:::: ${JSON.stringify(queryResults)}`)
   
   if (!queryResults || queryResults.result) {
     return <div>No data available.</div>;

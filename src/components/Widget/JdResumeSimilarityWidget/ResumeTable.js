@@ -13,7 +13,7 @@ const ResumeTable = ({ resumes, rows = [] }) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  console.log(`rows in ResumeTable ::: ${JSON.stringify(rows)}`);
+  // console.log(`rows in ResumeTable ::: ${JSON.stringify(rows)}`);
   return (
     <Table striped bordered hover>
       <thead>
