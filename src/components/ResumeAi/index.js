@@ -17,7 +17,7 @@ import { MOCK_JD_SUMMARY } from "../../hooks/useLongPollJDSummary";
 import { MOCK_QUERY_SUMMARY } from "../../hooks/useLongPollMatchingSummary";
 import ResumeSummary from "../Resume/ResumeSummary";
 import PromptActions from "../match-list/PromptActions";
-import useLongPollQueries from "../../hooks/useLongPollQueries";
+// import useLongPollQueries from "../../hooks/useLongPollQueries";
 import useQueryFunction from "../../hooks/useQueryFunction";
 
 import { addRemainingQuery } from '../../store/queryResultsSlice';
@@ -50,10 +50,10 @@ const ResumeAi = () => {
 
     const [matchSummary, setMatchSummary] = useState(null);
 
-    const {
-        fetchQuerySummary,
-        queries
-    } = useLongPollQueries({ interval: 30000 }); // keeping long time to avoid over call
+    // const {
+    //     fetchQuerySummary,
+    //     queries
+    // } = useLongPollQueries({ interval: 30000 }); // keeping long time to avoid over call
 
     const {
         queryFunctionTriggerApi
@@ -69,11 +69,11 @@ const ResumeAi = () => {
         setCanShowJDUploadCard(true);
     }, []);
 
-    useEffect(() => {
-        if (jdKey) {
-            fetchQuerySummary({ jd_key: jdKey });
-        }
-    }, [jdKey])
+    // useEffect(() => {
+    //     if (jdKey) {
+    //         fetchQuerySummary({ jd_key: jdKey });
+    //     }
+    // }, [jdKey])
 
 
     useEffect(() => {
@@ -140,11 +140,11 @@ const ResumeAi = () => {
                     </Answers>
                 )}
 
-                {queries && queries.map((query) => (
+                {/* {queries && queries.map((query) => (
                     <div key={query.query_id}>
                         <h4>{query.result.summary}</h4>
                     </div>
-                ))}
+                ))} */}
 
                 {canShowMatchCard && (
                     <Questions>

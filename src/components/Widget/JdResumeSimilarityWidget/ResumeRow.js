@@ -23,12 +23,13 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
         showLabelBadge,
         showSimilarity
     } = useSelector(state => state.widgets.flags)
+    const { metadata = {} } = resume || {};
      
     return (
         <>
             <tr onClick={() => toggleRow(index)}>
                 {showSimilarity && (<td>
-                    {resume.name} 
+                    {metadata.name} 
                     {showLabelBadge && (<Badge bg={domainColors[resume.domain]}>{resume.domain}</Badge>)}
                 </td>)}
                 {showSkillPercents && (<td>

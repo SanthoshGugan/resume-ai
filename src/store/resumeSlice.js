@@ -11,6 +11,7 @@ const initialState = {
     processed: 0,
     failed: 0,
   },
+  fetchInProgress: [],
   status: 'idle',           // 'idle' | 'uploading' | 'processing'
   error: null,              // Error related to resumes
 };
@@ -41,43 +42,55 @@ const resumeSlice = createSlice({
   reducers: {
     addResume: (state, action) => {
       const { resume } = action.payload;
-      state.resumes.byId[resume.id] = { ...resume, uploadStatus: 'idle', processStatus: 'idle', matchStatus: 'idle' };
-      state.resumes.allIds.push(resume.id);
+      const { metadata = "{}"} = resume;
+      const metadatjson = JSON.parse(metadata);
+      state.byId[resume.id] = { ...resume, uploadStatus: 'idle', processStatus: 'idle', matchStatus: 'idle', metadata: metadatjson };
+      state.allIds.push(resume.id);
     },
     updateResumeStatus: (state, action) => {
       const { resumeId, statusKey, statusValue } = action.payload;
-      if (state.resumes.byId[resumeId]) {
-        state.resumes.byId[resumeId][statusKey] = statusValue;
+      if (state.byId[resumeId]) {
+        state.byId[resumeId][statusKey] = statusValue;
       }
     },
     removeResume: (state, action) => {
       const { resumeId } = action.payload;
-      delete state.resumes.byId[resumeId];
-      state.resumes.allIds = state.resumes.allIds.filter(id => id !== resumeId);
+      delete state.byId[resumeId];
+      state.allIds = state.allIds.filter(id => id !== resumeId);
+    },
+    addFetchInProgress: (state, action) => {
+      const { resumeId } = action.payload;
+      if (!state.fetchInProgress.includes(resumeId))
+        state.fetchInProgress.push(resumeId);
+    },
+    removeFetchInProgress: (state, action) => {
+      const { resumeId } = action.payload;
+      if (state.fetchInProgress.includes(resumeId))
+        state.fetchInProgress = state.fetchInProgress.filter(id => id !== resumeId);
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(uploadResume.pending, (state, action) => {
         const resumeId = action.meta.arg.id;
-        if (state.resumes.byId[resumeId]) {
-          state.resumes.byId[resumeId].uploadStatus = 'inProgress';
+        if (state.byId[resumeId]) {
+          state.byId[resumeId].uploadStatus = 'inProgress';
         }
       })
       .addCase(uploadResume.fulfilled, (state, action) => {
         const { resumeId } = action.payload;
-        if (state.resumes.byId[resumeId]) {
-          state.resumes.byId[resumeId].uploadStatus = 'uploaded';
+        if (state.byId[resumeId]) {
+          state.byId[resumeId].uploadStatus = 'uploaded';
         }
       })
       .addCase(uploadResume.rejected, (state, action) => {
         const resumeId = action.meta.arg.id;
-        if (state.resumes.byId[resumeId]) {
-          state.resumes.byId[resumeId].uploadStatus = 'failed';
+        if (state.byId[resumeId]) {
+          state.byId[resumeId].uploadStatus = 'failed';
         }
       });
   }
 });
 
-export const { addResume, updateResumeStatus, removeResume } = resumeSlice.actions;
+export const { addResume, updateResumeStatus, removeResume, addFetchInProgress, removeFetchInProgress } = resumeSlice.actions;
 export default resumeSlice.reducer;

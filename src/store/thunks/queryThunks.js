@@ -2,6 +2,8 @@ import { addQueryResult, setRemainingQueries, setFetching, setQueryApiTriggered 
 import { fetchQueriesApi } from '../../api/queryApi';  // API call to fetch query results
 import { queryFunctionApi } from "../../api/queryFunctionApi";
 import { queryComplete } from '../widgetSlice';
+import { fetchResumesThunk } from './resumeThunks';
+import { getResumeIdsFromQueryResult } from '../../utils/queryResultUtils';
 
 export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, getState) => {
   const { queryResults } = getState();
@@ -21,6 +23,10 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
       queries.forEach(query => {
         dispatch(addQueryResult({ queryId: query.query_id, result: query.result }));
         dispatch(queryComplete({ queryId: query.query_id }));
+
+        // get resume ids from query results to fetch resumes
+        const keys = getResumeIdsFromQueryResult(query);
+        dispatch(fetchResumesThunk({keys}));
       });
 
       // After the results are fetched, continue long polling after the interval
