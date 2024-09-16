@@ -6,6 +6,7 @@ export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispat
     // console.log(`keys ::: ${JSON.stringify(keys)}`);
     const { resumes } = getState();
     const { fetchInProgress, allIds } = resumes;
+    if (keys.length === 0) return;
     try {
         const filteredResumeKeys = keys.filter(key => !allIds.includes(key));
         for(const resumeId of filteredResumeKeys) {

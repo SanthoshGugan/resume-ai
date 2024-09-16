@@ -4,7 +4,7 @@ import ResumeCardSummary from './ResumeCardSummary';
 import SkillsList from './SkillList';
 import { useSelector } from 'react-redux';
 import SkillPercentCell from './SkillPercentCell';
-import { selectSimilarityByResumeId } from '../../../store/selectors/queryResultsByIdsSelector';
+import { selectLabelsByResumeId, selectSimilarityByResumeId, selectSkillPercentByResumeId } from '../../../store/selectors/queryResultsByIdsSelector';
 
 const domainColors = {
     fullstack: 'primary',
@@ -27,24 +27,23 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
     } = useSelector(state => state.widgets.flags)
     const { metadata = {}, id } = resume || {};
     const match = useSelector(state => selectSimilarityByResumeId(state, id))
+    const labels = useSelector(state => selectLabelsByResumeId(state, id));
+    const skillPercent = useSelector(state => selectSkillPercentByResumeId(state, id));
+    console.log(`skillPercent ::: ${JSON.stringify(skillPercent)}`, skillPercent);
     // console.log(`match    ${match}`);
     return (
         <>
             <tr onClick={() => toggleRow(index)}>
                 {showSimilarity && (<td>
                     {metadata.name} 
-                    {showLabelBadge && (<Badge bg={domainColors[resume.domain]}>{resume.domain}</Badge>)}
                     {showSimilarity && (<Badge bg="primary">{match || 0} %</Badge>)}
+                    {showLabelBadge && (<>{labels.map(label => <Badge bg="success">{label}</Badge>)}</>)}
                 </td>)}
                 {showSkillPercents && (<td>
-                    <SkillPercentCell value={`75.00%`} />
+                    <SkillPercentCell value={skillPercent["front_end"] || 0} />
                 </td>)}
                 {showSkillPercents &&(<td>
-                    <ProgressBar
-                        now={resume.backEnd}
-                        label={`${resume.backEnd}%`}
-                        variant={getProgressBarVariant(resume.backEnd)}
-                    />
+                    <SkillPercentCell value={skillPercent["back_end"] || 0} />
                 </td>)}
             </tr>
             {(isOpen) && (

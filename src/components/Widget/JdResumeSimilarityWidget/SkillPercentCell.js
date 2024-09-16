@@ -1,5 +1,5 @@
 import React from "react";
-import { ProgressBar } from "react-bootstrap";
+import { Container, ProgressBar } from "react-bootstrap";
 
 const getProgressBarVariant = (value) => {
     if (value >= 75) return 'gold';
@@ -8,6 +8,9 @@ const getProgressBarVariant = (value) => {
 };
 
 const SkillPercentCell = ({ value }) => {
+    if (value === 0) {
+        return <Container>0%</Container>
+    }
 
     return ( 
         <ProgressBar
