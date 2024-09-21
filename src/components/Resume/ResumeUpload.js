@@ -35,7 +35,7 @@ const ResumeUpload = ({ jd_key, setCanShowMatchCard, setResumeSummary, setResume
     }
 
     const onFileUpload = async ({files }) => {
-        console.log(`files : ${JSON.stringify(files)}`, files);
+        // console.log(`files : ${JSON.stringify(files)}`, files);
         await uploadFileAfterIntialize({ files });
     }
 
