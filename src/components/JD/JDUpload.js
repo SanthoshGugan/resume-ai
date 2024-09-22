@@ -3,6 +3,9 @@ import { Button, Container } from "react-bootstrap";
 import UploadResume from "../ResumeAi/UploadResume";
 import useUploadToS3 from "../../hooks/useUploadToS3";
 import useLongPollJDSummary from "../../hooks/useLongPollJDSummary";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchJDThunk } from "../../store/thunks/jdThunks";
+import { addKey } from "../../store/jobDescriptionSlice";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
@@ -10,15 +13,14 @@ const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCard, setJDSummary, setJDDimensions  }) => {
 
     const [ files, setFiles] = useState([]);
-    const { 
-        fetchJDSummary,
-        summary,
-        dimensions
-    } = useLongPollJDSummary({});
+
+    const { status, dimensions, summary } = useSelector(state => state?.jobDescription);
 
     const { 
         uploadFile
     } = useUploadToS3({ Bucket: BUCKET_NAME});
+
+    const dispatch = useDispatch();
 
     const onFileUpload = async ({files }) => {
         // console.log(`files : ${JSON.stringify(files)}`, files);
@@ -26,7 +28,9 @@ const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCar
         if (!files || !file) return;
         const { Key } = await uploadFile({ file, Bucket: BUCKET_NAME });
         setJdKey(`${Key}_${BUCKET_NAME}`);
-        await fetchJDSummary({ key: Key, bucket: BUCKET_NAME });
+        dispatch(addKey({s3_key: Key, s3_bucket: BUCKET_NAME}));
+        // await fetchJDSummary({ key: Key, bucket: BUCKET_NAME });
+        dispatch(fetchJDThunk());
     }
 
     const handleFileUpload = (event) => {

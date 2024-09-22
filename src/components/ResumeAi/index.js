@@ -118,12 +118,10 @@ const ResumeAi = () => {
                         />
                     </Questions>
                 )}
-                {(canShowJDSummaryCard) && (
-                    <Answers colW={11}>
-                        <JDSummary jdSummary={jdSummary} jdDimensions={jdDimensions} />
-                    </Answers>
-                )}
-                {canShowResumeUploadCard && (
+                <Answers colW={11}>
+                    <JDSummary jdSummary={jdSummary} jdDimensions={jdDimensions} />
+                </Answers>
+                {(canShowResumeUploadCard || true) && (
                     <Questions>
                         <ResumeUpload
                             jd_key={jdKey}
