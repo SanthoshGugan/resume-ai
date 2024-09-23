@@ -82,7 +82,7 @@ const ResumeAi = () => {
 
     // hard coding for testing!!!!
     useEffect(() => {
-        setJdKey('full_stack_engineer_job_description_1.pdf_jd-assets-008971676609');
+        setJdKey('tc1-jd.pdf_jd-assets-008971676609');
     }, [])
 
     useEffect(() => {
