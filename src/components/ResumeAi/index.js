@@ -174,7 +174,7 @@ const ResumeAi = () => {
                         onSelectPrompt={onSelectPrompt}
                     />
                 </Row>
-                <Form onSubmit={handleSubmit(onSubmit)}>
+                {/* <Form onSubmit={handleSubmit(onSubmit)}>
                     <Row className="my-5">
 
                         <Col md={9}>
@@ -194,14 +194,14 @@ const ResumeAi = () => {
                                 <div>
                                     <Button type="submit">Submit</Button>
                                 </div>
-                                {/* <div>
+                                <div>
 
                                     <UploadResume />
-                                </div> */}
+                                </div>
                             </div>
                         </Col>
                     </Row>
-                </Form>
+                </Form> */}
             </Container>
         </div>
     );
