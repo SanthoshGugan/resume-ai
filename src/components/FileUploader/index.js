@@ -1,26 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { Table, Button, Pagination } from 'react-bootstrap';
+import { FaFileUpload, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Import icons
+import { MdOutlineCloudUpload } from 'react-icons/md'; // Icon for drag and drop
 
 const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, description = "Drag & Drop or Add your files" }) => {
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState(new Set());
-    const [allSelected, setAllSelected] = useState(false); // Track if all files are selected
+    const [allSelected, setAllSelected] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const filesPerPage = 5;
+
+    const fileInputRef = useRef(null);
+
+    const isPDFFile = (file) => {
+        return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+    };
 
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
-        addFiles(selectedFiles);
+        const validFiles = selectedFiles.filter(isPDFFile);
+
+        if (validFiles.length !== selectedFiles.length) {
+            alert("Only PDF files are allowed.");
+        }
+
+        addFiles(validFiles);
+        fileInputRef.current.value = '';
     };
 
     const handleDrop = (event) => {
         event.preventDefault();
         const droppedFiles = Array.from(event.dataTransfer.files);
+        const validFiles = droppedFiles.filter(isPDFFile);
 
-        // If multiple is false, limit to one file
-        if (!multiple && droppedFiles.length > 1) {
+        if (validFiles.length !== droppedFiles.length) {
+            alert("Only PDF files are allowed.");
+        }
+
+        if (!multiple && validFiles.length > 1) {
             alert("Only one file can be uploaded at a time.");
             return;
         }
 
-        addFiles(droppedFiles);
+        addFiles(validFiles);
     };
 
     const handleDragOver = (event) => {
@@ -34,18 +56,17 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
         }
         onAddFiles(newFiles);
         setFiles((prevFiles) => multiple ? [...prevFiles, ...newFiles] : newFiles);
+        setCurrentPage(1);
     };
 
     const removeFiles = () => {
         const remainingFiles = files.filter((file) => !selectedFiles.has(file.name));
         onRemoveFiles(selectedFiles);
         setFiles(remainingFiles);
-        setSelectedFiles(new Set()); // Clear selection after removal
-        setAllSelected(false); // Deselect the header checkbox
-
-        if (remainingFiles.length === 0) {
-            setAllSelected(false); // Deselect the header checkbox if no files remain
-        }
+        setSelectedFiles(new Set());
+        setAllSelected(false);
+        setCurrentPage(1);
+        fileInputRef.current.value = '';
     };
 
     const toggleSelectFile = (fileName) => {
@@ -58,20 +79,38 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
         setSelectedFiles(updatedSelection);
 
         if (updatedSelection.size === files.length) {
-            setAllSelected(true); // Select the header checkbox if all files are selected
+            setAllSelected(true);
         } else {
-            setAllSelected(false); // Deselect the header checkbox if not all files are selected
+            setAllSelected(false);
         }
     };
 
     const toggleSelectAll = () => {
         if (allSelected) {
-            setSelectedFiles(new Set()); // Deselect all
+            setSelectedFiles(new Set());
             setAllSelected(false);
         } else {
-            const allFileNames = new Set(files.map(file => file.name));
-            setSelectedFiles(allFileNames); // Select all
+            const allFileNames = new Set(files.map((file) => file.name));
+            setSelectedFiles(allFileNames);
             setAllSelected(true);
+        }
+    };
+
+    // Pagination logic
+    const totalPages = Math.ceil(files.length / filesPerPage);
+    const indexOfLastFile = currentPage * filesPerPage;
+    const indexOfFirstFile = indexOfLastFile - filesPerPage;
+    const currentFiles = files.slice(indexOfFirstFile, indexOfLastFile);
+
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage((prevPage) => prevPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage((prevPage) => prevPage - 1);
         }
     };
 
@@ -80,38 +119,36 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
             onDrop={handleDrop} 
             onDragOver={handleDragOver} 
             style={{
-                border: "2px dashed #ccc",
-                borderRadius: "5px",
-                padding: "20px",
+                border: "2px dashed #007bff",
+                borderRadius: "10px",
+                padding: "30px",
                 textAlign: "center",
-                marginBottom: "20px"
+                marginBottom: "30px",
+                backgroundColor: "#f9f9f9",
+                transition: "border 0.3s",
             }}
         >
-            <h3>{description}</h3>
+            <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
+            <h4>{description}</h4>
+            <p>Only PDF files are allowed.</p>
             <input 
-                type="file" 
-                multiple={multiple}  // Use the multiple prop
-                onChange={handleFileChange} 
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf"
+                multiple={multiple}
+                onChange={handleFileChange}
                 style={{ display: "none" }} 
                 id="fileInput"
             />
-            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginBottom: "20px" }}>
-                <button 
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px", gap: "15px" }}>
+                <Button 
+                    variant="danger"
                     onClick={removeFiles} 
                     disabled={selectedFiles.size === 0}
-                    style={{
-                        marginLeft: "10px",
-                        backgroundColor: "red",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: selectedFiles.size === 0 ? "not-allowed" : "pointer",
-                        padding: "10px 15px",
-                        opacity: selectedFiles.size === 0 ? 0.5 : 1
-                    }}
                 >
-                    Remove Selected
-                </button>
+                    <FaTrashAlt style={{ marginRight: "5px" }} />
+                    Remove
+                </Button>
                 <label 
                     htmlFor="fileInput" 
                     style={{
@@ -120,16 +157,19 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                         color: "#fff",
                         borderRadius: "5px",
                         cursor: "pointer",
-                        marginLeft: "20px"
+                        display: "flex",
+                        alignItems: "center",
                     }}
                 >
+                    <FaPlus style={{ marginRight: "5px" }} />
                     Add Files
                 </label>
             </div>
-            {(
+
+            {files.length > 0 && (
                 <div style={{ marginTop: "20px" }}>
                     <h4>Uploaded Files: ({files.length})</h4>
-                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th>
@@ -139,12 +179,12 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                                         onChange={toggleSelectAll}
                                     />
                                 </th>
-                                <th style={{ textAlign: "left" }}>File Name</th>
-                                <th style={{ textAlign: "left" }}>File Type</th>
+                                <th>File Name</th>
+                                <th>File Type</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {files.map((file) => (
+                            {currentFiles.map((file) => (
                                 <tr key={file.name} onClick={() => toggleSelectFile(file.name)} style={{ cursor: "pointer", background: selectedFiles.has(file.name) ? "#f0f8ff" : "transparent" }}>
                                     <td>
                                         <input 
@@ -153,14 +193,25 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                                             onChange={() => toggleSelectFile(file.name)}
                                         />
                                     </td>
-                                    <td>
-                                        <strong>{file.name}</strong>
-                                    </td>
+                                    <td>{file.name}</td>
                                     <td>{file.type}</td>
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
+                    </Table>
+
+                    {/* React Bootstrap Pagination */}
+                    <Pagination className="justify-content-center">
+                        <Pagination.Prev 
+                            onClick={prevPage} 
+                            disabled={currentPage === 1}
+                        />
+                        <Pagination.Item active>{currentPage}</Pagination.Item>
+                        <Pagination.Next 
+                            onClick={nextPage} 
+                            disabled={currentPage === totalPages}
+                        />
+                    </Pagination>
                 </div>
             )}
         </div>
