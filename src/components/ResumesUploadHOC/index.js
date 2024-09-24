@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FileUploader from "../FileUploader";
-import { uploadResumeThunk } from "../../store/thunks/resumeThunks";
+import { initUploadResumeThunk } from "../../store/thunks/resumeThunks";
 import { useDispatch, useSelector } from "react-redux";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
@@ -28,9 +28,9 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
         console.log(`onUpload ${event}`);
         // Handle the actual upload logic here
         console.log(uploadedFiles);
-        const file = uploadedFiles[0];
-        if (!uploadedFiles || !file) return;
-        dispatch(uploadResumeThunk({ file, Bucket: BUCKET_NAME }));
+        // const file = uploadedFiles;
+        if (!uploadedFiles) return;
+        dispatch(initUploadResumeThunk({ files: uploadedFiles, Bucket: BUCKET_NAME }));
         // const resume_name = file.name;
         // const resume_key = `${resume_name}_${BUCKET_NAME}`;
         // const id = await initializeResumeUpload({ jd_key, resume_key })

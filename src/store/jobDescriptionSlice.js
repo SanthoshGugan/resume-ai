@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { addSkillToJobDescription, removeSkillFromJobDescription } from './reducerUtil/jobDescriptionReducerUtil';
 
 const initialState = {
-  key: {},
-  jd: {},
+  key: { s3_key: 'full_stack_jd.pdf', s3_bucket: 'jd-assets-008971676609'},
+  jd: {id: 'full_stack_jd.pdf_jd-assets-008971676609'},
   status: 'idle',        // 'idle' | 'extracting' | 'embedding' | 'completed' | 'failed'
   progress: 0,           // Percentage of progress (0-100)
   error: {},           // Error details, if any

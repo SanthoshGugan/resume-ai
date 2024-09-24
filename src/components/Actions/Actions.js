@@ -5,7 +5,8 @@ const Actions = () => {
     return (<Container>
         <Row>
             <Col md={4}>
-                <>Quick Actions</>
+                
+                <QueryBadge to="/chatresume" query="Chat"/>
             </Col>
             <Col md={8}>
                 <Row className="d-flex justify-content-center p-4">

@@ -82,7 +82,7 @@ const ResumeAi = () => {
 
     // hard coding for testing!!!!
     useEffect(() => {
-        setJdKey('tc1-jd.pdf_jd-assets-008971676609');
+        setJdKey('full_stack_jd.pdf_jd-assets-008971676609');
     }, [])
 
     useEffect(() => {

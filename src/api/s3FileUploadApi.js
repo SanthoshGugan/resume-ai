@@ -11,20 +11,22 @@ const client = new S3Client({
     }
 });
 
-export const uploadFile = async  ({ file, Bucket }) => {
+export const uploadFile = async  ({ files, Bucket }) => {
     try {
-        const Key = file.name;
-        // console.log('Bucket ::::::', Bucket);
-        const params = {
-            Bucket,
-            Key,
-            Body: file
-        };
-        const data = await client.send(new PutObjectCommand(params));
-        console.log(data);
-        return {
-            Key: Key
-        };
+        const keys = [];
+        for(const file of files) {
+            const Key = file.name;
+            // console.log('Bucket ::::::', Bucket);
+            const params = {
+                Bucket,
+                Key,
+                Body: file
+            };
+            const data = await client.send(new PutObjectCommand(params));
+            console.log(data);
+            keys.push(Key);
+        }
+        return keys;
     } catch(err) {
         console.error(err);
     }

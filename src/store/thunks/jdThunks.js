@@ -66,7 +66,7 @@ export const updateJdThunk = () => async (dispatch, getState) => {
 
 // jd upload thunk
 export const uploadJDThunk = ({ file, Bucket}) => async (dispatch, getState) => {
-    const { Key } = await uploadFile({ file, Bucket});
+    const { Key } = await uploadFile({ files: [file], Bucket});
     dispatch(addKey({s3_key: Key, s3_bucket: Bucket}));
     dispatch(fetchJDThunk());
 }

@@ -17,12 +17,12 @@ const client = new S3Client({
 });
 
 const useUploadToS3 = ({ Bucket }) => {
-    // console.log(`bucket : ${Bucket}`);
+    console.log(`bucket : ${Bucket}`);
 
     const uploadFile = async  ({ file, Bucket }) => {
         try {
             const Key = file.name;
-            // console.log('Bucket ::::::', Bucket);
+            console.log('Bucket ::::::', Bucket);
             const params = {
                 Bucket,
                 Key,

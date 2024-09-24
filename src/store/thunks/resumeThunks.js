@@ -25,12 +25,19 @@ export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispat
     }
 };
 
-export const uploadResumeThunk = ({file, Bucket}) => async (dispatch, getState) => {
-    const resume_name = file.name;
-    const resume_key = `${resume_name}_${Bucket}`;
+export const initUploadResumeThunk = ({files, Bucket}) => async (dispatch, getState) => {
+    const resume_keys = [];
+    for(const file of files) {
+        const resume_name = file.name;
+        const resume_key = `${resume_name}_${Bucket}`;
+        resume_keys.push(resume_key);
+    }
     const { jobDescription } = getState();
     const jd_key = jobDescription?.jd?.id;
-    const response = await initializeResumeUploadApi({ jd_key, resume_key });
-    const { id } = response?.data;
-    const { Key } = await uploadFile({ file, Bucket});
+    console.log(`jd_key :: ${jd_key}`);
+    const response = await initializeResumeUploadApi({ jd_key, resume_keys });
+    // const { id } = response?.data;
+    const { Key } = await uploadFile({ files, Bucket});
 }
+
+// export const uploadResumeThunk = ({ file, Bucket }) => async (dis)
