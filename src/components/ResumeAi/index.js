@@ -82,7 +82,7 @@ const ResumeAi = () => {
 
     // hard coding for testing!!!!
     useEffect(() => {
-        setJdKey('full_stack_jd.pdf_jd-assets-008971676609');
+        // setJdKey('full_stack_jd.pdf_jd-assets-008971676609');
     }, [])
 
     useEffect(() => {
@@ -99,7 +99,7 @@ const ResumeAi = () => {
         //     "queries": [query],
         //     "jd_key": jdKey
         // });
-        dispatch(triggerQueries([query], jdKey));
+        dispatch(triggerQueries([query]));
         dispatch(addRemainingQuery(query))
         // console.log(response);
     }

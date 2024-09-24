@@ -42,11 +42,14 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
   }
 };
 
-export const triggerQueries = (queries, jd_key) => async (dispatch, getState) => {
+export const triggerQueries = (queries) => async (dispatch, getState) => {
   // const { queryResults } = getState();
   // console.log(`remiaing queries ::::: $${JSON.stringify(queryResults.remainingQueries)}`)
   // Only proceed if there are queries left to fetch
   // console.log(`trigger query api queries: ${queries} jd_key: ${jd_key}`);
+  const { jobDescription } = getState();
+  const {s3_key,s3_bucket} = jobDescription?.key;
+  const jd_key = `${s3_key}_${s3_bucket}`
   try{
     dispatch(setQueryApiTriggered(true));
     const response = await queryFunctionApi({

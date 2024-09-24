@@ -33,9 +33,10 @@ export const initUploadResumeThunk = ({files, Bucket}) => async (dispatch, getSt
         resume_keys.push(resume_key);
     }
     const { jobDescription } = getState();
-    const jd_key = jobDescription?.jd?.id;
-    console.log(`jd_key :: ${jd_key}`);
-    const response = await initializeResumeUploadApi({ jd_key, resume_keys });
+    const jd_key_object = jobDescription?.key;
+    const {s3_key, s3_bucket} = jd_key_object;
+
+    const response = await initializeResumeUploadApi({ jd_key:`${s3_key}_${s3_bucket}`, resume_keys });
     // const { id } = response?.data;
     const { Key } = await uploadFile({ files, Bucket});
 }
