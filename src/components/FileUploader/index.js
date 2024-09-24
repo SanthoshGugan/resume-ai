@@ -1,14 +1,16 @@
 import React, { useState, useRef } from "react";
 import { Table, Button, Pagination } from 'react-bootstrap';
+import { FaFileUpload, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Import icons
+import { MdOutlineCloudUpload } from 'react-icons/md'; // Icon for drag and drop
 
 const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, description = "Drag & Drop or Add your files" }) => {
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState(new Set());
     const [allSelected, setAllSelected] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const filesPerPage = 10;
+    const filesPerPage = 5;
 
-    const fileInputRef = useRef(null); // Reference for input to reset value
+    const fileInputRef = useRef(null);
 
     const isPDFFile = (file) => {
         return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -23,7 +25,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
         }
 
         addFiles(validFiles);
-        fileInputRef.current.value = ''; // Clear the file input value after adding files
+        fileInputRef.current.value = '';
     };
 
     const handleDrop = (event) => {
@@ -64,7 +66,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
         setSelectedFiles(new Set());
         setAllSelected(false);
         setCurrentPage(1);
-        fileInputRef.current.value = ''; // Clear the file input value after removing files
+        fileInputRef.current.value = '';
     };
 
     const toggleSelectFile = (fileName) => {
@@ -117,30 +119,35 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
             onDrop={handleDrop} 
             onDragOver={handleDragOver} 
             style={{
-                border: "2px dashed #ccc",
-                borderRadius: "5px",
-                padding: "20px",
+                border: "2px dashed #007bff",
+                borderRadius: "10px",
+                padding: "30px",
                 textAlign: "center",
-                marginBottom: "20px"
+                marginBottom: "30px",
+                backgroundColor: "#f9f9f9",
+                transition: "border 0.3s",
             }}
         >
-            <h3>{description}</h3>
+            <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
+            <h4>{description}</h4>
+            <p>Only PDF files are allowed.</p>
             <input 
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf"  // Accept only PDF files
+                accept=".pdf"
                 multiple={multiple}
                 onChange={handleFileChange}
                 style={{ display: "none" }} 
                 id="fileInput"
             />
-            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginBottom: "20px" }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px", gap: "15px" }}>
                 <Button 
                     variant="danger"
                     onClick={removeFiles} 
                     disabled={selectedFiles.size === 0}
                 >
-                    Remove Selected
+                    <FaTrashAlt style={{ marginRight: "5px" }} />
+                    Remove
                 </Button>
                 <label 
                     htmlFor="fileInput" 
@@ -150,9 +157,11 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                         color: "#fff",
                         borderRadius: "5px",
                         cursor: "pointer",
-                        marginLeft: "20px"
+                        display: "flex",
+                        alignItems: "center",
                     }}
                 >
+                    <FaPlus style={{ marginRight: "5px" }} />
                     Add Files
                 </label>
             </div>
