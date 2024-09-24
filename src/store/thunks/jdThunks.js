@@ -1,6 +1,7 @@
 import { dispatch } from "d3";
 import { fetchJdSkillsApi, fetchJDSummaryApi, updateJDApi } from "../../api/jdApi";
-import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD } from "../jobDescriptionSlice";
+import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey } from "../jobDescriptionSlice";
+import { uploadFile } from "../../api/s3FileUploadApi";
 
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
@@ -62,3 +63,10 @@ export const updateJdThunk = () => async (dispatch, getState) => {
         console.error(`error while updating jd`, err);
     }
 };
+
+// jd upload thunk
+export const uploadJDThunk = ({ file, Bucket}) => async (dispatch, getState) => {
+    const { Key } = await uploadFile({ file, Bucket});
+    dispatch(addKey({s3_key: Key, s3_bucket: Bucket}));
+    dispatch(fetchJDThunk());
+}

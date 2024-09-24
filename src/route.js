@@ -5,7 +5,8 @@ import Landing from "./components/Landing";
 import ResumeManagerContainer from "./components/ResumeManager/ResumeManagerContainer";
 import Home from "./components/Home/Home";
 import JDUpload from "./components/JD/JDUpload";
-import ResumesUpload from "./components/ResumesUpload";
+import ResumesUploadHOC from "./components/ResumesUploadHOC"
+import JDuploadHoc from "./components/JDUploadHoc"
 
 const route = createBrowserRouter([
     {
@@ -30,18 +31,14 @@ const route = createBrowserRouter([
         children: [
             {
                 path: 'jd-upload',
-                element: <>JD Upload</>
+                element: <JDuploadHoc/>
             },
             {
                 path: 'resume-upload',
-                element: <>Resume Upload</>
+                element: <ResumesUploadHOC/>
             }
         ]
-    },
-    {
-        path:'/resumes-upload',
-        element: <ResumesUpload/>
     }
-]);;
+]);
 
 export default route;

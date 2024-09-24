@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-const ResumesUpload = () => {
+const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, description = "Drag & Drop or Add your files" }) => {
     const [files, setFiles] = useState([]);
-    const [uploadProgress, setUploadProgress] = useState({});
     const [selectedFiles, setSelectedFiles] = useState(new Set());
+    const [allSelected, setAllSelected] = useState(false); // Track if all files are selected
 
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
@@ -13,6 +13,13 @@ const ResumesUpload = () => {
     const handleDrop = (event) => {
         event.preventDefault();
         const droppedFiles = Array.from(event.dataTransfer.files);
+
+        // If multiple is false, limit to one file
+        if (!multiple && droppedFiles.length > 1) {
+            alert("Only one file can be uploaded at a time.");
+            return;
+        }
+
         addFiles(droppedFiles);
     };
 
@@ -21,36 +28,24 @@ const ResumesUpload = () => {
     };
 
     const addFiles = (newFiles) => {
-        newFiles.forEach((file) => {
-            setUploadProgress((prev) => ({
-                ...prev,
-                [file.name]: 0 // Initialize progress for each file
-            }));
-            // Simulate file upload (you can replace this with actual upload logic)
-            const uploadInterval = setInterval(() => {
-                setUploadProgress((prev) => {
-                    const progress = prev[file.name] + 10; // Simulating 10% increment
-                    if (progress >= 100) {
-                        clearInterval(uploadInterval);
-                        return { ...prev, [file.name]: 100 }; // Mark as complete
-                    }
-                    return { ...prev, [file.name]: progress };
-                });
-            }, 500); // Simulate upload every 500ms
-        });
-        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        if (!multiple && files.length > 0) {
+            alert("Only one file can be uploaded at a time.");
+            return;
+        }
+        onAddFiles(newFiles);
+        setFiles((prevFiles) => multiple ? [...prevFiles, ...newFiles] : newFiles);
     };
 
     const removeFiles = () => {
-        setFiles(files.filter((file) => !selectedFiles.has(file.name)));
-        setUploadProgress((prev) => {
-            const newProgress = { ...prev };
-            selectedFiles.forEach((fileName) => {
-                delete newProgress[fileName]; // Remove progress tracking for the deleted files
-            });
-            return newProgress;
-        });
+        const remainingFiles = files.filter((file) => !selectedFiles.has(file.name));
+        onRemoveFiles(selectedFiles);
+        setFiles(remainingFiles);
         setSelectedFiles(new Set()); // Clear selection after removal
+        setAllSelected(false); // Deselect the header checkbox
+
+        if (remainingFiles.length === 0) {
+            setAllSelected(false); // Deselect the header checkbox if no files remain
+        }
     };
 
     const toggleSelectFile = (fileName) => {
@@ -61,14 +56,22 @@ const ResumesUpload = () => {
             updatedSelection.add(fileName);
         }
         setSelectedFiles(updatedSelection);
+
+        if (updatedSelection.size === files.length) {
+            setAllSelected(true); // Select the header checkbox if all files are selected
+        } else {
+            setAllSelected(false); // Deselect the header checkbox if not all files are selected
+        }
     };
 
     const toggleSelectAll = () => {
-        if (selectedFiles.size === files.length) {
+        if (allSelected) {
             setSelectedFiles(new Set()); // Deselect all
+            setAllSelected(false);
         } else {
             const allFileNames = new Set(files.map(file => file.name));
             setSelectedFiles(allFileNames); // Select all
+            setAllSelected(true);
         }
     };
 
@@ -84,10 +87,10 @@ const ResumesUpload = () => {
                 marginBottom: "20px"
             }}
         >
-            <h3>Drag & Drop your resumes here or add files</h3>
+            <h3>{description}</h3>
             <input 
                 type="file" 
-                multiple 
+                multiple={multiple}  // Use the multiple prop
                 onChange={handleFileChange} 
                 style={{ display: "none" }} 
                 id="fileInput"
@@ -95,16 +98,16 @@ const ResumesUpload = () => {
             <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginBottom: "20px" }}>
                 <button 
                     onClick={removeFiles} 
-                    disabled={files.length === 0}
+                    disabled={selectedFiles.size === 0}
                     style={{
                         marginLeft: "10px",
                         backgroundColor: "red",
                         color: "white",
                         border: "none",
                         borderRadius: "5px",
-                        cursor: files.length === 0 ? "not-allowed" : "pointer",
+                        cursor: selectedFiles.size === 0 ? "not-allowed" : "pointer",
                         padding: "10px 15px",
-                        opacity: files.length === 0 ? 0.5 : 1
+                        opacity: selectedFiles.size === 0 ? 0.5 : 1
                     }}
                 >
                     Remove Selected
@@ -117,22 +120,22 @@ const ResumesUpload = () => {
                         color: "#fff",
                         borderRadius: "5px",
                         cursor: "pointer",
-                        marginLeft: "20px" // Added space between buttons
+                        marginLeft: "20px"
                     }}
                 >
                     Add Files
                 </label>
             </div>
-            {files.length > 0 && (
+            {(
                 <div style={{ marginTop: "20px" }}>
-                    <h4>Uploaded Files:</h4>
+                    <h4>Uploaded Files: ({files.length})</h4>
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
                         <thead>
                             <tr>
                                 <th>
                                     <input 
                                         type="checkbox" 
-                                        checked={selectedFiles.size === files.length}
+                                        checked={allSelected} 
                                         onChange={toggleSelectAll}
                                     />
                                 </th>
@@ -164,4 +167,4 @@ const ResumesUpload = () => {
     );
 };
 
-export default ResumesUpload;
+export default FileUploader;
