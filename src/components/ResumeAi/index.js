@@ -22,6 +22,7 @@ import useQueryFunction from "../../hooks/useQueryFunction";
 
 import { addRemainingQuery } from '../../store/queryResultsSlice';
 import JDResumeSimilarityWidget from "../Widget/JdResumeSimilarityWidget";
+import { selectJdKey } from "../../store/selectors/jdSelector";
 
 const ResumeAi = () => {
 
@@ -49,6 +50,7 @@ const ResumeAi = () => {
     const [resumeDimensions, setResumeDimensions] = useState(null);
 
     const [matchSummary, setMatchSummary] = useState(null);
+    const jd_key = useSelector(state => selectJdKey(state));
 
     // const {
     //     fetchQuerySummary,
@@ -87,7 +89,7 @@ const ResumeAi = () => {
 
     useEffect(() => {
         if (remainingQueries.length > 0) {
-          dispatch(longPollQueries(jdKey));
+          dispatch(longPollQueries(jd_key));
         //   console.log(`triggering long pollling`);
         }
       }, [jdKey, remainingQueries.length]);

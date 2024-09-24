@@ -31,6 +31,8 @@ const JDUploadHoc = ({}) => {
         
         if (!uploadedFiles || !file) return;
 
+        console.log(`bucket name : ${BUCKET_NAME}`);
+
         dispatch(uploadJDThunk({file, Bucket: BUCKET_NAME}));
 
     };

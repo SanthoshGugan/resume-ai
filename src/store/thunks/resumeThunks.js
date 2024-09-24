@@ -1,6 +1,6 @@
 import { fetchResumesApi } from "../../api/resumeApi";
 import { addFetchInProgress, addResume, removeFetchInProgress } from "../resumeSlice";
-import { uploadFile } from "../../api/s3FileUploadApi";
+import { uploadFile, uploadFiles } from "../../api/s3FileUploadApi";
 import { initializeResumeUploadApi } from "../../api/resumeApi";
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
@@ -33,12 +33,12 @@ export const initUploadResumeThunk = ({files, Bucket}) => async (dispatch, getSt
         resume_keys.push(resume_key);
     }
     const { jobDescription } = getState();
-    const jd_key_object = jobDescription?.key;
-    const {s3_key, s3_bucket} = jd_key_object;
+    const {s3_key, s3_bucket} = jobDescription?.key;
+    console.log(`jd_key :${s3_key}_${s3_bucket}`);
 
     const response = await initializeResumeUploadApi({ jd_key:`${s3_key}_${s3_bucket}`, resume_keys });
     // const { id } = response?.data;
-    const { Key } = await uploadFile({ files, Bucket});
+    const { Key } = await uploadFiles({ files, Bucket});
 }
 
 // export const uploadResumeThunk = ({ file, Bucket }) => async (dis)
