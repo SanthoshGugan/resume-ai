@@ -31,11 +31,12 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
     const skillPercent = useSelector(state => selectSkillPercentByResumeId(state, id));
     console.log(`skillPercent ::: ${JSON.stringify(skillPercent)}`, skillPercent);
     // console.log(`match    ${match}`);
+
     return (
         <>
             <tr onClick={() => toggleRow(index)}>
                 {showSimilarity && (<td>
-                    {metadata.name} 
+                    {metadata?.name?.[0] || 'Unknown Name'} 
                     {showSimilarity && (<Badge bg="primary">{match || 0} %</Badge>)}
                     {showLabelBadge && (<>{labels.map(label => <Badge bg="success">{label}</Badge>)}</>)}
                 </td>)}
