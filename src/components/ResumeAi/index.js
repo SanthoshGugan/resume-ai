@@ -102,7 +102,7 @@ const ResumeAi = () => {
         //     "jd_key": jdKey
         // });
         dispatch(triggerQueries([query]));
-        dispatch(addRemainingQuery(query))
+        dispatch(addRemainingQuery(query));
         // console.log(response);
     }
 

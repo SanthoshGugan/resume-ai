@@ -1,7 +1,11 @@
 // PromptActions.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './PromptActions.css';
 import { FaUser, FaUserCheck, FaStar, FaLock } from 'react-icons/fa';
+import { onQuerySelectThunk } from '../../store/thunks/queryButtonThunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { longPollQueries } from '../../store/thunks/queryThunks';
+import { selectJdKey } from '../../store/selectors/jdSelector';
 
 const prompts = [
   { id: "jd_resume_similarity", label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
@@ -45,9 +49,12 @@ const getIcon = (accessibility) => {
   }
 };
 
-const PromptActions = ({ onSelectPrompt }) => {
+const PromptActions = () => {
   const [selectedCategories, setSelectedCategories] = useState(categories.reduce((acc, category) => ({ ...acc, [category]: true }), {}));
 
+  const jd_key = useSelector(state => selectJdKey(state));
+  const remainingQueries = useSelector(state => state.queryResults.remainingQueries);
+  const dispatch = useDispatch();
   const handleCategoryChange = (category) => {
     setSelectedCategories(prevState => ({
       ...prevState,
@@ -55,9 +62,16 @@ const PromptActions = ({ onSelectPrompt }) => {
     }));
   };
 
+  useEffect(() => {
+    if (remainingQueries.length > 0) {
+      dispatch(longPollQueries(jd_key));
+    //   console.log(`triggering long pollling`);
+    }
+  }, [remainingQueries.length]);
+
   return (
     <div className="prompt-actions-container">
-      <div className="filter-box">
+      {/* <div className="filter-box">
         {categories.map(category => (
           <label key={category}>
             <input
@@ -68,13 +82,13 @@ const PromptActions = ({ onSelectPrompt }) => {
             {category}
           </label>
         ))}
-      </div>
+      </div> */}
       <div className="prompt-actions">
         {prompts.filter(prompt => selectedCategories[prompt.category]).map(prompt => (
           <span
             key={prompt.id}
             className={`prompt-badge ${prompt.accessibility}`}
-            onClick={() => prompt.accessibility !== 'premium' && onSelectPrompt(prompt.id)}
+            onClick={() => dispatch(onQuerySelectThunk(prompt.id))}
             title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
           >
             {getIcon(prompt.accessibility)}
