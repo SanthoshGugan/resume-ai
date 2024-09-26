@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FileUploader from "../FileUploader";
-import { uploadJDThunk } from "../../store/thunks/jdThunks";
+import { fetchGlobalSkills, updateJdThunk, uploadJDThunk } from "../../store/thunks/jdThunks";
 import { useDispatch, useSelector } from "react-redux";
+import { Button, Container } from "react-bootstrap";
+import SkillSelector from "../JD/SkillSelector";
+import SkillBadge from "../JD/SkillBadge";
+import Avatar from "../Avatar";
+import { isJdUpdateSkillVisible, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
 const JDUploadHoc = ({}) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const dispatch = useDispatch();
+
+    const skills = useSelector(state => selectSkillsFromAllCategory(state, ""));
+
+    const updateFlag = useSelector(state => isJdUpdateSkillVisible(state, ""));
 
     const onAddFiles = (files) => {
         console.log(`onAddFiles files: ${files}`);
@@ -37,8 +46,12 @@ const JDUploadHoc = ({}) => {
 
     };
 
+    useEffect(() => {
+        dispatch(fetchGlobalSkills());
+    }, [])
+
     return (
-        <>
+        <Container>
             <FileUploader 
                 onAddFiles={onAddFiles}  
                 onRemoveFiles={onRemoveFiles}
@@ -62,7 +75,21 @@ const JDUploadHoc = ({}) => {
                     </button>
                 </div>
             )}
-        </>
+            {updateFlag && (<Container  className="d-flex flex-wrap">
+                <SkillSelector />
+                
+                <Container  className="d-flex flex-wrap">
+                    {skills.map(item => 
+                    <SkillBadge
+                        category={<Avatar initials={item?.categoryName.substring(0,2)} />}
+                        tooltipText={item?.categoryName}
+                        label={item?.skill }
+                        onRemove={(e) => {}}
+                    />)}
+                </Container>
+                <Button onClick={() => dispatch(updateJdThunk())}>Update Skill</Button>
+            </Container>)}
+        </Container>
     );
 };
 
