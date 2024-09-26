@@ -5,6 +5,8 @@ const selectSkillsFromFullStackDomain = state => state.jobDescription?.jd?.dimen
 
 const selectSkillsByCateogry = state => state.jobDescription?.skills?.byCategory;
 
+const selectJDDimensions = state => state.jobDescription?.jd?.dimensions;
+
 const selectSkillsFromAllCategory = createSelector(
     [selectSkillsFromFullStackDomain],
     (skillsByCategoryList) => {
@@ -52,5 +54,14 @@ const selectGlobalSkills = createSelector(
     }
 );
 
-export { selectSkillsFromAllCategory, selectGlobalSkills } ;
+const isJdUpdateSkillVisible = createSelector([
+    selectJDDimensions
+], (
+    dimensions
+) => {
+    if (!dimensions) return false;
+    return dimensions?.domains?.length > 0;
+});
+
+export { selectSkillsFromAllCategory, selectGlobalSkills, isJdUpdateSkillVisible } ;
 
