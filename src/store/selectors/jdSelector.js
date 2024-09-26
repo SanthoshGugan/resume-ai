@@ -3,6 +3,8 @@ import { createSelector } from "@reduxjs/toolkit";
 
 const selectJdKeyObj = state => state.jobDescription?.key;
 
+const selectJd = state => state.jobDescription?.jd;
+
 const selectJdKey = createSelector(
     [
         selectJdKeyObj
@@ -13,6 +15,19 @@ const selectJdKey = createSelector(
     }
 )
 
+const isJDOnQuickSelect = createSelector(
+    [
+        selectJd
+    ],
+    (jd) => {
+        if (!jd || !jd?.status) return false;
+        return jd?.status === 'EMBEDDING_UPDATED';
+    }
+);
+
+
+
 export {
-    selectJdKey
+    selectJdKey,
+    isJDOnQuickSelect
 };
