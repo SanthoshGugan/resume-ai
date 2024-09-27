@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import './PromptActions.css';
 import { FaUser, FaUserCheck, FaStar, FaLock } from 'react-icons/fa';
+import { TiTick } from "react-icons/ti";
 import { onQuerySelectThunk } from '../../store/thunks/queryButtonThunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { longPollQueries } from '../../store/thunks/queryThunks';
 import { selectJdKey } from '../../store/selectors/jdSelector';
+import { domainsQueryEnabledSelector, fetchInProgressQueries, isFetchInProgressByQueryId, remainingQueriesSelector, selectQueryResultsById, selectQueryResultsByIds } from '../../store/selectors/queryResultsByIdsSelector';
+import { Button, Spinner } from 'react-bootstrap';
 
 const prompts = [
   { id: "jd_resume_similarity", label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
@@ -58,7 +61,10 @@ const PromptActions = () => {
 
   const jd_key = useSelector(state => selectJdKey(state));
   const remainingQueries = useSelector(state => state.queryResults.remainingQueries);
+  const queryBySelectorId = useSelector(state => selectQueryResultsById(state));
+  const domainQueryEnabled = useSelector(state => domainsQueryEnabledSelector(state));
   const dispatch = useDispatch();
+  const isActiveList = useSelector(state => remainingQueriesSelector(state));
   const handleCategoryChange = (category) => {
     setSelectedCategories(prevState => ({
       ...prevState,
@@ -69,9 +75,48 @@ const PromptActions = () => {
   useEffect(() => {
     if (remainingQueries.length > 0) {
       dispatch(longPollQueries(jd_key));
-    //   console.log(`triggering long pollling`);
+      //   console.log(`triggering long pollling`);
     }
   }, [remainingQueries.length]);
+
+  const isDisabled = (prompt) => {
+    const { domain, id } = prompt;
+    if (!domain) return isActiveList.includes(prompt.id) || queryBySelectorId[prompt.id] !== undefined;
+    return domainQueryEnabled.includes(domain) || isActiveList.includes(prompt.id);
+  }
+
+  const isComplete = (prompt) => {
+    const { domain, id } = prompt;
+    if (!domain) return queryBySelectorId[id] !== undefined;
+    return domainQueryEnabled.includes(domain);
+  }
+
+  const renderPromptBadge = (prompt) => {
+    return (
+      <Button
+        key={prompt.id}
+        className={`prompt-badge ${prompt.accessibility}`}
+        onClick={() => dispatch(onQuerySelectThunk({ id: prompt.id, domain: prompt?.domain }))}
+        title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
+        disabled={isDisabled(prompt)} // Disable button while query fetch is in progress
+        style={{
+          backgroundColor: 'transparent',
+          // border: 'none',
+          // padding: '0',
+          display: 'inline-flex',
+          alignItems: 'center',
+          // cursor: prompt.accessibility === 'premium' ? 'not-allowed' : 'pointer',
+          fontSize: 'inherit',
+          color: 'inherit'
+        }}
+      >
+        {getIcon(prompt.accessibility)}
+        {prompt.label}
+        {isActiveList.includes(prompt.id) && (<Spinner />)}
+        {isComplete(prompt) && (<TiTick color='green'/>)}
+      </Button>
+    );
+  };
 
   return (
     <div className="prompt-actions-container">
@@ -88,17 +133,7 @@ const PromptActions = () => {
         ))}
       </div> */}
       <div className="prompt-actions">
-        {prompts.filter(prompt => selectedCategories[prompt.category]).map(prompt => (
-          <span
-            key={prompt.id}
-            className={`prompt-badge ${prompt.accessibility}`}
-            onClick={() => dispatch(onQuerySelectThunk({id: prompt.id, domain: prompt?.domain}))}
-            title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
-          >
-            {getIcon(prompt.accessibility)}
-            {prompt.label}
-          </span>
-        ))}
+        {prompts.filter(prompt => selectedCategories[prompt.category]).map(prompt => renderPromptBadge(prompt))}
       </div>
     </div>
   );

@@ -4,11 +4,9 @@ import ResumeAi from "./components/ResumeAi";
 import Landing from "./components/Landing";
 import ResumeManagerContainer from "./components/ResumeManager/ResumeManagerContainer";
 import Home from "./components/Home/Home";
-import JDUpload from "./components/JD/JDUpload";
 import ResumesUploadHOC from "./components/ResumesUploadHOC"
 import JDuploadHoc from "./components/JDUploadHoc"
-import JDResumeSimilarityWidget from "./components/Widget/JdResumeSimilarityWidget";
-import PromptActions from "./components/match-list/PromptActions";
+import QueryBoard from "./components/QueryBoard/QueryBoard";
 
 const route = createBrowserRouter([
     {
@@ -41,10 +39,7 @@ const route = createBrowserRouter([
             },
             {
                 path: 'queries',
-                element: <>
-                    <JDResumeSimilarityWidget/>
-                    <PromptActions/>
-                </>
+                element: <QueryBoard />
                
             }
         ]

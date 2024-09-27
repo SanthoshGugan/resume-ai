@@ -58,7 +58,7 @@
   
   .prompt-badge:hover {
     background-color: #dcdcdc; /* Gainsboro background on hover */
-    font-weight: bold;
+    /* font-weight: bold;  */
   }
   
   .prompt-badge.premium:hover {

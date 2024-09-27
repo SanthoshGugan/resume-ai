@@ -8,6 +8,7 @@ const similarityQueryResultByResumeId = state => state.queryResults.byQueryId[QU
 const labelQueryResultByResumeId = state => state.queryResults.byQueryId[QUERIES.LABEL];
 const companiesQueryResultByResumeId = state => state.queryResults.byQueryId[QUERIES.COMPANIES];
 const domainsQueryEnabledSelector = state => state.queryResults?.domainsQueryEnabled || [];
+const remainingQueriesSelector = state => state.queryResults?.remainingQueries || [];
 
 // Memoized selector to get query results by a list of query IDs
 const selectQueryResultsByIds = createSelector(
@@ -46,7 +47,6 @@ const selectLabelsByResumeId = createSelector(
 const selectSkillPercentByResumeId = createSelector(
   [labelQueryResultByResumeId, (state, resumeId) => resumeId],
   (labelResult, resumeId) => {
-    // console.log(`in selector skill_result:::: ${JSON.stringify(labelResult?.skill_result?.resume_id)}, ${resumeId}`);
     if (!labelResult) return {};
     const { skill_result } = labelResult;
     const [ skill_percent_resume ] = skill_result.filter(skill => skill.resume_id === resumeId) || [];
@@ -66,4 +66,13 @@ const selectCompaniesByResumeId = createSelector(
   }
 );
 
-export { selectQueryResultsByIds, selectSimilarityByResumeId, selectLabelsByResumeId, selectSkillPercentByResumeId, selectCompaniesByResumeId, domainsQueryEnabledSelector };
+export { 
+  selectQueryResultsById,
+  selectQueryResultsByIds,
+  selectSimilarityByResumeId,
+  selectLabelsByResumeId,
+  selectSkillPercentByResumeId,
+  selectCompaniesByResumeId,
+  domainsQueryEnabledSelector,
+  remainingQueriesSelector
+};
