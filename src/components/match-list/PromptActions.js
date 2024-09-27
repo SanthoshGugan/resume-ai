@@ -12,7 +12,11 @@ const prompts = [
   { id: "label", label: "Add Labels to Candidates", category: 'Skills Match', accessibility: 'signup' },
   // { id: 3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
   { id: "companies", label: "Show resumes of candidates who have worked at top tech companies like Google, Amazon, or Facebook", category: 'Experience and Companies', accessibility: 'premium' },
-  // { id: 5, label: "Find candidates located in Chennai or willing to relocate there", category: 'Location-Based Filtering', accessibility: 'guest' },
+  { id: "label", label: "Show Front End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
+  { id: "label", label: "Show Back End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
+  { id: "label", label: "Show Database Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "database" },
+  { id: "label", label: "Show Cloud Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "cloud" },
+  { id: "label", label: "Show Dev Ops Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "devops" },
   // { id: 6, label: "List candidates within a 50-mile radius of the job location", category: 'Location-Based Filtering', accessibility: 'signup' },
   // { id: 7, label: "Show resumes with degrees from top-tier universities", category: 'Educational Background', accessibility: 'early-access' },
   // { id: 8, label: "Filter candidates with a Master's degree in Computer Science", category: 'Educational Background', accessibility: 'premium' },
@@ -88,7 +92,7 @@ const PromptActions = () => {
           <span
             key={prompt.id}
             className={`prompt-badge ${prompt.accessibility}`}
-            onClick={() => dispatch(onQuerySelectThunk(prompt.id))}
+            onClick={() => dispatch(onQuerySelectThunk({id: prompt.id, domain: prompt?.domain}))}
             title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
           >
             {getIcon(prompt.accessibility)}

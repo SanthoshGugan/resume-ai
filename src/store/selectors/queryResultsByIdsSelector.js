@@ -7,6 +7,7 @@ const selectQueryResultsById = state => state.queryResults.byQueryId;
 const similarityQueryResultByResumeId = state => state.queryResults.byQueryId[QUERIES.SIMILARITY]?.result;
 const labelQueryResultByResumeId = state => state.queryResults.byQueryId[QUERIES.LABEL];
 const companiesQueryResultByResumeId = state => state.queryResults.byQueryId[QUERIES.COMPANIES];
+const domainsQueryEnabledSelector = state => state.queryResults?.domainsQueryEnabled || [];
 
 // Memoized selector to get query results by a list of query IDs
 const selectQueryResultsByIds = createSelector(
@@ -65,4 +66,4 @@ const selectCompaniesByResumeId = createSelector(
   }
 );
 
-export { selectQueryResultsByIds, selectSimilarityByResumeId, selectLabelsByResumeId, selectSkillPercentByResumeId, selectCompaniesByResumeId };
+export { selectQueryResultsByIds, selectSimilarityByResumeId, selectLabelsByResumeId, selectSkillPercentByResumeId, selectCompaniesByResumeId, domainsQueryEnabledSelector };
