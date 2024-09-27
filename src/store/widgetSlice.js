@@ -6,7 +6,8 @@ const initialState = {
   flags: {
     showSkillPercents: false,
     showLabelBadge: false,
-    showSimilarity: false
+    showSimilarity: false,
+    showCompanies: false
   }
 };
 
@@ -34,6 +35,8 @@ const widgetSlice = createSlice({
           state.flags.showSkillPercents = true;
           state.flags.showLabelBadge = true;
           break;
+        case "companies":
+          state.flags.showCompanies = true;
         default: 
           break;
       }

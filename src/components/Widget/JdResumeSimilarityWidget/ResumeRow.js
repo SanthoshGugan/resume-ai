@@ -4,7 +4,7 @@ import ResumeCardSummary from './ResumeCardSummary';
 import SkillsList from './SkillList';
 import { useSelector } from 'react-redux';
 import SkillPercentCell from './SkillPercentCell';
-import { selectLabelsByResumeId, selectSimilarityByResumeId, selectSkillPercentByResumeId } from '../../../store/selectors/queryResultsByIdsSelector';
+import { selectLabelsByResumeId, selectSimilarityByResumeId, selectSkillPercentByResumeId, selectCompaniesByResumeId } from '../../../store/selectors/queryResultsByIdsSelector';
 
 const domainColors = {
     fullstack: 'primary',
@@ -23,12 +23,14 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
     const {
         showSkillPercents,
         showLabelBadge,
-        showSimilarity
+        showSimilarity,
+        showCompanies
     } = useSelector(state => state.widgets.flags)
     const { metadata = {}, id } = resume || {};
     const match = useSelector(state => selectSimilarityByResumeId(state, id))
     const labels = useSelector(state => selectLabelsByResumeId(state, id));
     const skillPercent = useSelector(state => selectSkillPercentByResumeId(state, id));
+    const companies = useSelector(state => selectCompaniesByResumeId(state, id));
     console.log(`skillPercent ::: ${JSON.stringify(skillPercent)}`, skillPercent);
     // console.log(`match    ${match}`);
 
@@ -45,6 +47,9 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                 </td>)}
                 {showSkillPercents &&(<td>
                     <SkillPercentCell value={skillPercent["back_end"] || 0} />
+                </td>)}
+                {showCompanies &&(<td>
+                    {companies.map(company => <Badge bg="primary">{company}</Badge>)}
                 </td>)}
             </tr>
             {(isOpen) && (
