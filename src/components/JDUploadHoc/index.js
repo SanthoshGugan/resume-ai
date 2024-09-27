@@ -9,6 +9,8 @@ import Avatar from "../Avatar";
 import { isJdUpdateSkillVisible, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
 import { setIsJDAdded, setIsJDUploaded } from "../../store/jobDescriptionSlice";
 import { useNavigate } from 'react-router-dom';
+import { JD_UPLOAD_STATUS } from "../../utils/constants";
+import ScreenProgress from "../ScreenProgress";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
@@ -20,6 +22,8 @@ const JDUploadHoc = ({}) => {
     const skills = useSelector(state => selectSkillsFromAllCategory(state, ""));
 
     const updateFlag = useSelector(state => isJdUpdateSkillVisible(state, ""));
+    const jdUploadStatus = useSelector((state) => state.jobDescription.jdUploadStatus);
+    const progressMessages = ["Uploading..."];
 
     const onAddFiles = (files) => {
         console.log(`onAddFiles files: ${files}`);
@@ -87,8 +91,8 @@ const JDUploadHoc = ({}) => {
                 <SkillSelector />
                 
                 <Container  className="d-flex flex-wrap">
-                    {skills.map(item => 
-                    <SkillBadge
+                    {skills.map((item, idx) => 
+                    <SkillBadge key={idx}
                         category={<Avatar initials={item?.categoryName.substring(0,2)} />}
                         tooltipText={item?.categoryName}
                         label={item?.skill }
@@ -98,6 +102,14 @@ const JDUploadHoc = ({}) => {
                 <Button onClick={() => dispatch(updateJdThunk())}>Update Skill</Button>
                 <Button onClick={skipNext}>Skip</Button>
             </Container>)}
+             {/* Conditionally render status overlay based on jdUploadStatus */}
+             {jdUploadStatus === JD_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS && (
+                <ScreenProgress
+                    sourceStatus={jdUploadStatus}
+                    targetStatus={JD_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS}
+                    progressMessages={progressMessages}
+                />
+            )}
         </Container>
     );
 };

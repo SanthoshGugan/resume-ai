@@ -1,8 +1,9 @@
 import { dispatch } from "d3";
 import { fetchJdSkillsApi, fetchJDSummaryApi, updateJDApi } from "../../api/jdApi";
-import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey, setIsJDUploaded } from "../jobDescriptionSlice";
+import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey, setJDUploadStatus } from "../jobDescriptionSlice";
 import { uploadFile } from "../../api/s3FileUploadApi";
 import { updateStatusForStep } from "../timelineSlice";
+import { JD_UPLOAD_STATUS } from "../../utils/constants";
 
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
@@ -33,6 +34,8 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
             setTimeout(() => {
                 fetchJDThunk(interval);
             }, interval)
+        } else {
+            dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
         }
 
 
@@ -68,10 +71,9 @@ export const updateJdThunk = () => async (dispatch, getState) => {
 
 // jd upload thunk
 export const uploadJDThunk = ({ file, Bucket}) => async (dispatch, getState) => {
+    dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
     const { Key } = await uploadFile({ file, Bucket});
     console.log(`on jdthunk ::; ${Key} ${Bucket}`);
     dispatch(addKey({s3_key: Key, s3_bucket: Bucket}));
     dispatch(fetchJDThunk());
-    dispatch(setIsJDUploaded(true));
-
 }
