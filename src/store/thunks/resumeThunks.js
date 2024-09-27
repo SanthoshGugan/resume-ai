@@ -1,9 +1,10 @@
-import { fetchResumesApi } from "../../api/resumeApi";
-import { addFetchInProgress, addResume, removeFetchInProgress } from "../resumeSlice";
+import { fetchResumesApi, fetchResumeSummaryApi } from "../../api/resumeApi";
+import { addFetchInProgress, addResume, removeFetchInProgress, setIds } from "../resumeSlice";
 import { uploadFile, uploadFiles } from "../../api/s3FileUploadApi";
 import { initializeResumeUploadApi } from "../../api/resumeApi";
-import { setIsJDUploaded } from "../jobDescriptionSlice";
+import { setResumeUploadStatus } from "../resumeSlice";
 import { updateStatusForStep } from "../timelineSlice";
+import { RESUME_UPLOAD_STATUS } from "../../utils/constants";
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
     // console.log(`keys ::: ${JSON.stringify(keys)}`);
@@ -27,6 +28,34 @@ export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispat
     }
 };
 
+export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async (dispatch, getState) => {
+    // console.log(`keys ::: ${JSON.stringify(keys)}`);
+    try {
+       const res = await fetchResumeSummaryApi({
+        resumeIds: ids
+       });
+       const resumes = res?.data || [];
+       const remainingResumesIds = [];
+       for(const resume of resumes){
+            dispatch(addResume({resume}));
+            if(resume.status != "EMBEDDING_UPDATED"){
+                remainingResumesIds.push(resume.id);
+            }
+       }
+       if(remainingResumesIds.length > 0){
+            setTimeout(() => {
+                updateResumesThunk(remainingResumesIds, interval, navigate);
+            }, interval)
+       }
+       else {
+         dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_COMPLETED));
+         navigate('/home/queries');
+       }       
+    } catch (err) {
+        console.error('error while resume fetching :::: ', err);   
+    }
+};
+
 export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispatch, getState) => {
     const resume_keys = [];
     for(const file of files) {
@@ -40,10 +69,11 @@ export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispa
 
     const response = await initializeResumeUploadApi({ jd_key:`${s3_key}_${s3_bucket}`, resume_keys });
     // const { id } = response?.data;
+    dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS));
     const { Key } = await uploadFiles({ files, Bucket});
-    dispatch(setIsJDUploaded(true));
-    navigate('/home/queries')
     dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
+    dispatch(updateResumesThunk(resume_keys, 5000, navigate));
+    console.log(resume_keys);
 }
 
 // export const uploadResumeThunk = ({ file, Bucket }) => async (dis)

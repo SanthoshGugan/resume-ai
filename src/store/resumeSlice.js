@@ -1,5 +1,7 @@
 // store/resumeSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { RESUME_UPLOAD_STATUS } from '../utils/constants';
+
 
 const initialState = {
   byId: {},                 // Each resume data keyed by resumeId
@@ -14,8 +16,8 @@ const initialState = {
   fetchInProgress: [],
   status: 'idle',           // 'idle' | 'uploading' | 'processing'
   error: null,              // Error related to resumes
-  isResumeUploaded: false,
-  isResumeAdded: false
+  isResumeAdded: false,
+  resumeUploadStatus: ''
 };
 
 // Async thunk for uploading a resume
@@ -45,7 +47,14 @@ const resumeSlice = createSlice({
     addResume: (state, action) => {
       const { resume } = action.payload;
       const { metadata = "{}"} = resume;
-      const metadatjson = JSON.parse(metadata);
+      console.log(metadata);
+      let metadatjson;
+      try {
+        metadatjson = metadata ? JSON.parse(metadata) : {};
+      } catch (error) {
+        console.log(error);
+        metadatjson = {}
+      }
       state.byId[resume.id] = { ...resume, uploadStatus: 'idle', processStatus: 'idle', matchStatus: 'idle', metadata: metadatjson };
       state.allIds.push(resume.id);
     },
@@ -73,8 +82,11 @@ const resumeSlice = createSlice({
     setIsResumeAdded: (state, action) => {
       state.isResumeAdded = action.payload
     },
-    setIsResumeUploaded: (state, action) => {
-      state.isResumeUploaded = action.payload;
+    setIds: (state, action) => {
+      state.allIds = action.payload;
+    },
+    setResumeUploadStatus: (state, action) => {
+      state.resumeUploadStatus = action.payload;
     }
 
   },
@@ -101,5 +113,5 @@ const resumeSlice = createSlice({
   }
 });
 
-export const { addResume, updateResumeStatus, removeResume, addFetchInProgress, removeFetchInProgress, setIsResumeAdded, setIsResumeUploaded  } = resumeSlice.actions;
+export const { addResume, updateResumeStatus, removeResume, addFetchInProgress, removeFetchInProgress, setIsResumeAdded, setIds, setResumeUploadStatus } = resumeSlice.actions;
 export default resumeSlice.reducer;

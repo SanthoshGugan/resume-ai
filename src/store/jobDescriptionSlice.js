@@ -9,8 +9,8 @@ const initialState = {
     newSkills: []
   },
   isSkillUpdated: false,
-  isJDUploaded: false,
-  isJDAdded: false
+  isJDAdded: false,
+  jdUploadStatus: ''
 };
 
 const jobDescriptionSlice = createSlice({
@@ -51,11 +51,11 @@ const jobDescriptionSlice = createSlice({
       state.isSkillUpdated = action.payload;
       state.skills.newSkills = [];
     },
-    setIsJDUploaded: (state, action) => {
-      state.isJDUploaded = action.payload;
-    },
     setIsJDAdded: (state, action) => {
       state.isJDAdded = action.payload
+    },
+    setJDUploadStatus: (state, action) => {
+      state.jdUploadStatus = action.payload;
     }
   },
 });
@@ -67,8 +67,8 @@ export const {
   addSkill,
   updatedJD,
   setIsSkillUpdated,
-  setIsJDUploaded,
-  setIsJDAdded  
+  setIsJDAdded,
+  setJDUploadStatus  
 } = jobDescriptionSlice.actions;
 
 export default jobDescriptionSlice.reducer;
