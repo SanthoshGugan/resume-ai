@@ -2,6 +2,7 @@ import { fetchResumesApi } from "../../api/resumeApi";
 import { addFetchInProgress, addResume, removeFetchInProgress } from "../resumeSlice";
 import { uploadFile, uploadFiles } from "../../api/s3FileUploadApi";
 import { initializeResumeUploadApi } from "../../api/resumeApi";
+import { setIsJDUploaded } from "../jobDescriptionSlice";
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
     // console.log(`keys ::: ${JSON.stringify(keys)}`);
@@ -25,7 +26,7 @@ export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispat
     }
 };
 
-export const initUploadResumeThunk = ({files, Bucket}) => async (dispatch, getState) => {
+export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispatch, getState) => {
     const resume_keys = [];
     for(const file of files) {
         const resume_name = file.name;
@@ -39,6 +40,8 @@ export const initUploadResumeThunk = ({files, Bucket}) => async (dispatch, getSt
     const response = await initializeResumeUploadApi({ jd_key:`${s3_key}_${s3_bucket}`, resume_keys });
     // const { id } = response?.data;
     const { Key } = await uploadFiles({ files, Bucket});
+    dispatch(setIsJDUploaded(true));
+    navigate('/home/queries')
 }
 
 // export const uploadResumeThunk = ({ file, Bucket }) => async (dis)

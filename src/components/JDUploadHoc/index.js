@@ -7,12 +7,15 @@ import SkillSelector from "../JD/SkillSelector";
 import SkillBadge from "../JD/SkillBadge";
 import Avatar from "../Avatar";
 import { isJdUpdateSkillVisible, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
+import { setIsJDAdded, setIsJDUploaded } from "../../store/jobDescriptionSlice";
+import { useNavigate } from 'react-router-dom';
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
 const JDUploadHoc = ({}) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const dispatch = useDispatch();
+    const navigate = useNavigate(); 
 
     const skills = useSelector(state => selectSkillsFromAllCategory(state, ""));
 
@@ -21,6 +24,7 @@ const JDUploadHoc = ({}) => {
     const onAddFiles = (files) => {
         console.log(`onAddFiles files: ${files}`);
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
+        dispatch(setIsJDAdded(true))
     };
 
     const onRemoveFiles = (files) => {
@@ -45,6 +49,10 @@ const JDUploadHoc = ({}) => {
         dispatch(uploadJDThunk({file, Bucket: BUCKET_NAME}));
 
     };
+
+    const skipNext = async (event) => {
+        navigate('/home/resume-upload')
+    }
 
     useEffect(() => {
         dispatch(fetchGlobalSkills());
@@ -88,6 +96,7 @@ const JDUploadHoc = ({}) => {
                     />)}
                 </Container>
                 <Button onClick={() => dispatch(updateJdThunk())}>Update Skill</Button>
+                <Button onClick={skipNext}>Skip</Button>
             </Container>)}
         </Container>
     );
