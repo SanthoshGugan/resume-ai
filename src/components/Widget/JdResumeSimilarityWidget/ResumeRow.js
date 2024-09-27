@@ -49,6 +49,9 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                 {enabledDomainQueries.includes("back_end") && (
                     <td><SkillPercentCell value={skillPercent["back_end"] || 0} /></td>
                 )}
+                {/* {enabledDomainQueries.includes("database") && (
+                    <td><SkillPercentCell value={skillPercent["database"] || 0} /></td>
+                )} */}
                 {enabledDomainQueries.includes("cloud") && (
                     <td><SkillPercentCell value={skillPercent["cloud"] || 0} /></td>
                 )}
