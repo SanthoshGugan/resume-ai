@@ -6,10 +6,9 @@ import { isJDOnQuickSelect } from "../../store/selectors/jdSelector";
 import QuickAction from "./QuickAction";
 import VerticalTimeline from "../Timeline/VerticalTimeline";
 const steps = [
-    { title: 'Submit JD', avatar: 'JD', status: 'completed', url: '/submit-jd' },
-    { title: 'Submit Resumes', avatar: 'R', status: 'active', url: '/submit-resumes' },
-    { title: 'View Matches', avatar: 'M', status: 'disabled', url: '/view-matches' },
-    { title: 'Apply Filters', avatar: 'F', status: 'disabled', url: '/apply-filters' },
+    { title: 'Submit JD', avatar: 'JD', status: 'completed', url: '/home/jd-upload' },
+    { title: 'Submit Resumes', avatar: 'R', status: 'completed', url: '/home/resume-upload' },
+    { title: 'View Matches', avatar: 'M', status: 'disabled', url: '/home/queries' },
   ];
 
 const Actions = () => {
