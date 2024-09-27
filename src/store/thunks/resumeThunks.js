@@ -3,6 +3,7 @@ import { addFetchInProgress, addResume, removeFetchInProgress } from "../resumeS
 import { uploadFile, uploadFiles } from "../../api/s3FileUploadApi";
 import { initializeResumeUploadApi } from "../../api/resumeApi";
 import { setIsJDUploaded } from "../jobDescriptionSlice";
+import { updateStatusForStep } from "../timelineSlice";
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
     // console.log(`keys ::: ${JSON.stringify(keys)}`);
@@ -42,6 +43,7 @@ export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispa
     const { Key } = await uploadFiles({ files, Bucket});
     dispatch(setIsJDUploaded(true));
     navigate('/home/queries')
+    dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
 }
 
 // export const uploadResumeThunk = ({ file, Bucket }) => async (dis)
