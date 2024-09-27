@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import FileUploader from "../FileUploader";
 import { initUploadResumeThunk } from "../../store/thunks/resumeThunks";
 import { useDispatch, useSelector } from "react-redux";
+import { setIsResumeAdded } from "../../store/resumeSlice";
+import { useNavigate } from 'react-router-dom';
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
@@ -9,10 +11,12 @@ const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const dispatch = useDispatch();
+    const navigate = useNavigate(); 
 
     const onAddFiles = (files) => {
         console.log(`onAddFiles files: ${files}`);
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
+        dispatch(setIsResumeAdded(true));
     };
 
     const onRemoveFiles = (files) => {
@@ -30,7 +34,7 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
         console.log(uploadedFiles);
         // const file = uploadedFiles;
         if (!uploadedFiles) return;
-        dispatch(initUploadResumeThunk({ files: uploadedFiles, Bucket: BUCKET_NAME }));
+        dispatch(initUploadResumeThunk({ files: uploadedFiles, Bucket: BUCKET_NAME, navigate }));
         // const resume_name = file.name;
         // const resume_key = `${resume_name}_${BUCKET_NAME}`;
         // const id = await initializeResumeUpload({ jd_key, resume_key })

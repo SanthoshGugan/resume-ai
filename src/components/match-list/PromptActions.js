@@ -11,7 +11,7 @@ const prompts = [
   { id: "jd_resume_similarity", label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
   { id: "label", label: "Add Labels to Candidates", category: 'Skills Match', accessibility: 'signup' },
   // { id: 3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
-  // { id: 4, label: "Show resumes of candidates who have worked at top tech companies like Google, Amazon, or Facebook", category: 'Experience and Companies', accessibility: 'premium' },
+  { id: "companies", label: "Show resumes of candidates who have worked at top tech companies like Google, Amazon, or Facebook", category: 'Experience and Companies', accessibility: 'premium' },
   // { id: 5, label: "Find candidates located in Chennai or willing to relocate there", category: 'Location-Based Filtering', accessibility: 'guest' },
   // { id: 6, label: "List candidates within a 50-mile radius of the job location", category: 'Location-Based Filtering', accessibility: 'signup' },
   // { id: 7, label: "Show resumes with degrees from top-tier universities", category: 'Educational Background', accessibility: 'early-access' },

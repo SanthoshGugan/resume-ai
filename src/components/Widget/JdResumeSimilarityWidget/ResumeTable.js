@@ -7,7 +7,8 @@ const ResumeTable = ({ resumes, rows = [] }) => {
   const [openIndex, setOpenIndex] = useState(null);
   const {
     showSkillPercents,
-    showSimilarity
+    showSimilarity,
+    showCompanies
   } = useSelector(state => state.widgets.flags);
   const toggleRow = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -21,6 +22,7 @@ const ResumeTable = ({ resumes, rows = [] }) => {
           {showSimilarity && (<th>Candidate Name</th>)}
           {showSkillPercents && (<th>Front End</th>)}
           {showSkillPercents && (<th>Back End</th>)}
+          {showCompanies  && (<th>Companies</th>)}
         </tr>
       </thead>
       <tbody>
