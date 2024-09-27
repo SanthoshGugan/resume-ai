@@ -2,16 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BsCheckCircle } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
+import { isCurrentStepActive } from '../../store/selectors/timelineSelector';
 
-const StepAction = ({ step, index, activeStep, onClick }) => {
-  const { title, avatar, status, url } = step;
+const StepAction = ({ step, index, onClick }) => {
+  const { title, avatar, status, url, id } = step;
+  const isActive = useSelector(state => isCurrentStepActive(state, id));
 
-  const backgroundColor =
-    status === 'active'
-      ? '#FFA500' // Orange for active
-      : status === 'completed'
-      ? '#28a745' // Green for completed
-      : '#6c757d'; // Grey for disabled
+  const backgroundColor = 
+  status === 'active'
+    ? '#FFA500' // Orange for active
+    : status === 'completed'
+    ? '#28a745' // Green for completed
+    : status === 'enabled' 
+    ? '#007bff' // Blue for enabled
+    : '#6c757d'; // Grey for disabled
 
   const stepStyle = {
     width: '50px',
@@ -41,6 +46,10 @@ const StepAction = ({ step, index, activeStep, onClick }) => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    ...(isActive && {
+      backgroundColor: '#ffc107', // Change background color if active
+      transform: 'scale(1.2)', // Slightly enlarge if active
+    })
   };
 
   const overlayStyle = {

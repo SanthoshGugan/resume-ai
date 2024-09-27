@@ -2,6 +2,7 @@ import { dispatch } from "d3";
 import { fetchJdSkillsApi, fetchJDSummaryApi, updateJDApi } from "../../api/jdApi";
 import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey } from "../jobDescriptionSlice";
 import { uploadFile } from "../../api/s3FileUploadApi";
+import { updateStatusForStep } from "../timelineSlice";
 
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
@@ -59,6 +60,7 @@ export const updateJdThunk = () => async (dispatch, getState) => {
     try {
         const res = await updateJDApi({ jd : {dimensions, status, id, summary}, newSkills });
         dispatch(setIsSkillUpdated(true));
+        dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));
     } catch(err) {
         console.error(`error while updating jd`, err);
     }

@@ -1,8 +1,11 @@
 import React from 'react';
 import StepAction from './StepAction';
+import { useSelector } from 'react-redux';
+import { selectSteps } from '../../store/selectors/timelineSelector';
 
-const VerticalTimeline = ({ steps, activeStep }) => {
+const VerticalTimeline = ({ activeStep }) => {
   // Reverse the steps array to render from bottom to top
+  const steps = useSelector(state => selectSteps(state));
   const reversedSteps = [...steps].reverse();
 
   return (

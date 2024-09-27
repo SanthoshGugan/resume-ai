@@ -5,6 +5,7 @@ import queryReducer from './querySlice';
 import widgetReducer from './widgetSlice';
 import userReducer from './userSlice';
 import queryResultsReducer from './queryResultsSlice';
+import timelineReducer from './timelineSlice';
 
 // Define some global states outside of the slices
 const globalInitialState = {
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   widgets: widgetReducer,
   user: userReducer,
   queryResults: queryResultsReducer,
+  timeline: timelineReducer
 });
 
 // Configure the store
