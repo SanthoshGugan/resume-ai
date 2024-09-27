@@ -8,6 +8,7 @@ import JDUpload from "./components/JD/JDUpload";
 import ResumesUploadHOC from "./components/ResumesUploadHOC"
 import JDuploadHoc from "./components/JDUploadHoc"
 import JDResumeSimilarityWidget from "./components/Widget/JdResumeSimilarityWidget";
+import PromptActions from "./components/match-list/PromptActions";
 
 const route = createBrowserRouter([
     {
@@ -40,7 +41,11 @@ const route = createBrowserRouter([
             },
             {
                 path: 'queries',
-                element: <JDResumeSimilarityWidget />
+                element: <>
+                    <JDResumeSimilarityWidget/>
+                    <PromptActions/>
+                </>
+               
             }
         ]
     }

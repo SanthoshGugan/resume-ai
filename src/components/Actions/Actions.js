@@ -20,12 +20,12 @@ const Actions = () => {
                 <VerticalTimeline steps={steps} activeStep={2} />
 
                 {/* <QueryBadge to="/chatresume" query="Chat" /> */}
-                <QuickAction showTick={isJDOnQuickActionEnabled} isVisible={isJDOnQuickActionEnabled} avatarLabel="Jd" description="View Job Description Summary" to="/home/jd-upload" />
+                {/* <QuickAction showTick={isJDOnQuickActionEnabled} isVisible={isJDOnQuickActionEnabled} avatarLabel="Jd" description="View Job Description Summary" to="/home/jd-upload" /> */}
                 {/* <QuickAction showTick={isJDOnQuickActionEnabled} isVisible={isJDOnQuickActionEnabled} avatarLabel="Rs" description="View Job Description Summary" to="/home/resume-upload" /> */}
                  
             </Col>
             <Col md={8}>
-                <Row className="d-flex justify-content-center p-4">
+                {/* <Row className="d-flex justify-content-center p-4">
                     <Col md={10}>
                         {!isJDOnQuickActionEnabled && (<QueryBadge to="/home/jd-upload" query="Upload JD" />)}
                         <QueryBadge to="/home/resume-upload" query="Upload Resumes" />
@@ -33,7 +33,7 @@ const Actions = () => {
                         <PromptActions />
                     </Col>
 
-                </Row>
+                </Row> */}
             </Col>
         </Row>
     </Container>);
