@@ -4,6 +4,12 @@ import PromptActions from "../match-list/PromptActions";
 import { useSelector } from "react-redux";
 import { isJDOnQuickSelect } from "../../store/selectors/jdSelector";
 import QuickAction from "./QuickAction";
+import VerticalTimeline from "../Timeline/VerticalTimeline";
+const steps = [
+    { title: 'Submit JD', avatar: 'JD', status: 'completed', url: '/home/jd-upload' },
+    { title: 'Submit Resumes', avatar: 'R', status: 'completed', url: '/home/resume-upload' },
+    { title: 'View Matches', avatar: 'M', status: 'disabled', url: '/home/queries' },
+  ];
 
 const Actions = () => {
     const isJDOnQuickActionEnabled = useSelector(state => isJDOnQuickSelect(state));
@@ -11,6 +17,7 @@ const Actions = () => {
     return (<Container>
         <Row>
             <Col md={4}>
+                <VerticalTimeline steps={steps} activeStep={2} />
 
                 {/* <QueryBadge to="/chatresume" query="Chat" /> */}
                 <QuickAction showTick={isJDOnQuickActionEnabled} isVisible={isJDOnQuickActionEnabled} avatarLabel="Jd" description="View Job Description Summary" to="/home/jd-upload" />
