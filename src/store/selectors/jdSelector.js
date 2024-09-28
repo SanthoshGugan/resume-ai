@@ -10,6 +10,10 @@ const selectJdUploadStatus = state => state.jobDescription.jdUploadStatus;
 
 const selectJdUpdateSkillStatus = state => state.jobDescription.jdUpdateSkillStatus;
 
+const selectJDInitialDimensions = state => state?.jobDescription?.initialDimensions;
+
+const selectJdDimensions = state => state?.jobDescription?.jd?.dimensions || {};
+
 const selectJdKey = createSelector(
     [
         selectJdKeyObj
@@ -50,7 +54,19 @@ const isJDUpdateSkillInProgressSelector = createSelector(
         if ([JD_UPDATE_SKILL_STATUS.COMPLETED, JD_UPDATE_SKILL_STATUS.IDLE].includes(jdUpdateSkillStatus)) return false;
         return true;
     }
-)
+);
+
+const isDimensionsChanged = createSelector(
+    [
+        selectJDInitialDimensions,
+        selectJdDimensions
+    ],
+    (initialDimensions, dimensions) => {
+        const iDS = JSON.stringify(initialDimensions);
+        const dS = JSON.stringify(dimensions);
+        return iDS !== dS;
+    }
+);
 
 
 
@@ -58,5 +74,6 @@ export {
     selectJdKey,
     isJDOnQuickSelect,
     isJDUploadInProgress,
-    isJDUpdateSkillInProgressSelector
+    isJDUpdateSkillInProgressSelector,
+    isDimensionsChanged
 };

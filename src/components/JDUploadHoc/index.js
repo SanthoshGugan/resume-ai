@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
-import FileUploader from "../FileUploader";
 import { fetchGlobalSkills, skipSkillUpdateThunk, updateJdThunk, uploadJDThunk } from "../../store/thunks/jdThunks";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import SkillSelector from "../JD/SkillSelector";
-import SkillBadge from "../JD/SkillBadge";
-import Avatar from "../Avatar";
-import { isJdUpdateSkillVisible, selectJdSkillUpdateStatus, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
-import { setIsJDAdded, setIsJDUploaded } from "../../store/jobDescriptionSlice";
+import { isJdUpdateSkillVisible, selectJdSkillUpdateStatus } from "../../store/selectors/jdSkillSelector";
+import { setIsJDAdded } from "../../store/jobDescriptionSlice";
 import { useNavigate } from 'react-router-dom';
-import { JD_UPLOAD_STATUS } from "../../utils/constants";
-import ScreenProgress from "../ScreenProgress";
 import JDFileUploader from "../JDFileUpload";
 import { FaCheckCircle } from "react-icons/fa";
-import { isJDUpdateSkillInProgressSelector, isJDUploadInProgress, selectJdUpdateSkillStatus } from "../../store/selectors/jdSelector";
+import { isDimensionsChanged, isJDUpdateSkillInProgressSelector, isJDUploadInProgress } from "../../store/selectors/jdSelector";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
@@ -44,6 +39,7 @@ const JDUploadHoc = ({ }) => {
     const jdSkillUpdateStatus = useSelector(state => selectJdSkillUpdateStatus(state));
     const jdUploadInProgressFlag = useSelector(state => isJDUploadInProgress(state));
     const isJdUpdateSkillInProgress = useSelector(state => isJDUpdateSkillInProgressSelector(state));
+    const dimensionsChanged = useSelector(state => isDimensionsChanged(state));
 
     const onAddFiles = (files) => {
         console.log(`onAddFiles files: ${files}`);
@@ -140,7 +136,7 @@ const JDUploadHoc = ({ }) => {
                         <Button 
                             variant="primary"
                             onClick={() => dispatch(updateJdThunk())}
-                            disabled={isJdUpdateSkillInProgress}
+                            disabled={isJdUpdateSkillInProgress || !dimensionsChanged}
                         >
                             Update Skill
                             {isJdUpdateSkillInProgress && <Spinner size="2"/>}
@@ -148,9 +144,11 @@ const JDUploadHoc = ({ }) => {
                         <Button
                             variant="success"
                             onClick={skipNext}
-                            disabled={isJdUpdateSkillInProgress}
+                            disabled={isJdUpdateSkillInProgress || dimensionsChanged}
                         >
                             Continue
+                            {isJdUpdateSkillInProgress && <Spinner size="1"/>}
+
                         </Button>
                     </Col>
                 </Row>

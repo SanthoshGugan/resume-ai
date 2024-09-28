@@ -7,12 +7,12 @@ import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants"
 
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
-    const { jobDescription} = getState();
+    const { jobDescription } = getState();
     // console.log(`JD ::: ${JSON.stringify(jobDescription)}`);
-    const { key } = jobDescription;
+    const { key, jdUpdateSkillStatus } = jobDescription;
     try {
-        const { s3_key, s3_bucket} = key;
-        if(!s3_key || !s3_bucket) {
+        const { s3_key, s3_bucket } = key;
+        if (!s3_key || !s3_bucket) {
             // console.log(`key : ${s3_bucket} ${s3_bucket}`);
             return;
         }
@@ -36,54 +36,59 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
                 id
             }))
             dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED));
+            console.log(`jd update skill status : ${jdUpdateSkillStatus} ==== ${JD_UPDATE_SKILL_STATUS.IN_PROGRESS}`)
+            if (jdUpdateSkillStatus === JD_UPDATE_SKILL_STATUS.IN_PROGRESS){
+                dispatch(setIsSkillUpdated(true));
+                dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));
+                dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.COMPLETED));
+            } 
         }
 
 
-    } catch(err) {
+    } catch (err) {
         console.error(`Error while fetching JD ::::`, err);
     }
 };
 
 export const fetchGlobalSkills = () => async (dispatch, getState) => {
-    const { jobDescription: {skills: { byCategory }}} = getState();
+    const { jobDescription: { skills: { byCategory } } } = getState();
     // console.log(`bycateogry ::::: `, Object.keys(byCategory).length);
     // if (Object.keys(byCategory).length) return;
     try {
         const res = await fetchJdSkillsApi();
         dispatch(initSkill(res?.data?.skills));
-    } catch(err) {
+    } catch (err) {
         console.error(`error while fetching global skills : `, err);
         return [];
     }
 };
 
 export const updateJdThunk = () => async (dispatch, getState) => {
-    const { jobDescription: {jd, skills: { newSkills = [] }} } = getState();
+    const { jobDescription: { jd, skills: { newSkills = [] } } } = getState();
     const { dimensions, status, id, summary } = jd;
     try {
         dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.IN_PROGRESS));
-        const res = await updateJDApi({ jd : {dimensions, status, id, summary}, newSkills });
-        dispatch(setIsSkillUpdated(true));
-        dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));
-        dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.COMPLETED));
-    } catch(err) {
+        const res = await updateJDApi({ jd: { dimensions, status, id, summary }, newSkills });
+        dispatch(fetchJDThunk());
+
+    } catch (err) {
         console.error(`error while updating jd`, err);
         dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.FAILED));
     }
 };
 
 // jd upload thunk
-export const uploadJDThunk = ({ file, Bucket}) => async (dispatch, getState) => {
+export const uploadJDThunk = ({ file, Bucket }) => async (dispatch, getState) => {
     dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
-    const { Key } = await uploadFile({ file, Bucket});
+    const { Key } = await uploadFile({ file, Bucket });
     console.log(`on jdthunk ::; ${Key} ${Bucket}`);
-    dispatch(addKey({s3_key: Key, s3_bucket: Bucket}));
+    dispatch(addKey({ s3_key: Key, s3_bucket: Bucket }));
     dispatch(fetchJDThunk());
 }
 
 export const skipSkillUpdateThunk = () => async (dispatch, getState) => {
     dispatch(setJDSkillUpdateSkill("completed"));
-    dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));
-    dispatch(updateStatusForStep({ id: 'jd', status: 'completed'}));
-    dispatch(updateStepToActive({ id: 'resume '}));
+    dispatch(updateStatusForStep({ id: 'resume', status: 'enabled' }));
+    dispatch(updateStatusForStep({ id: 'jd', status: 'completed' }));
+    dispatch(updateStepToActive({ id: 'resume ' }));
 }
