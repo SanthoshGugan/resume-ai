@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import ResumeRow from './ResumeRow';
 import { useSelector } from 'react-redux';
 import { domainsQueryEnabledSelector } from '../../../store/selectors/queryResultsByIdsSelector';
-import { DOMAINS, DOMAIN_ICONS } from '../../../store/reducerUtil/queryResultUtil';
+import { DOMAINS, DOMAIN_ICONS } from '../../../store/reducerUtil/QueryResultUtil';
 import './ResumeTable.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
