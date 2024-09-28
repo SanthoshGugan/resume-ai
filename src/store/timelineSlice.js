@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     steps: [
-        { id: 'jd', title: 'Submit JD', avatar: 'JD', status: 'active', url: '/home/jd-upload' },
+        { id: 'jd', title: 'Submit JD', avatar: 'JD', status: 'enabled', url: '/home/jd-upload' },
         { id: 'resume', title: 'Submit Resumes', avatar: 'R', status: 'disabled', url: '/home/resume-upload' },
         { id: 'match', title: 'View Matches', avatar: 'M', status: 'disabled', url: '/home/queries' },
       ],

@@ -1,89 +1,80 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BsCheckCircle } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { isCurrentStepActive } from '../../store/selectors/timelineSelector';
 
 const StepAction = ({ step, index, onClick }) => {
-  const { title, avatar, status, url, id } = step;
+  const { title, status, url, id } = step;
   const isActive = useSelector(state => isCurrentStepActive(state, id));
-
+  
   const backgroundColor = 
-  status === 'active'
-    ? '#FFA500' // Orange for active
-    : status === 'completed'
-    ? '#28a745' // Green for completed
-    : status === 'enabled' 
-    ? '#007bff' // Blue for enabled
-    : '#6c757d'; // Grey for disabled
+    status === 'active'
+      ? '#FFA500' // Orange for active
+      : status === 'completed'
+      ? '#28a745' // Green for completed
+      : status === 'enabled' 
+      ? '#007bff' // Blue for enabled
+      : '#6c757d'; // Grey for disabled
 
   const stepStyle = {
-    width: '50px',
-    height: '50px',
-    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '1rem',
     backgroundColor,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: '10px 20px',
+    borderRadius: '25px',
     color: 'white',
-    fontSize: '20px',
-    position: 'relative',
+    fontSize: '16px',
+    fontWeight: status != "disabled" ? 'bolder' : 'normal',
     cursor: status === 'disabled' ? 'not-allowed' : 'pointer',
-    // marginBottom: '20px',
-  };
-
-  const badgeStyle = {
-    position: 'absolute',
-    top: '-10px', // Position the badge at the top left of the circle
-    left: '-15px',
-    width: '20px',
-    height: '20px',
-    borderRadius: '50%',
-    backgroundColor: '#007bff', // Blue background for the badge
-    color: 'white',
-    fontSize: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    opacity: status === 'disabled' && '25%',
+    position: 'relative',
+    marginBottom: '10px',
+    width: '250px',
+    transition: 'background-color 0.3s ease',
     ...(isActive && {
-      backgroundColor: '#ffc107', // Change background color if active
-      transform: 'scale(1.2)', // Slightly enlarge if active
+      backgroundColor: '#ffc107', // Highlight background if active
+      transform: 'scale(1.05)', // Slight enlargement if active
     })
   };
 
-  const overlayStyle = {
-    position: 'absolute',
-    top: '60px', // Position it below the circle
-    left: '50%',
-    transform: 'translateX(-50%)',
-    width: '120px',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Translucent background
-    border: '1px solid #ddd', // Light border
-    borderRadius: '5px',
-    padding: '5px',
-    marginLeft: '10px',
-    textAlign: 'center',
-    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', // Light shadow
-    color: '#333', // Dark text color
+  const badgeNumberStyle = {
+    backgroundColor: '#007bff', // Blue for badge
+    borderRadius: '50%',
+    color: 'white',
+    width: '30px',
+    height: '30px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px',
+    marginRight: '10px',
+    ...(isActive && {
+      backgroundColor: '#ffc107', // Change badge color if active
+    })
   };
 
-  const tooltip = <Tooltip id={`tooltip-${index}`}>{title}</Tooltip>;
-
-  const overlay = <div style={overlayStyle}><strong>{title}</strong> {/* Bold title */}</div>;
+  const tickStyle = {
+    position: 'absolute',
+    right: '15px',
+    fontSize: '20px',
+    color: '#ffffff',
+    display: status === 'completed' ? 'block' : 'none' // Only show tick if completed
+  };
 
   return (
-    <>
-      <OverlayTrigger placement="right" overlay={overlay}>
-        <Link to={status === 'disabled' ? '#' : url} onClick={onClick} 
-                        style={{ textDecoration: 'none', color: 'inherit' }}>
-          <div style={stepStyle}>
-            {status === 'completed' ? <BsCheckCircle /> : avatar}
-            <div style={badgeStyle}>{index + 1}</div> {/* Badge with step number */}
-          </div>
-        </Link>
-      </OverlayTrigger>
-    </>
+    <Link 
+      to={status === 'disabled' ? '#' : url} 
+      onClick={onClick} 
+      style={{ textDecoration: 'none', color: 'inherit' }}
+    >
+      <div style={stepStyle}>
+        <span>{`${index + 1}. ${title}`}</span>
+        <BsCheckCircle style={tickStyle}/>
+      </div>
+    </Link>
   );
 };
 

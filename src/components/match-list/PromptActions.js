@@ -105,7 +105,7 @@ const PromptActions = () => {
           // padding: '0',
           display: 'inline-flex',
           alignItems: 'center',
-          // cursor: prompt.accessibility === 'premium' ? 'not-allowed' : 'pointer',
+          cursor: (isDisabled(prompt) || isComplete(prompt)) ? 'not-allowed' : 'pointer',
           fontSize: 'inherit',
           color: 'inherit'
         }}
