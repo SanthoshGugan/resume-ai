@@ -69,7 +69,7 @@
                         <td><SkillPercentCell value={skillPercent["devops"] || 0} /></td>
                     )}
                     {showCompanies &&(<td>
-                        {companies.map(company => <Badge bg="secondary" className="me-1">{company}</Badge>)}
+                        {companies.map(company => <Badge bg="info" className="me-1">{company}</Badge>)}
                     </td>)}
                 </tr>
                 {(isOpen) && (
