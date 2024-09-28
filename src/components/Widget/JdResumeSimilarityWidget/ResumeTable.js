@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import ResumeRow from './ResumeRow';
 import { useSelector } from 'react-redux';
 import { domainsQueryEnabledSelector } from '../../../store/selectors/queryResultsByIdsSelector';
-import { DOMAINS } from '../../../store/reducerUtil/QueryResultUtil';
+import { DOMAINS } from '../../../store/reducerUtil/queryResultUtil';
 
 const ResumeTable = ({ resumes, rows = [] }) => {
   const [openIndex, setOpenIndex] = useState(null);

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Form, Dropdown, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGlobalSkills, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
-import { addSkill } from "../../store/jobDescriptionSlice";
+import { addSkill, removeSkill } from "../../store/jobDescriptionSlice";
 import SkillBadge from "./SkillBadge";
 
 const SkillSelector = () => {
@@ -89,16 +89,16 @@ const SkillSelector = () => {
                 {skills.map((item, idx) => (
                     <SkillBadge
                         key={idx}
-                        category={item.categoryName} // Use category name for background color
+                        category={item.categoryId} 
                         tooltipText={item?.categoryName}
                         label={item?.skill}
-                        onRemove={(e) => { }} // Add remove functionality if needed
+                        onRemove={(e) => dispatch(removeSkill({ skill: item.skill, categoryName: item.categoryName }))} // Add remove functionality if needed
                     />
                 ))}
             </Container>
 
             {/* Legend for Color Codes */}
-            <div style={{ marginTop: "20px", fontSize: "14px", display: 'flex' }}>
+            {/* <div style={{ marginTop: "20px", fontSize: "14px", display: 'flex' }}>
                 <div>
                     <span style={{ backgroundColor: "#007bff", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
                     Category 1
@@ -115,7 +115,7 @@ const SkillSelector = () => {
                     <span style={{ backgroundColor: "#ffc107", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
                     Category 4
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

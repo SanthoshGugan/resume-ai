@@ -7,17 +7,23 @@ const selectSkillsByCateogry = state => state.jobDescription?.skills?.byCategory
 
 const selectJDDimensions = state => state.jobDescription?.jd?.dimensions;
 
+const selectSkillsCategories = state => state?.jobDescription.skills?.categories || [];
+
+const selectJdSkillUpdateStatus = state => state?.jobDescription.jdSkillUpdateSkill || '';
+
 const selectSkillsFromAllCategory = createSelector(
     [selectSkillsFromFullStackDomain],
     (skillsByCategoryList) => {
         // console.log(`skillsByCategoryList ::: ${JSON.stringify(skillsByCategoryList)}`);
         return skillsByCategoryList.reduce((acc, skillCategory) => {
             const categoryName = skillCategory?.label;
+            const categoryId = skillCategory?.skill;
             const out = [];
             for(const category of skillCategory?.categories) {
                 for (const attr of category?.attributes) {
                     out.push({
                         categoryName,
+                        categoryId,
                         skill: attr?.core_skill
                     });
                 }
@@ -63,5 +69,5 @@ const isJdUpdateSkillVisible = createSelector([
     return dimensions?.domains?.length > 0;
 });
 
-export { selectSkillsFromAllCategory, selectGlobalSkills, isJdUpdateSkillVisible } ;
+export { selectSkillsFromAllCategory, selectGlobalSkills, isJdUpdateSkillVisible, selectSkillsCategories, selectJdSkillUpdateStatus } ;
 

@@ -11,7 +11,8 @@ const initialState = {
   },
   isSkillUpdated: false,
   isJDAdded: false,
-  jdUploadStatus: ''
+  jdUploadStatus: '',
+  jdSkillUpdateSkill: ''
 };
 
 const jobDescriptionSlice = createSlice({
@@ -38,7 +39,8 @@ const jobDescriptionSlice = createSlice({
       const skills  = action.payload;
       state.skills.byCategory = {...skills};
       for (const skill in skills) {
-       state.skills.categories = [...state.skills?.categories, skill];
+        if (!state.skills?.categories.includes(skill))
+          state.skills.categories = [...state.skills?.categories, skill];
       }
     },
     addSkill: (state, action) => {
@@ -47,9 +49,9 @@ const jobDescriptionSlice = createSlice({
       state.skills.newSkills = [...state.skills?.newSkills, { skill, categoryName}];
     },
     removeSkill: (state, action) => {
-      // const { skill, categoryName,  } = action.payload;
-      // state.jd = removeSkillFromJobDescription(state, state.jd.dimensions?.domains[0].roles[0].skills, skill, skillName, categoryName);
-      // state.skills.newSkills = state.skills?.newSkills.filter(newSkill => newSkill.skill !== skill) || [];
+      const { skill, categoryName  } = action.payload;
+      state.jd = removeSkillFromJobDescription(state, state.jd.dimensions?.domains[0].roles[0].skills, skill, categoryName, "core");
+      state.skills.newSkills = state.skills?.newSkills.filter(newSkill => newSkill.skill !== skill) || [];
     },
     setIsSkillUpdated: (state, action) => {
       state.isSkillUpdated = action.payload;
@@ -60,6 +62,9 @@ const jobDescriptionSlice = createSlice({
     },
     setJDUploadStatus: (state, action) => {
       state.jdUploadStatus = action.payload;
+    },
+    setJDSkillUpdateSkill: (state, action) => {
+      state.jdSkillUpdateSkill = action.payload;
     }
   },
 });
@@ -69,10 +74,12 @@ export const {
   addKey,
   addJd,
   addSkill,
+  removeSkill,
   updatedJD,
   setIsSkillUpdated,
   setIsJDAdded,
-  setJDUploadStatus  
+  setJDUploadStatus,
+  setJDSkillUpdateSkill
 } = jobDescriptionSlice.actions;
 
 export default jobDescriptionSlice.reducer;
