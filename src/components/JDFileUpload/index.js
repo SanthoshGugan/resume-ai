@@ -99,7 +99,7 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
         >
             {!file && (
                 <>
-                    {/* <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} /> */}
+                    <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
                     <input
                         ref={fileInputRef}
                         type="file"

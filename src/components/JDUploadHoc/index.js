@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FileUploader from "../FileUploader";
 import { fetchGlobalSkills, skipSkillUpdateThunk, updateJdThunk, uploadJDThunk } from "../../store/thunks/jdThunks";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, Col, Container, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import SkillSelector from "../JD/SkillSelector";
 import SkillBadge from "../JD/SkillBadge";
 import Avatar from "../Avatar";
@@ -13,6 +13,7 @@ import { JD_UPLOAD_STATUS } from "../../utils/constants";
 import ScreenProgress from "../ScreenProgress";
 import JDFileUploader from "../JDFileUpload";
 import { FaCheckCircle } from "react-icons/fa";
+import { isJDUpdateSkillInProgressSelector, isJDUploadInProgress, selectJdUpdateSkillStatus } from "../../store/selectors/jdSelector";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
@@ -41,6 +42,8 @@ const JDUploadHoc = ({ }) => {
     const jdUploadStatus = useSelector((state) => state.jobDescription.jdUploadStatus);
     const progressMessages = ["Uploading..."];
     const jdSkillUpdateStatus = useSelector(state => selectJdSkillUpdateStatus(state));
+    const jdUploadInProgressFlag = useSelector(state => isJDUploadInProgress(state));
+    const isJdUpdateSkillInProgress = useSelector(state => isJDUpdateSkillInProgressSelector(state));
 
     const onAddFiles = (files) => {
         console.log(`onAddFiles files: ${files}`);
@@ -95,7 +98,7 @@ const JDUploadHoc = ({ }) => {
             />)}
             {uploadedFiles.length > 0 && !updateFlag && (  // Conditionally render upload button
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-                    <button
+                    <Button
                         onClick={onUpload}
                         style={{
                             backgroundColor: "#28a745",
@@ -105,9 +108,11 @@ const JDUploadHoc = ({ }) => {
                             cursor: "pointer",
                             padding: "10px 15px"
                         }}
+                        disabled={jdUploadInProgressFlag}
                     >
                         Upload
-                    </button>
+                        {jdUploadInProgressFlag && <Spinner />}
+                    </Button>
                 </div>
             )}
             {updateFlag && (
@@ -132,8 +137,21 @@ const JDUploadHoc = ({ }) => {
                 <Row className="d-flex justify-content-center mt-5">
                     <Col md={3} style={{ display: 'flex', alignItems: "center", justifyContent: "space-between" }}>
 
-                        <Button variant="primary" onClick={() => dispatch(updateJdThunk())}>Update Skill</Button>
-                        <Button variant="success" onClick={skipNext}>Continue</Button>
+                        <Button 
+                            variant="primary"
+                            onClick={() => dispatch(updateJdThunk())}
+                            disabled={isJdUpdateSkillInProgress}
+                        >
+                            Update Skill
+                            {isJdUpdateSkillInProgress && <Spinner size="2"/>}
+                        </Button>
+                        <Button
+                            variant="success"
+                            onClick={skipNext}
+                            disabled={isJdUpdateSkillInProgress}
+                        >
+                            Continue
+                        </Button>
                     </Col>
                 </Row>
             )}

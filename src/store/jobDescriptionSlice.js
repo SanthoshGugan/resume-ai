@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addSkillToJobDescription, removeSkillFromJobDescription } from './reducerUtil/jobDescriptionReducerUtil';
+import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from '../utils/constants';
 
 const initialState = {
   key: { s3_key: '', s3_bucket: ''},
@@ -11,8 +12,9 @@ const initialState = {
   },
   isSkillUpdated: false,
   isJDAdded: false,
-  jdUploadStatus: '',
-  jdSkillUpdateSkill: ''
+  jdUploadStatus: JD_UPLOAD_STATUS.JD_WORKFLOW_IDLE,
+  jdSkillUpdateSkill: '',
+  jdUpdateSkillStatus: JD_UPDATE_SKILL_STATUS.IDLE
 };
 
 const jobDescriptionSlice = createSlice({
@@ -65,6 +67,9 @@ const jobDescriptionSlice = createSlice({
     },
     setJDSkillUpdateSkill: (state, action) => {
       state.jdSkillUpdateSkill = action.payload;
+    },
+    setJDUpdateSkillStatus: (state, action) => {
+      state.jdUpdateSkillStatus = action.payload;
     }
   },
 });
@@ -79,7 +84,8 @@ export const {
   setIsSkillUpdated,
   setIsJDAdded,
   setJDUploadStatus,
-  setJDSkillUpdateSkill
+  setJDSkillUpdateSkill,
+  setJDUpdateSkillStatus
 } = jobDescriptionSlice.actions;
 
 export default jobDescriptionSlice.reducer;

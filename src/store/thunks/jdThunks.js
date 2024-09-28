@@ -1,9 +1,9 @@
 import { dispatch } from "d3";
 import { fetchJdSkillsApi, fetchJDSummaryApi, updateJDApi } from "../../api/jdApi";
-import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey, setJDUploadStatus, setJDSkillUpdateSkill } from "../jobDescriptionSlice";
+import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey, setJDUploadStatus, setJDSkillUpdateSkill, setJDUpdateSkillStatus } from "../jobDescriptionSlice";
 import { uploadFile } from "../../api/s3FileUploadApi";
 import { updateStatusForStep, updateStepToActive } from "../timelineSlice";
-import { JD_UPLOAD_STATUS } from "../../utils/constants";
+import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants";
 
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
@@ -34,8 +34,9 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
             setTimeout(() => {
                 fetchJDThunk(interval);
             }, interval)
-        } else {
             dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
+        } else {
+            dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED));
         }
 
 
@@ -61,11 +62,14 @@ export const updateJdThunk = () => async (dispatch, getState) => {
     const { jobDescription: {jd, skills: { newSkills = [] }} } = getState();
     const { dimensions, status, id, summary } = jd;
     try {
+        dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.IN_PROGRESS));
         const res = await updateJDApi({ jd : {dimensions, status, id, summary}, newSkills });
         dispatch(setIsSkillUpdated(true));
         dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));
+        dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.COMPLETED));
     } catch(err) {
         console.error(`error while updating jd`, err);
+        dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.FAILED));
     }
 };
 
