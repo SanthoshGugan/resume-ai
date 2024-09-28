@@ -27,15 +27,15 @@ const ResumeTable = ({ resumes, rows = [] }) => {
     <Table striped bordered hover>
       <thead>
         <tr>
-          {showSimilarity && (<th className="nowrap"><BsFilePerson/>Candidate Name</th>)}
-          {showSimilarity && (<th className="nowrap"><BsBarChart/>Overall Matching</th>)}
-          {showSimilarity && showLabelBadge && (<th className="nowrap"><BsAward/>Expertise</th>)}
+          {showSimilarity && (<th className="nowrap" key={"Candidate Name"}><BsFilePerson className='mx-2'/>Candidate Name</th>)}
+          {showSimilarity && (<th className="nowrap" key={"Overall Matching"}><BsBarChart className='mx-2'/>Overall Matching</th>)}
+          {showSimilarity && showLabelBadge && (<th className="nowrap" key={"Expertise"}><BsAward className='mx-2'/>Expertise</th>)}
           {showSkillPercents && DOMAINS.map(domain => (
-            (enabledDomainQueries.includes(domain.value) && (<th className="nowrap">{DomainQueryIcons[domain.value] || <BsFillQuestionCircleFill/>}{domain?.label}</th>))
+            (enabledDomainQueries.includes(domain.value) && (<th className="nowrap" key={domain.value}>{DomainQueryIcons[domain.value] || <BsFillQuestionCircleFill className='mx-2'/>}{domain?.label}</th>))
           ))}
-          {/* {showSkillPercents && (<th>Front End</th>)}
+          {/* {showSkillPercents && (<th>Front End</th>)} 
           {showSkillPercents && (<th>Back End</th>)} */}
-          {showCompanies  && (<th><BsBuilding/>Companies</th>)}
+          {showCompanies  && (<th  className="nowrap" key={"Companies"}><BsBuilding className='mx-2'/>Companies</th>)}
         </tr>
       </thead>
       <tbody>

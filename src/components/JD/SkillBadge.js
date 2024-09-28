@@ -19,7 +19,7 @@ const SkillBadge = ({ category, tooltipText, label, onRemove }) => {
   const categories = useSelector(state => selectSkillsCategories(state));
   const colorIndex = categories.indexOf(category) > -1 ? categories.indexOf(category) : 4;
   const categoryColor = categoryColors[colorIndex];
-  console.log(`categories : ${JSON.stringify(categories)}, ${category}, ${categoryColor}`);
+  // console.log(`categories : ${JSON.stringify(categories)}, ${category}, ${categoryColor}`);
 
   return (
     <div

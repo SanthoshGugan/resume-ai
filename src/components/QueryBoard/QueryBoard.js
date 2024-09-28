@@ -10,7 +10,7 @@ const QueryBoard = () => {
 
     useEffect(() => {
       dispatch(onQuerySelectThunk({ id: 'jd_resume_similarity'}));
-    })
+    }, []);
     return (
         <>
             <JDResumeSimilarityWidget/>

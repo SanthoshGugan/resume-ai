@@ -49,7 +49,7 @@
                                 {<Badge bg="primary">{match || 0} %</Badge>}
                             </td>
                             {showLabelBadge && (<td>
-                                {(<>{labels.map(label => <Badge bg="success" className="me-1">{label}</Badge>)}</>)}
+                                {(<>{labels.map(label => <Badge bg="success" key={label} className="me-1">{label}</Badge>)}</>)}
                             </td>)}
                         </>
                     )}
@@ -69,7 +69,7 @@
                         <td><SkillPercentCell value={skillPercent["devops"] || 0} /></td>
                     )}
                     {showCompanies &&(<td>
-                        {companies.map(company => <Badge bg="secondary" className="me-1">{company}</Badge>)}
+                        {companies.map(company => <Badge bg="info" key={company} className="me-1">{company}</Badge>)}
                     </td>)}
                 </tr>
                 {(isOpen) && (

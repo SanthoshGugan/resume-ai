@@ -7,15 +7,19 @@ import { updateStatusForStep } from "../timelineSlice";
 import { RESUME_UPLOAD_STATUS } from "../../utils/constants";
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
-    // console.log(`keys ::: ${JSON.stringify(keys)}`);
+    console.log(`keys ::: ${JSON.stringify(keys)}`);
     const { resumes } = getState();
     const { fetchInProgress, allIds } = resumes;
     if (keys.length === 0) return;
     try {
+         console.log(`allids ::: ${JSON.stringify(allIds)}`);
         const filteredResumeKeys = keys.filter(key => !allIds.includes(key));
-        for(const resumeId of filteredResumeKeys) {
-            // dispatch(addFetchInProgress({resumeId}))
+        if(filteredResumeKeys.length == 0){
+            return;
         }
+        // for(const resumeId of filteredResumeKeys) {
+        //     // dispatch(addFetchInProgress({resumeId}))
+        // }
         const res = await fetchResumesApi({ resumeIds: filteredResumeKeys });
         const resumeResult = res.data.resumes;
         for(const resume of resumeResult) {
@@ -44,7 +48,7 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
        }
        if(remainingResumesIds.length > 0){
             setTimeout(() => {
-                updateResumesThunk(remainingResumesIds, interval, navigate);
+                dispatch(updateResumesThunk(remainingResumesIds, interval, navigate));
             }, interval)
        }
        else {

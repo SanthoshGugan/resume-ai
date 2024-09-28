@@ -11,15 +11,15 @@ import { domainsQueryEnabledSelector, fetchInProgressQueries, isFetchInProgressB
 import { Button, Spinner } from 'react-bootstrap';
 
 const prompts = [
-  { id: "jd_resume_similarity", label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
-  { id: "label", label: "Add Labels to Candidates", category: 'Skills Match', accessibility: 'signup' },
-  // { id: 3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
-  { id: "companies", label: "Show resumes of candidates who have worked at top tech companies like Google, Amazon, or Facebook", category: 'Experience and Companies', accessibility: 'premium' },
-  { id: "label", label: "Show Front End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
-  { id: "label", label: "Show Back End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
-  // { id: "label", label: "Show Database Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "database" },
-  { id: "label", label: "Show Cloud Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "cloud" },
-  { id: "label", label: "Show Dev Ops Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "devops" },
+  { id: "jd_resume_similarity", sid: 1, label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
+  { id: "label", sid:2, label: "Add Labels to Candidates", category: 'Skills Match', accessibility: 'signup' },
+  // { id: 3, sid:3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
+  { id: "companies", sid:4, label: "Show resumes of candidates who have worked at top tech companies like Google, Amazon, or Facebook", category: 'Experience and Companies', accessibility: 'premium' },
+  { id: "label",sid:5, label: "Show Front End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
+  { id: "label",sid:6, label: "Show Back End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
+  // { id: "label", sid:7,label: "Show Database Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "database" },
+  { id: "label",sid:8, label: "Show Cloud Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "cloud" },
+  { id: "label",sid:9, label: "Show Dev Ops Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "devops" },
   // { id: 6, label: "List candidates within a 50-mile radius of the job location", category: 'Location-Based Filtering', accessibility: 'signup' },
   // { id: 7, label: "Show resumes with degrees from top-tier universities", category: 'Educational Background', accessibility: 'early-access' },
   // { id: 8, label: "Filter candidates with a Master's degree in Computer Science", category: 'Educational Background', accessibility: 'premium' },
@@ -94,7 +94,7 @@ const PromptActions = () => {
   const renderPromptBadge = (prompt) => {
     return (
       <Button
-        key={prompt.id}
+        key={prompt.sid}
         className={`prompt-badge ${prompt.accessibility}`}
         onClick={() => dispatch(onQuerySelectThunk({ id: prompt.id, domain: prompt?.domain }))}
         title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
