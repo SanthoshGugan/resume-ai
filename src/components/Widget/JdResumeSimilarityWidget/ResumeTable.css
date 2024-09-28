@@ -1,0 +1,5 @@
+.nowrap {
+    white-space: nowrap; /* Prevent text wrapping */
+    text-align: center;  /* Optional: center-align the text */
+  }
+  
