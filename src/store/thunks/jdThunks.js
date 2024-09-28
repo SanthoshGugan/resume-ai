@@ -24,18 +24,17 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
         const res = await fetchJDSummaryApi(req);
         // console.log(`response ::: ${JSON.stringify(res)}`);
         const { status, retry, dimensions, summary, id } = res?.data;
-        dispatch(updatedJD({
-            ...(status !== undefined && { status }),
-            ...(dimensions !== undefined && { dimensions }),
-            ...(summary !== undefined && { summary }),
-            id
-        }))
         if (retry) {
             setTimeout(() => {
-                fetchJDThunk(interval);
+                dispatch(fetchJDThunk(interval));
             }, interval)
-            dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
         } else {
+            dispatch(updatedJD({
+                ...(status !== undefined && { status }),
+                ...(dimensions !== undefined && { dimensions }),
+                ...(summary !== undefined && { summary }),
+                id
+            }))
             dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED));
         }
 
