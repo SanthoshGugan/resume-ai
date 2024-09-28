@@ -44,7 +44,7 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
        }
        if(remainingResumesIds.length > 0){
             setTimeout(() => {
-                updateResumesThunk(remainingResumesIds, interval, navigate);
+                dispatch(updateResumesThunk(remainingResumesIds, interval, navigate));
             }, interval)
        }
        else {
