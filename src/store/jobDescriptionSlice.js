@@ -6,7 +6,8 @@ const initialState = {
   jd: {id: ''},
   skills: {
     byCategory: {},
-    newSkills: []
+    newSkills: [],
+    categories: []
   },
   isSkillUpdated: false,
   isJDAdded: false,
@@ -36,6 +37,9 @@ const jobDescriptionSlice = createSlice({
     initSkill: (state, action) => {
       const skills  = action.payload;
       state.skills.byCategory = {...skills};
+      for (const skill in skills) {
+       state.skills.categories = [...state.skills?.categories, skill];
+      }
     },
     addSkill: (state, action) => {
       const { skill, categoryName } = action.payload;

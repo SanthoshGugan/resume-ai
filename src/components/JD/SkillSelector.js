@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Form, Dropdown } from "react-bootstrap";
+import React, { useState, useRef } from "react";
+import { Form, Dropdown, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { selectGlobalSkills } from "../../store/selectors/jdSkillSelector";
+import { selectGlobalSkills, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
 import { addSkill } from "../../store/jobDescriptionSlice";
+import SkillBadge from "./SkillBadge";
 
 const SkillSelector = () => {
     const dispatch = useDispatch();
-    const skillList = useSelector(state => selectGlobalSkills(state)) || [];
+    const skillList = useSelector((state) => selectGlobalSkills(state)) || [];
+    const skills = useSelector((state) => selectSkillsFromAllCategory(state, ""));
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSkills, setFilteredSkills] = useState([]);
-    const [selectedSkill, setSelectedSkill] = useState(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const inputRef = useRef(null); // Reference for the input field
@@ -33,18 +34,15 @@ const SkillSelector = () => {
 
     // Handle skill selection
     const handleSelectSkill = (skill) => {
-        setSelectedSkill(skill);
         dispatch(addSkill(skill));
-        console.log(`skill : ${JSON.stringify(skill)}`);
         setIsDropdownOpen(false); // Close the dropdown after selection
         setSearchTerm(skill.skill); // Update input to show selected skill
-        inputRef.current.value = "";  // Reset the input field
-        setSearchTerm("");  // Reset the state variable as well, if needed
+        inputRef.current.value = ""; // Reset the input field
+        setSearchTerm(""); // Reset the state variable as well
     };
 
     // Handle key events like Enter and Esc
     const handleKeyDown = (e) => {
-        console.log(`hanfling hey ::::: ${e.key}`);
         if (e.key === "Escape") {
             setIsDropdownOpen(false); // Close dropdown on Esc
             inputRef.current.blur(); // Deselect the input field
@@ -53,29 +51,14 @@ const SkillSelector = () => {
         }
     };
 
-    // Close the dropdown if the user clicks outside the component
-    // const handleClickOutside = (event) => {
-    //     if (inputRef.current && !inputRef.current.contains(event.target)) {
-    //         setIsDropdownOpen(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, []);
-
     return (
-        <div style={{ position: "relative", width: "300px" }}>
+        <div>
             <Dropdown autoClose="outside" show={isDropdownOpen}>
-                <Form.Group controlId="skillSearch">
-                    <Form.Label>Search for a skill:</Form.Label>
+                <Form.Group controlId="skillSearch" style={{ position: "relative" }}>
                     <Form.Control
                         ref={inputRef}
                         type="text"
-                        placeholder="Enter skill..."
+                        placeholder="Search for a skill..."
                         value={searchTerm}
                         onChange={handleSearch}
                         onKeyDown={handleKeyDown}
@@ -84,7 +67,10 @@ const SkillSelector = () => {
                 </Form.Group>
 
                 {/* Dropdown Menu */}
-                <Dropdown.Menu show={isDropdownOpen && filteredSkills.length > 0} style={{ position: "absolute", top: "100%", left: 0, width: "100%", zIndex: 1 }}>
+                <Dropdown.Menu
+                    show={isDropdownOpen && filteredSkills.length > 0}
+                    style={{ position: "absolute", top: "100%", left: 0, width: "100%", zIndex: 1 }}
+                >
                     {filteredSkills.map((skill, index) => (
                         <Dropdown.Item
                             key={index}
@@ -98,6 +84,38 @@ const SkillSelector = () => {
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
+
+            <Container className="d-flex flex-wrap" style={{ gap: "10px", margin: '1rem' }}>
+                {skills.map((item, idx) => (
+                    <SkillBadge
+                        key={idx}
+                        category={item.categoryName} // Use category name for background color
+                        tooltipText={item?.categoryName}
+                        label={item?.skill}
+                        onRemove={(e) => { }} // Add remove functionality if needed
+                    />
+                ))}
+            </Container>
+
+            {/* Legend for Color Codes */}
+            <div style={{ marginTop: "20px", fontSize: "14px", display: 'flex' }}>
+                <div>
+                    <span style={{ backgroundColor: "#007bff", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
+                    Category 1
+                </div>
+                <div>
+                    <span style={{ backgroundColor: "#28a745", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
+                    Category 2
+                </div>
+                <div>
+                    <span style={{ backgroundColor: "#dc3545", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
+                    Category 3
+                </div>
+                <div>
+                    <span style={{ backgroundColor: "#ffc107", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
+                    Category 4
+                </div>
+            </div>
         </div>
     );
 };

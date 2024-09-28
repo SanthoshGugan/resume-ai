@@ -121,7 +121,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
             style={{
                 border: "2px dashed #007bff",
                 borderRadius: "10px",
-                padding: "30px",
+                padding: "30px 0",
                 textAlign: "center",
                 marginBottom: "30px",
                 backgroundColor: "#f9f9f9",
