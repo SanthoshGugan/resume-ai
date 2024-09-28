@@ -6,9 +6,4 @@ export const DOMAINS = [
     {label: "DEV OPS", value: "devops"}
 ];
 
-export const DOMAIN_ICONS = {
-    front_end: 'palette',
-    back_end: 'cpu',
-    cloud: 'cloud',
-    devops: 'tools'
-}
+

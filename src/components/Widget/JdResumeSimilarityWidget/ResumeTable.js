@@ -3,9 +3,10 @@ import { Table } from 'react-bootstrap';
 import ResumeRow from './ResumeRow';
 import { useSelector } from 'react-redux';
 import { domainsQueryEnabledSelector } from '../../../store/selectors/queryResultsByIdsSelector';
-import { DOMAINS, DOMAIN_ICONS } from '../../../store/reducerUtil/QueryResultUtil';
+import { DOMAINS } from '../../../store/reducerUtil/QueryResultUtil';
 import './ResumeTable.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import { BsBuilding, BsFilePerson, BsBarChart, BsAward, BsFillQuestionCircleFill } from "react-icons/bs";
+import { DomainQueryIcons } from "../../../utils/uiUtils" ;
 
 const ResumeTable = ({ resumes, rows = [] }) => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -26,15 +27,15 @@ const ResumeTable = ({ resumes, rows = [] }) => {
     <Table striped bordered hover>
       <thead>
         <tr>
-          {showSimilarity && (<th className="nowrap"><i className="bi bi-person-circle"></i> Candidate Name</th>)}
-          {showSimilarity && (<th className="nowrap"> <i className="bi bi-bar-chart"></i> Overall Matching</th>)}
-          {showSimilarity && showLabelBadge && (<th className="nowrap"><i className="bi bi-award"></i> Expertise</th>)}
+          {showSimilarity && (<th className="nowrap"><BsFilePerson/>Candidate Name</th>)}
+          {showSimilarity && (<th className="nowrap"><BsBarChart/>Overall Matching</th>)}
+          {showSimilarity && showLabelBadge && (<th className="nowrap"><BsAward/>Expertise</th>)}
           {showSkillPercents && DOMAINS.map(domain => (
-            (enabledDomainQueries.includes(domain.value) && (<th className="nowrap"> <i className={`bi bi-${DOMAIN_ICONS[domain.value] || 'question-circle'}`}></i> {domain?.label}</th>))
+            (enabledDomainQueries.includes(domain.value) && (<th className="nowrap">{DomainQueryIcons[domain.value] || <BsFillQuestionCircleFill/>}{domain?.label}</th>))
           ))}
           {/* {showSkillPercents && (<th>Front End</th>)}
           {showSkillPercents && (<th>Back End</th>)} */}
-          {showCompanies  && (<th><i className="bi bi-building"></i> Companies</th>)}
+          {showCompanies  && (<th><BsBuilding/>Companies</th>)}
         </tr>
       </thead>
       <tbody>
