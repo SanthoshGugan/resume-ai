@@ -27,15 +27,15 @@ const ResumeTable = ({ resumes, rows = [] }) => {
     <Table striped bordered hover>
       <thead>
         <tr>
-          {showSimilarity && (<th className="nowrap"><BsFilePerson className='mx-2'/>Candidate Name</th>)}
-          {showSimilarity && (<th className="nowrap"><BsBarChart className='mx-2'/>Overall Matching</th>)}
-          {showSimilarity && showLabelBadge && (<th className="nowrap"><BsAward className='mx-2'/>Expertise</th>)}
+          {showSimilarity && (<th className="nowrap" key={1}><BsFilePerson className='mx-2'/>Candidate Name</th>)}
+          {showSimilarity && (<th className="nowrap" key={2}><BsBarChart className='mx-2'/>Overall Matching</th>)}
+          {showSimilarity && showLabelBadge && (<th className="nowrap" key={3}><BsAward className='mx-2'/>Expertise</th>)}
           {showSkillPercents && DOMAINS.map(domain => (
-            (enabledDomainQueries.includes(domain.value) && (<th className="nowrap">{DomainQueryIcons[domain.value] || <BsFillQuestionCircleFill className='mx-2'/>}{domain?.label}</th>))
+            (enabledDomainQueries.includes(domain.value) && (<th className="nowrap" key={domain.value}>{DomainQueryIcons[domain.value] || <BsFillQuestionCircleFill className='mx-2'/>}{domain?.label}</th>))
           ))}
           {/* {showSkillPercents && (<th>Front End</th>)} 
           {showSkillPercents && (<th>Back End</th>)} */}
-          {showCompanies  && (<th><BsBuilding className='mx-2'/>Companies</th>)}
+          {showCompanies  && (<th  className="nowrap" key={5}><BsBuilding className='mx-2'/>Companies</th>)}
         </tr>
       </thead>
       <tbody>
