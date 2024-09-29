@@ -46,9 +46,10 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
                 remainingResumesIds.push(resume.id);
             }
        }
-       if(remainingResumesIds.length > 0){
+       if(remainingResumesIds.length > 0 || resumes.length == 0){
+            ids = resumes.length == 0 ? ids : remainingResumesIds;
             setTimeout(() => {
-                dispatch(updateResumesThunk(remainingResumesIds, interval, navigate));
+                dispatch(updateResumesThunk(ids, interval, navigate));
             }, interval)
        }
        else {
