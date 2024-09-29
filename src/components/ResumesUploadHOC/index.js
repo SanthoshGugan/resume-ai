@@ -43,6 +43,12 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
         if (!uploadedFiles.length) return;
         dispatch(initUploadResumeThunk({ files: uploadedFiles, Bucket: BUCKET_NAME, navigate }));
     };
+    const onRemoveFiles = async (files) => {
+        setUploadedFiles(files);
+    }
+    const onCancel = async(files) => {
+
+    }
 
     return (
         <>
@@ -50,6 +56,8 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                 onAddFiles={onAddFiles}  
                 multiple={true}
                 description="Drag & Drop your Resume or Add Files"
+                onRemoveFiles={onRemoveFiles}
+                onCancel={onCancel}
             />
             {uploadedFiles.length > 0 && (
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>

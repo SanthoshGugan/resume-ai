@@ -61,7 +61,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
 
     const removeFiles = () => {
         const remainingFiles = files.filter((file) => !selectedFiles.has(file.name));
-        onRemoveFiles(selectedFiles);
+        onRemoveFiles(remainingFiles);
         setFiles(remainingFiles);
         setSelectedFiles(new Set());
         setAllSelected(false);
