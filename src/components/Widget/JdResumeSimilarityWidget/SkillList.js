@@ -9,7 +9,7 @@ const getBoxColorVariant = (tickCount, totalCount) => {
   return 'rgba(255, 228, 225, 0.5)'; // Misty rose translucent
 };
 
-const SkillsList = ({ skills, category }) => {
+const SkillsList = ({ skills = [], category }) => {
   const totalCount = skills.length;
   const tickCount = skills.filter(skill => skill.inResume).length;
   const boxColor = getBoxColorVariant(tickCount, totalCount);
