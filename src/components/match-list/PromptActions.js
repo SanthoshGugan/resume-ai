@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './PromptActions.css';
 import { FaUser, FaUserCheck, FaStar, FaLock } from 'react-icons/fa';
 import { TiTick } from "react-icons/ti";
-import { onQuerySelectThunk } from '../../store/thunks/queryButtonThunks';
+import { onQuerySelect } from '../../store/thunks/queryButtonThunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { longPollQueries } from '../../store/thunks/queryThunks';
 import { selectJdKey } from '../../store/selectors/jdSelector';
@@ -96,7 +96,7 @@ const PromptActions = () => {
       <Button
         key={prompt.sid}
         className={`prompt-badge ${prompt.accessibility}`}
-        onClick={() => dispatch(onQuerySelectThunk({ id: prompt.id, domain: prompt?.domain }))}
+        onClick={() => dispatch(onQuerySelect({ id: prompt.id, domain: prompt?.domain }))}
         title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
         disabled={isDisabled(prompt)} // Disable button while query fetch is in progress
         style={{

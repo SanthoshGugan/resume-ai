@@ -1,8 +1,16 @@
 import { addRemainingQuery, enableDomainQuery } from "../queryResultsSlice";
 import { triggerQueries } from "./queryThunks";
 
-export const onQuerySelectThunk = ({id, domain}) => async (dispatch, getState) => {
-    console.log(`on query think select`, id);
+export const onQuerySelectThunk = ({ids = []}) => async (dispatch, getState) => {
+    console.log(`on query think select`, ids);
+    dispatch(triggerQueries(ids));
+    for(const id of ids){
+        dispatch(addRemainingQuery(id));
+    }
+};
+
+export const onQuerySelect = ({id, domain}) => async (dispatch, getState) => {
+    console.log(`on query think select`, id, domain);
     const { queryResults } = getState();
     const { byQueryId } = queryResults;
     if (byQueryId[id]){ 

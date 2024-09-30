@@ -9,7 +9,7 @@ const QueryBoard = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-      dispatch(onQuerySelectThunk({ id: 'jd_resume_similarity'}));
+      dispatch(onQuerySelectThunk({ ids: ['jd_resume_similarity','label']}));
     }, []);
     return (
         <>
