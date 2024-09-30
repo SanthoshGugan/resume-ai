@@ -3,7 +3,7 @@ import { addFetchInProgress, addResume, removeFetchInProgress, setIds } from "..
 import { uploadFile, uploadFiles } from "../../api/s3FileUploadApi";
 import { initializeResumeUploadApi } from "../../api/resumeApi";
 import { setResumeUploadStatus } from "../resumeSlice";
-import { updateStatusForStep } from "../timelineSlice";
+import { updateStatusForStep, updateStepToActive } from "../timelineSlice";
 import { RESUME_UPLOAD_STATUS } from "../../utils/constants";
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
@@ -54,7 +54,11 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
        }
        else {
          dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_COMPLETED));
-         navigate('/home/queries');
+         dispatch(updateStatusForStep({ id: "resume", status: "completed"}));
+         dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
+         dispatch(updateStepToActive({ id: "match"}));
+         dispatch(setResumeUploadStatus('completed'));
+         navigate('/queries');
        }       
     } catch (err) {
         console.error('error while resume fetching :::: ', err);   
@@ -76,7 +80,7 @@ export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispa
     // const { id } = response?.data;
     dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS));
     const { Key } = await uploadFiles({ files, Bucket});
-    dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
+    // dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
     dispatch(updateResumesThunk(resume_keys, 5000, navigate));
     console.log(resume_keys);
 }
