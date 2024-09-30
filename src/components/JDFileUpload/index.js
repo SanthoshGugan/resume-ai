@@ -57,6 +57,8 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
 
     // Remove the uploaded file
     const removeFile = () => {
+        if(disabled)
+            return
         setFile(null);
         onRemoveFiles([]);
     };
@@ -76,7 +78,6 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
     const fileDisplayStyle = {
         textAlign: "center",
         position: "relative",
-        opacity: disabled ? "0.5" : 1
     };
 
     const fileNameStyle = {
