@@ -19,7 +19,7 @@ const withWidgetWrapper = (WrappedComponent, queryIds) => {
 
 
     const resumeIds = getResumeIdsForQueries(queryResults, queryIds);
-    // console.log(`resumeIds i widget wrapper :${JSON.stringify(resumeIds)}`);
+    console.log(`resumeIds i widget wrapper :${JSON.stringify(resumeIds)}`);
     const resumes = useSelector((state) => resumesByIdsSelector(state, resumeIds));
     // console.log(`resumes i widget wrapper :${JSON.stringify(resumes)}`);
 

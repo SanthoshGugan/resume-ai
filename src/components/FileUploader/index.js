@@ -3,7 +3,7 @@ import { Table, Button, Pagination } from 'react-bootstrap';
 import { FaFileUpload, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Import icons
 import { MdOutlineCloudUpload } from 'react-icons/md'; // Icon for drag and drop
 
-const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, description = "Drag & Drop or Add your files" }) => {
+const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, description = "Drag & Drop or Add your files", disabled }) => {
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState(new Set());
     const [allSelected, setAllSelected] = useState(false);
@@ -142,7 +142,9 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                 marginBottom: "30px",
                 // backgroundColor: "#f9f9f9",
                 transition: "border 0.3s",
+                opacity: disabled ? "0.5" : 1
             }}
+            disabled = {disabled}
         >
             <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
             <h4>{description}</h4>
@@ -155,6 +157,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                 onChange={handleFileChange}
                 style={{ display: "none" }}
                 id="fileInput"
+                disabled = {disabled}
             />
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px", gap: "15px" }}>
                 {files.length > 0 && (<Button

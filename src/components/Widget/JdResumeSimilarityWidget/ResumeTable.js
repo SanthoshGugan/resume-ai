@@ -9,6 +9,7 @@ import { BsBuilding, BsFilePerson, BsBarChart, BsAward, BsFillQuestionCircleFill
 import { DomainQueryIcons } from "../../../utils/uiUtils" ;
 
 const ResumeTable = ({ resumes, rows = [] }) => {
+  
   const [openIndex, setOpenIndex] = useState(null);
   const {
     showSkillPercents,
@@ -22,7 +23,8 @@ const ResumeTable = ({ resumes, rows = [] }) => {
   const enabledDomainQueries = useSelector(state => domainsQueryEnabledSelector(state));
   console.log(`enabled domains`, enabledDomainQueries);
 
-  // console.log(`rows in ResumeTable ::: ${JSON.stringify(rows)}`);
+  console.log(`rows in ResumeTable ::: ${JSON.stringify(rows)}`);
+  console.log(`resumes in ResumeTable ::: ${JSON.stringify(resumes)}`);
   return (
     <Table striped bordered hover>
       <thead>

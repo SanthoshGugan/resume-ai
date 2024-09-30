@@ -6,7 +6,8 @@ import { setIsResumeAdded } from "../../store/resumeSlice";
 import { useNavigate } from 'react-router-dom';
 import { RESUME_UPLOAD_STATUS } from "../../utils/constants";
 import ScreenProgress from "../ScreenProgress";
-import { Alert, Col, Container, Row } from "react-bootstrap";
+import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
+import { isResumeUploadInProgress } from "../../store/selectors/resumeSelector";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
@@ -18,6 +19,8 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
 
     // Access resumeUploadStatus from the Redux store
     const resumeUploadStatus = useSelector((state) => state.resumes.resumeUploadStatus);
+
+    const isResumeUplodInProgressFlag = useSelector((state) => isResumeUploadInProgress(state)); 
 
     // Array of progress messages
     const progressMessages = ["Initializing...", "Preparing...", "Computing...", "Matching...", "Finalizing..."];
@@ -37,6 +40,8 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
     const onCancel = async (files) => {
 
     }
+
+    console.log(`isResumeUplodInProgressFlag ${isResumeUplodInProgressFlag}`);
 
     if (resumeUploadStatus === 'completed') {
         return (
@@ -61,6 +66,7 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                 description="Add Resumes"
                 onRemoveFiles={onRemoveFiles}
                 onCancel={onCancel}
+                disabled={isResumeUplodInProgressFlag}
             />
             {uploadedFiles.length > 0 && (
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
@@ -72,21 +78,15 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                             border: "none",
                             borderRadius: "5px",
                             cursor: "pointer",
-                            padding: "10px 15px"
+                            padding: "10px 15px",
+                            opacity: isResumeUplodInProgressFlag ? "0.5" : "1"
                         }}
+                        disabled = {isResumeUplodInProgressFlag}
                     >
                         Upload Files
+                        {isResumeUplodInProgressFlag && <Spinner style={{ marginLeft: '5px' }}size="sm"/>}
                     </button>
                 </div>
-            )}
-
-            {/* Conditionally render status overlay based on resumeUploadStatus */}
-            {resumeUploadStatus === RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS && (
-                <ScreenProgress
-                    sourceStatus={resumeUploadStatus}
-                    targetStatus={RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS}
-                    progressMessages={progressMessages}
-                />
             )}
         </>
     );
