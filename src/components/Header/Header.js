@@ -1,11 +1,22 @@
-import { Col, Container, Row } from "react-bootstrap"
+import { Button, Col, Container, Row } from "react-bootstrap"
 
-const Header = () => {
+const Header = ({ signOut, user}) => {
+
+    const renderLoginLogout = () => {
+        if (user) {
+            return (<Col md={2}>
+                <Button onClick={signOut}>Sign out</Button>
+            </Col>);
+            return (
+                <Col md={2}></Col>
+            )
+        }
+    }
     return (<Container>
         <Row>
             <Col md={2}></Col>
             <Col md={7} sm={8}>Logo</Col>
-            <Col md={2} sm={4}>login</Col>
+            {renderLoginLogout()}
         </Row>
     </Container>);
 };
