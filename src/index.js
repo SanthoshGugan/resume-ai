@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';  // Import Provider
 import  { store }  from './store/store'; // Import your Redux store
 import route from './route';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@aws-amplify/ui-react/styles.css';  // Import Amplify UI styles
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
