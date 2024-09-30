@@ -3,6 +3,8 @@ import { createSelector } from "@reduxjs/toolkit";
 
 const selectResumeByIds = state => state.resumes.byId;
 
+const selectResumeUploadStatus = state => state?.resumes.resumeUploadStatus;
+
 const resumesByIdsSelector = createSelector(
     [selectResumeByIds, (state, resumeIds) => resumeIds],
     (resumesById, resumeIds) => {
@@ -23,4 +25,4 @@ const resumeByIdSelector = createSelector(
     }
 )
 
-export { resumesByIdsSelector, resumeByIdSelector };
+export { resumesByIdsSelector, resumeByIdSelector, selectResumeUploadStatus };

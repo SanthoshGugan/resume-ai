@@ -67,7 +67,7 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
         padding: "30px 0",
         textAlign: "center",
         marginBottom: "30px",
-        backgroundColor: "#f9f9f9",
+        // backgroundColor: "#f9f9f9",
         transition: "border 0.3s",
         position: "relative",
         border: isDragging ? "2px dashed #007bff" : "2px solid transparent", // Dashed border visible only on drag

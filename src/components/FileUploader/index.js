@@ -8,6 +8,8 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
     const [selectedFiles, setSelectedFiles] = useState(new Set());
     const [allSelected, setAllSelected] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+
+    const [isDragging, setIsDragging] = useState(false);
     const filesPerPage = 5;
 
     const fileInputRef = useRef(null);
@@ -114,43 +116,57 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
         }
     };
 
+    // Handle drag enter event
+    const handleDragEnter = (event) => {
+        event.preventDefault();
+        setIsDragging(true);
+    };
+
+    // Handle drag leave event
+    const handleDragLeave = (event) => {
+        event.preventDefault();
+        setIsDragging(false);
+    };
+
     return (
-        <div 
-            onDrop={handleDrop} 
-            onDragOver={handleDragOver} 
+        <div
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
             style={{
-                border: "2px dashed #007bff",
+                border: isDragging ? "2px dashed #007bff" : "2px solid transparent", // Dashed border visible only on drag
                 borderRadius: "10px",
                 padding: "30px 0",
                 textAlign: "center",
                 marginBottom: "30px",
-                backgroundColor: "#f9f9f9",
+                // backgroundColor: "#f9f9f9",
                 transition: "border 0.3s",
             }}
         >
             <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
             <h4>{description}</h4>
-            <p>Only PDF files are allowed.</p>
-            <input 
+            {/* <p>Only PDF files are allowed.</p> */}
+            <input
                 ref={fileInputRef}
                 type="file"
                 accept=".pdf"
                 multiple={multiple}
                 onChange={handleFileChange}
-                style={{ display: "none" }} 
+                style={{ display: "none" }}
                 id="fileInput"
             />
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px", gap: "15px" }}>
-                <Button 
+                {files.length > 0 && (<Button
                     variant="danger"
-                    onClick={removeFiles} 
+                    onClick={removeFiles}
                     disabled={selectedFiles.size === 0}
                 >
                     <FaTrashAlt style={{ marginRight: "5px" }} />
                     Remove
-                </Button>
-                <label 
-                    htmlFor="fileInput" 
+                </Button>)}
+                <label
+                    htmlFor="fileInput"
                     style={{
                         padding: "10px 20px",
                         backgroundColor: "#007bff",
@@ -173,9 +189,9 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                         <thead>
                             <tr>
                                 <th>
-                                    <input 
-                                        type="checkbox" 
-                                        checked={allSelected} 
+                                    <input
+                                        type="checkbox"
+                                        checked={allSelected}
                                         onChange={toggleSelectAll}
                                     />
                                 </th>
@@ -187,9 +203,9 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                             {currentFiles.map((file) => (
                                 <tr key={file.name} onClick={() => toggleSelectFile(file.name)} style={{ cursor: "pointer", background: selectedFiles.has(file.name) ? "#f0f8ff" : "transparent" }}>
                                     <td>
-                                        <input 
-                                            type="checkbox" 
-                                            checked={selectedFiles.has(file.name)} 
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedFiles.has(file.name)}
                                             onChange={() => toggleSelectFile(file.name)}
                                         />
                                     </td>
@@ -202,13 +218,13 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
 
                     {/* React Bootstrap Pagination */}
                     <Pagination className="justify-content-center">
-                        <Pagination.Prev 
-                            onClick={prevPage} 
+                        <Pagination.Prev
+                            onClick={prevPage}
                             disabled={currentPage === 1}
                         />
                         <Pagination.Item active>{currentPage}</Pagination.Item>
-                        <Pagination.Next 
-                            onClick={nextPage} 
+                        <Pagination.Next
+                            onClick={nextPage}
                             disabled={currentPage === totalPages}
                         />
                     </Pagination>

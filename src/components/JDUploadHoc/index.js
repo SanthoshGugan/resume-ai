@@ -72,7 +72,7 @@ const JDUploadHoc = ({ }) => {
 
     const skipNext = async (event) => {
         dispatch(skipSkillUpdateThunk());
-        navigate('/home/resume-upload')
+        navigate('/resume-upload')
     }
 
 
@@ -107,7 +107,7 @@ const JDUploadHoc = ({ }) => {
                         disabled={jdUploadInProgressFlag}
                     >
                         Upload
-                        {jdUploadInProgressFlag && <Spinner />}
+                        {jdUploadInProgressFlag && <Spinner style={{ marginLeft: '5px' }}size="sm"/>}
                     </Button>
                 </div>
             )}

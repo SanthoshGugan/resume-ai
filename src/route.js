@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "./App";
 import ResumeAi from "./components/ResumeAi";
 import Landing from "./components/Landing";
@@ -9,10 +9,6 @@ import JDuploadHoc from "./components/JDUploadHoc"
 import QueryBoard from "./components/QueryBoard/QueryBoard";
 
 const route = createBrowserRouter([
-    {
-        path: '/',
-        element: <App />
-    },
     {
         path: '/chatresume',
         element: <ResumeAi />
@@ -26,9 +22,13 @@ const route = createBrowserRouter([
         element: <ResumeManagerContainer />
     },
     {
-        path: '/home',
+        path: '/',
         element: <Home />,
         children: [
+            {
+              path: "",
+              element: <Navigate to="/jd-upload" replace />
+            },
             {
                 path: 'jd-upload',
                 element: <JDuploadHoc/>

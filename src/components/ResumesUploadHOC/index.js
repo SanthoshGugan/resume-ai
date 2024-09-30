@@ -6,6 +6,7 @@ import { setIsResumeAdded } from "../../store/resumeSlice";
 import { useNavigate } from 'react-router-dom';
 import { RESUME_UPLOAD_STATUS } from "../../utils/constants";
 import ScreenProgress from "../ScreenProgress";
+import { Alert, Col, Container, Row } from "react-bootstrap";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
@@ -13,26 +14,13 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     // const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
     const dispatch = useDispatch();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     // Access resumeUploadStatus from the Redux store
     const resumeUploadStatus = useSelector((state) => state.resumes.resumeUploadStatus);
 
     // Array of progress messages
     const progressMessages = ["Initializing...", "Preparing...", "Computing...", "Matching...", "Finalizing..."];
-
-    // Rotate messages during the RESUME_WORKFLOW_PROGRESS status
-    // useEffect(() => {
-    //     let interval;
-    //     if (resumeUploadStatus === RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS) {
-    //         interval = setInterval(() => {
-    //             setCurrentMessageIndex(prevIndex => (prevIndex + 1) % progressMessages.length);
-    //         }, 2000); // Change message every 2 seconds
-    //     } else {
-    //         clearInterval(interval);
-    //     }
-    //     return () => clearInterval(interval); // Cleanup on unmount
-    // }, [resumeUploadStatus]);
 
     const onAddFiles = (files) => {
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
@@ -46,23 +34,38 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
     const onRemoveFiles = async (files) => {
         setUploadedFiles(files);
     }
-    const onCancel = async(files) => {
+    const onCancel = async (files) => {
 
+    }
+
+    if (resumeUploadStatus === 'completed') {
+        return (
+            <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
+                <Alert variant="success">
+                    {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
+                    <Row>
+                        <Col md={11}>
+                            Your Resumes have been successfully uploaded.
+                        </Col>
+                    </Row>
+                </Alert>
+            </Container>
+        )
     }
 
     return (
         <>
-            <FileUploader 
-                onAddFiles={onAddFiles}  
+            <FileUploader
+                onAddFiles={onAddFiles}
                 multiple={true}
-                description="Drag & Drop your Resume or Add Files"
+                description="Add Resumes"
                 onRemoveFiles={onRemoveFiles}
                 onCancel={onCancel}
             />
             {uploadedFiles.length > 0 && (
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-                    <button 
-                        onClick={onUpload} 
+                    <button
+                        onClick={onUpload}
                         style={{
                             backgroundColor: "#28a745",
                             color: "white",
