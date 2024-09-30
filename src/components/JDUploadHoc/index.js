@@ -139,7 +139,7 @@ const JDUploadHoc = ({ }) => {
                             disabled={isJdUpdateSkillInProgress || !dimensionsChanged}
                         >
                             Update Skill
-                            {isJdUpdateSkillInProgress && <Spinner size="2"/>}
+                            {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
                         </Button>
                         <Button
                             variant="success"
@@ -147,7 +147,7 @@ const JDUploadHoc = ({ }) => {
                             disabled={isJdUpdateSkillInProgress || dimensionsChanged}
                         >
                             Continue
-                            {isJdUpdateSkillInProgress && <Spinner size="1"/>}
+                            {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
 
                         </Button>
                     </Col>
