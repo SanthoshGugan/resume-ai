@@ -142,9 +142,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                 marginBottom: "30px",
                 // backgroundColor: "#f9f9f9",
                 transition: "border 0.3s",
-                opacity: disabled ? "0.5" : 1
             }}
-            disabled = {disabled}
         >
             <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
             <h4>{description}</h4>
@@ -155,7 +153,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                 accept=".pdf"
                 multiple={multiple}
                 onChange={handleFileChange}
-                style={{ display: "none" }}
+                style={{ display: "none", opacity: disabled ? '0.5': '1'}}
                 id="fileInput"
                 disabled = {disabled}
             />
@@ -163,7 +161,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                 {files.length > 0 && (<Button
                     variant="danger"
                     onClick={removeFiles}
-                    disabled={selectedFiles.size === 0}
+                    disabled={selectedFiles.size === 0 || disabled}
                 >
                     <FaTrashAlt style={{ marginRight: "5px" }} />
                     Remove

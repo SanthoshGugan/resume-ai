@@ -91,6 +91,7 @@ const JDUploadHoc = ({ }) => {
                 onRemoveFiles={onRemoveFiles}
                 onCancel={onCancel}
                 description="Select Job Description File"
+                disabled={jdUploadInProgressFlag}
             />)}
             {uploadedFiles.length > 0 && !updateFlag && (  // Conditionally render upload button
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
@@ -102,7 +103,7 @@ const JDUploadHoc = ({ }) => {
                             border: "none",
                             borderRadius: "5px",
                             cursor: "pointer",
-                            padding: "10px 15px"
+                            padding: "10px 15px",
                         }}
                         disabled={jdUploadInProgressFlag}
                     >

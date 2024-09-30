@@ -3,7 +3,7 @@ import { Button, Badge, Row, Col } from 'react-bootstrap';
 import { FaFileUpload, FaTrashAlt } from 'react-icons/fa'; // Import icons
 import { MdOutlineCloudUpload } from 'react-icons/md'; // Icon for drag and drop
 
-const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your JD" }) => {
+const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your JD", disabled }) => {
     const [file, setFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef(null);
@@ -76,6 +76,7 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
     const fileDisplayStyle = {
         textAlign: "center",
         position: "relative",
+        opacity: disabled ? "0.5" : 1
     };
 
     const fileNameStyle = {
@@ -105,8 +106,9 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
                         type="file"
                         accept=".pdf"
                         onChange={handleFileChange}
-                        style={{ display: "none" }}
+                        style={{ display: "none"}}
                         id="fileInput"
+                        disabled = {disabled}
                     />
                     <Row className="d-flex justify-content-center">
                         <Col md={4}>
@@ -131,7 +133,7 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
             )}
 
             {file && (
-                <div style={fileDisplayStyle}>
+                <div style={fileDisplayStyle} disabled={disabled}>
                     <FaFileUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
                     <Row className="d-flex justify-content-center">
                         <Col md={3} style={fileNameStyle}>
@@ -141,6 +143,7 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
                                 bg="danger"
                                 style={deleteBadgeStyle}
                                 onClick={removeFile}
+                                disabled={disabled}
                             >
                                 <FaTrashAlt />
                             </Badge>
