@@ -21,10 +21,10 @@ const ResumeTable = ({ resumes, rows = [] }) => {
     setOpenIndex(openIndex === index ? null : index);
   };
   const enabledDomainQueries = useSelector(state => domainsQueryEnabledSelector(state));
-  console.log(`enabled domains`, enabledDomainQueries);
+  // console.log(`enabled domains`, enabledDomainQueries);
 
-  console.log(`rows in ResumeTable ::: ${JSON.stringify(rows)}`);
-  console.log(`resumes in ResumeTable ::: ${JSON.stringify(resumes)}`);
+  // console.log(`rows in ResumeTable ::: ${JSON.stringify(rows)}`);
+  // console.log(`resumes in ResumeTable ::: ${JSON.stringify(resumes)}`);
   return (
     <Table striped bordered hover>
       <thead>

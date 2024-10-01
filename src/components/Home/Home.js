@@ -3,14 +3,29 @@ import Header from "../Header/Header";
 import Board from "../Board/Board";
 import Actions from "../Actions/Actions";
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import { useNavigate } from 'react-router-dom';
 
 import {Amplify} from 'aws-amplify';
 import awsconfig from '../../aws-exports';
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { resetStore } from "../../store/thunks/commonThunk";
 
 Amplify.configure(awsconfig);
 
 const Home = ({isPassedToWithAuthenticator, signOut, user }) => {
-    console.log(`user details : `, user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (user) {
+            // Redirect to home page once signed in successfully
+            dispatch(resetStore());
+            navigate('/');
+        }
+    }, [user, navigate]);
+
+    console.log(`User details: `, user);
     return (<Container>
         <Header signOut={signOut} user={user} />
         <Board />
@@ -18,4 +33,8 @@ const Home = ({isPassedToWithAuthenticator, signOut, user }) => {
     </Container>);
 };
 
-export default withAuthenticator(Home);
+  
+
+export default withAuthenticator(Home, {
+    
+});

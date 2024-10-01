@@ -22,6 +22,7 @@ const jobDescriptionSlice = createSlice({
   name: 'jobDescription',
   initialState,
   reducers: {
+    jdReset: state => initialState,
     addKey: (state, action) => {
       console.log(`key ${JSON.stringify(action.payload)}`);
       state.key = action.payload;
@@ -79,6 +80,7 @@ const jobDescriptionSlice = createSlice({
 });
 
 export const {
+  jdReset,
   initSkill,
   addKey,
   addJd,

@@ -5,10 +5,9 @@ const awsmobile = {
     "aws_project_region": "ap-south-1",
     "aws_cognito_identity_pool_id": "", // Optional, if using Identity Pool
     "aws_cognito_region": "ap-south-1",  // The region for Cognito
-    "aws_user_pools_id": "ap-south-1_NPQyavUix",  // Your Cognito User Pool ID
-    "aws_user_pools_web_client_id": "2cn63l29boprv9411fjpnk2v41",  // Your Cognito App Client ID
+    "aws_user_pools_id": "ap-south-1_HId4pQZQS",  // Your Cognito User Pool ID
+    "aws_user_pools_web_client_id": "4fc8i1l6icmjqac3f0r3rhej2r",  // Your Cognito App Client ID
     "oauth": {
-        "redirectSignOut": "http://localhost:3000/home"
     }
 };
 

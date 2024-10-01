@@ -44,6 +44,7 @@ const resumeSlice = createSlice({
   name: 'resumes',
   initialState,
   reducers: {
+    resumeReset: state => initialState,
     addResume: (state, action) => {
       const { resume } = action.payload;
       const { metadata = "{}"} = resume;
@@ -113,5 +114,5 @@ const resumeSlice = createSlice({
   }
 });
 
-export const { addResume, updateResumeStatus, removeResume, addFetchInProgress, removeFetchInProgress, setIsResumeAdded, setIds, setResumeUploadStatus } = resumeSlice.actions;
+export const { resumeReset, addResume, updateResumeStatus, removeResume, addFetchInProgress, removeFetchInProgress, setIsResumeAdded, setIds, setResumeUploadStatus } = resumeSlice.actions;
 export default resumeSlice.reducer;

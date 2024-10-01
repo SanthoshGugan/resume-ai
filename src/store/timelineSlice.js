@@ -14,6 +14,7 @@ const timelineSlice = createSlice({
     name: 'timeline',
     initialState,
     reducers: {
+        timelineReset: state => initialState,
         updateStatusForStep: (state, action) => {
             const { id, status } = action.payload;
             state.steps = state.steps.map(step => {
@@ -34,6 +35,7 @@ const timelineSlice = createSlice({
 });
 
 export const {
+    timelineReset,
     updateStatusForStep,
     updateStepToActive
 } = timelineSlice.actions;

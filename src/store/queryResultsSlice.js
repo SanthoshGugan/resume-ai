@@ -13,6 +13,7 @@ const queryResultsSlice = createSlice({
   name: 'queryResults',
   initialState,
   reducers: {
+    qResultReset: state => initialState,
     addQueryResult: (state, action) => {
       const { queryId, result } = action.payload;
       state.byQueryId[queryId] = result;
@@ -49,6 +50,7 @@ const queryResultsSlice = createSlice({
 });
 
 export const {
+  qResultReset,
   addQueryResult,
   updateCumulativeResults,
   setRemainingQueries,
