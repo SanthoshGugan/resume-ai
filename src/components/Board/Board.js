@@ -1,7 +1,11 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import { userIdSelector } from "../../store/selectors/userSelector";
 
 const Board = () => {
+    const userId = useSelector(state => userIdSelector(state));
+    
     return (
         <Container>
             <Card style={{ border: 'none'}}>

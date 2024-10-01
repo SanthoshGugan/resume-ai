@@ -5,6 +5,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import { fetchUserAttributes } from 'aws-amplify/auth';
+import { useDispatch } from 'react-redux';
+import { userLogout } from '../../store/thunks/userThunk';
+import { useNavigate } from 'react-router-dom';
 
 // Custom Toggle component for the Dropdown
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -43,13 +46,16 @@ const CustomMenu = React.forwardRef(
   },
 );
 
-const UserProfile = ({ signOut }) => {
+const UserProfile = () => {
     const [show, setShow] = useState(false); // Controls modal visibility
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [city, setCity] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [user, setUser] = useState();
+    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // Dummy user for avatar display
 
@@ -57,6 +63,14 @@ const UserProfile = ({ signOut }) => {
     const handleShow = () => setShow(true); // Show the modal
     const handleClose = () => setShow(false); // Close the modal
 
+    const signOutHandler = async () => {
+      try {
+        dispatch(userLogout(navigate))
+        // navigate('/login');
+      } catch(err) {
+        console.error(`error while signing out`, err);
+      }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -89,7 +103,7 @@ const UserProfile = ({ signOut }) => {
 
                 <Dropdown.Menu as={CustomMenu}>
                     <Dropdown.Item onClick={handleShow} disabled>Profile</Dropdown.Item>
-                    <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
+                    <Dropdown.Item onClick={signOutHandler}>Sign Out</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
 

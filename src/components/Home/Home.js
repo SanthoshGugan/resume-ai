@@ -8,28 +8,18 @@ import { useNavigate } from 'react-router-dom';
 import {Amplify} from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetStore } from "../../store/thunks/commonThunk";
 import { setuserId } from "../../store/userSlice";
+import { userIdSelector, userSignOutSelector } from "../../store/selectors/userSelector";
 
 Amplify.configure(awsconfig);
 
-const Home = ({isPassedToWithAuthenticator, signOut, user }) => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (user) {
-            // Redirect to home page once signed in successfully
-            dispatch(resetStore());
-            dispatch(setuserId(user?.userId));
-            navigate('/');
-        }
-    }, [user, navigate]);
-
-    console.log(`User details: `, user);
+const Home = () => {
+    const signOut = useSelector(state => userSignOutSelector(state));
+    const userId = useSelector(state => userIdSelector(state))
     return (<Container>
-        <Header signOut={signOut} user={user} />
+        <Header signOut={signOut} userId={userId} />
         <Board />
         <Actions />
     </Container>);
@@ -37,4 +27,4 @@ const Home = ({isPassedToWithAuthenticator, signOut, user }) => {
 
   
 
-export default withAuthenticator(Home);
+export default Home;

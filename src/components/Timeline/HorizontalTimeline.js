@@ -2,9 +2,13 @@ import React from 'react';
 import StepAction from './StepAction';
 import { useSelector } from 'react-redux';
 import { selectSteps } from '../../store/selectors/timelineSelector';
+import { userIdSelector } from '../../store/selectors/userSelector';
 
 const HorizontalTimeline = ({ activeStep }) => {
   const steps = useSelector(state => selectSteps(state));
+  const userId = useSelector(state => userIdSelector(state));
+
+  // if (!userId) return <></>;
 
   return (
     <div style={timelineContainerStyle}>

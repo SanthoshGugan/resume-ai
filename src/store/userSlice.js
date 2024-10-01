@@ -4,7 +4,7 @@ const initialState = {
   isAuthenticated: false,
   details: null,           // User profile details
   userType: 'guest',       // User type: 'guest', 'free', 'premium'
-  userId: ''
+  userId: null
 };
 
 const userSlice = createSlice({
@@ -25,7 +25,7 @@ const userSlice = createSlice({
     setuserId: (state, action) => {
       const userId = action.payload;
       state.userId = userId;
-    }
+    },
   },
 });
 

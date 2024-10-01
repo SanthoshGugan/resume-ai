@@ -8,16 +8,13 @@ import ResumesUploadHOC from "./components/ResumesUploadHOC"
 import JDuploadHoc from "./components/JDUploadHoc"
 import QueryBoard from "./components/QueryBoard/QueryBoard";
 import UserProfile from "./components/UserProfile/UserProfile";
+import Login from "./components/Login/Login";
 
 const route = createBrowserRouter([
     {
         path: '/',
         element: <Home />,
         children: [
-            {
-              path: "",
-              element: <JDuploadHoc/>
-            },
             {
                 path: 'jd-upload',
                 element: <JDuploadHoc/>
@@ -30,9 +27,17 @@ const route = createBrowserRouter([
                 path: 'queries',
                 element: <QueryBoard />
                
-            }
+            },
+            {
+                path: 'login',
+                element: <Login />
+            },
+            {
+              path: "/",
+              element: <JDuploadHoc/>
+            },
         ]
-    }
+    },
 ]);
 
 export default route;

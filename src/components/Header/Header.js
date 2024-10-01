@@ -1,6 +1,8 @@
 import { Button, Col, Container, Image, Row } from "react-bootstrap"
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserProfile from "../UserProfile/UserProfile";
+import { useSelector } from "react-redux";
+import { userIdSelector } from "../../store/selectors/userSelector";
 
 const styles = {
     avatarButton: {
@@ -16,28 +18,33 @@ const styles = {
     }
 };
 
-const Header = ({ signOut, user}) => {
+const Header = () => {
     const navigate = useNavigate();
+    const userId = useSelector(state => userIdSelector(state));
 
     const renderLoginLogout = () => {
     
-        const handleProfileClick = () => {
-            navigate('/profile');
-        }
-    
-        if (user) {
+        if (userId) {
             const userInitial = 'N'; // Get the first letter of the user's email
     
             return (
                 <Col md={2} className="d-flex justify-content-center align-items-end">
-                    <UserProfile signOut={signOut}/>
+                    <UserProfile/>
                     {/* <Button onClick={signOut} >Sign Out</Button> */}
                 </Col>
             );
         }
     
         return (
-            <Col md={2}></Col>
+            <Col md={2}>
+                <Button>
+                    <Link 
+                        to="/login"
+                        style={{ color: "white", fontSize: "1rem", textDecoration: "none" }}>
+                            Login
+                    </Link> 
+                </Button>
+            </Col>
         );
     }
     return (
