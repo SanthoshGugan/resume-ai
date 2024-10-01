@@ -57,7 +57,9 @@ const resumeSlice = createSlice({
         metadatjson = {}
       }
       state.byId[resume.id] = { ...resume, uploadStatus: 'idle', processStatus: 'idle', matchStatus: 'idle', metadata: metadatjson };
-      state.allIds.push(resume.id);
+      if (!state.allIds.includes(resume.id)) {
+        state.allIds.push(resume.id);
+      }
     },
     updateResumeStatus: (state, action) => {
       const { resumeId, statusKey, statusValue } = action.payload;
@@ -77,8 +79,9 @@ const resumeSlice = createSlice({
     },
     removeFetchInProgress: (state, action) => {
       const { resumeId } = action.payload;
+      console.log(`removing fetch in progress ${resumeId} state ${state.fetchInProgress}`)
       if (state.fetchInProgress.includes(resumeId))
-        state.fetchInProgress = state.fetchInProgress.filter(id => id !== resumeId);
+        state.fetchInProgress = state.fetchInProgress.filter(id => id !== resumeId) || [];
     },
     setIsResumeAdded: (state, action) => {
       state.isResumeAdded = action.payload

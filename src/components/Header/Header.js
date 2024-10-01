@@ -29,7 +29,7 @@ const Header = ({ signOut, user}) => {
             const userInitial = 'N'; // Get the first letter of the user's email
     
             return (
-                <Col md={2}>
+                <Col md={2} className="d-flex justify-content-center align-items-end">
                     <UserProfile signOut={signOut}/>
                     {/* <Button onClick={signOut} >Sign Out</Button> */}
                 </Col>

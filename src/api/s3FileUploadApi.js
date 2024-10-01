@@ -11,11 +11,12 @@ const client = new S3Client({
     }
 });
 
-export const uploadFiles = async ({ files, Bucket }) => {
+export const uploadFiles = async ({ files, Bucket, key_map }) => {
     try {
         const keys = [];
         for (const file of files) {
-            const Key = file.name;
+            const name = file.name;
+            const Key = key_map.get(name); 
             // console.log('Bucket ::::::', Bucket);
             const params = {
                 Bucket,

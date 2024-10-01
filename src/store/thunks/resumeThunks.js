@@ -17,9 +17,9 @@ export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispat
         if(filteredResumeKeys.length == 0){
             return;
         }
-        // for(const resumeId of filteredResumeKeys) {
-        //     // dispatch(addFetchInProgress({resumeId}))
-        // }
+        for(const resumeId of filteredResumeKeys) {
+            dispatch(addFetchInProgress({resumeId}))
+        }
         const res = await fetchResumesApi({ resumeIds: filteredResumeKeys });
         const resumeResult = res.data.resumes;
         for(const resume of resumeResult) {
@@ -42,7 +42,7 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
        const remainingResumesIds = [];
        for(const resume of resumes){
             dispatch(addResume({resume}));
-            if(resume.status != "EMBEDDING_UPDATED"){
+            if(!["EMBEDDING_UPDATED"].includes(resume.status)){
                 remainingResumesIds.push(resume.id);
             }
        }
@@ -60,26 +60,28 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
          dispatch(setResumeUploadStatus('completed'));
          navigate('/queries');
        }       
-    } catch (err) {
+    } catch (err) { 
         console.error('error while resume fetching :::: ', err);   
     }
 };
 
 export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispatch, getState) => {
-    const resume_keys = [];
-    for(const file of files) {
-        const resume_name = file.name;
-        const resume_key = `${resume_name}_${Bucket}`;
-        resume_keys.push(resume_key);
-    }
     const { jobDescription } = getState();
     const {s3_key, s3_bucket} = jobDescription?.key;
     console.log(`jd_key :${s3_key}`);
+    const resume_keys = [];
+    const key_map = new Map();
 
+    for(const file of files) {
+        const resume_name = file.name;
+        const resume_key = `${resume_name}_${s3_key}`;
+        resume_keys.push(resume_key);
+        key_map.set(resume_name, resume_key);
+    }
     const response = await initializeResumeUploadApi({ jd_key:`${s3_key}`, resume_keys });
     // const { id } = response?.data;
     dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS));
-    const { Key } = await uploadFiles({ files, Bucket});
+    const { Key } = await uploadFiles({ files, Bucket, key_map});
     // dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
     dispatch(updateResumesThunk(resume_keys, 5000, navigate));
     console.log(resume_keys);
