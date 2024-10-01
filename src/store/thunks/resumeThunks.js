@@ -74,9 +74,9 @@ export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispa
     }
     const { jobDescription } = getState();
     const {s3_key, s3_bucket} = jobDescription?.key;
-    console.log(`jd_key :${s3_key}_${s3_bucket}`);
+    console.log(`jd_key :${s3_key}`);
 
-    const response = await initializeResumeUploadApi({ jd_key:`${s3_key}_${s3_bucket}`, resume_keys });
+    const response = await initializeResumeUploadApi({ jd_key:`${s3_key}`, resume_keys });
     // const { id } = response?.data;
     dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS));
     const { Key } = await uploadFiles({ files, Bucket});

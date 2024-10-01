@@ -4,6 +4,7 @@ import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey, s
 import { uploadFile } from "../../api/s3FileUploadApi";
 import { updateStatusForStep, updateStepToActive } from "../timelineSlice";
 import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants";
+import { generateJdKeyByUserId } from "../../utils/userUtils";
 
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
@@ -12,7 +13,7 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
     const { key, jdUpdateSkillStatus } = jobDescription;
     try {
         const { s3_key, s3_bucket } = key;
-        if (!s3_key || !s3_bucket) {
+        if (!s3_key) {
             // console.log(`key : ${s3_bucket} ${s3_bucket}`);
             return;
         }
@@ -79,10 +80,13 @@ export const updateJdThunk = () => async (dispatch, getState) => {
 
 // jd upload thunk
 export const uploadJDThunk = ({ file, Bucket }) => async (dispatch, getState) => {
+    const { user } = getState();
+    const { userId } = user;
+    const Key = generateJdKeyByUserId(userId);
     dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
-    const { Key } = await uploadFile({ file, Bucket });
-    console.log(`on jdthunk ::; ${Key} ${Bucket}`);
-    dispatch(addKey({ s3_key: Key, s3_bucket: Bucket }));
+    await uploadFile({ file, Bucket, Key });
+    // console.log(`on jdthunk ::; ${Key} ${Bucket}`);
+    dispatch(addKey({ s3_key: Key }));
     dispatch(fetchJDThunk());
 }
 

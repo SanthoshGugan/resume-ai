@@ -32,9 +32,9 @@ export const uploadFiles = async ({ files, Bucket }) => {
     }
 }
 
-export const uploadFile = async ({ file, Bucket }) => {
+export const uploadFile = async ({ file, Bucket, Key }) => {
     try {
-        const Key = file.name;
+        // const Key = file.name;
         // console.log('Bucket ::::::', Bucket);
         const params = {
             Bucket,

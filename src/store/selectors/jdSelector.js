@@ -19,8 +19,8 @@ const selectJdKey = createSelector(
         selectJdKeyObj
     ],
     (jdKeyObject) => {
-        const { s3_key, s3_bucket } = jdKeyObject;
-        return `${s3_key}_${s3_bucket}`;
+        const { s3_key } = jdKeyObject;
+        return `${s3_key}`;
     }
 )
 

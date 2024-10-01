@@ -3,7 +3,7 @@ import { addSkillToJobDescription, removeSkillFromJobDescription } from './reduc
 import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from '../utils/constants';
 
 const initialState = {
-  key: { s3_key: '', s3_bucket: ''},
+  key: { s3_key: ''},
   jd: {id: ''},
   initialDimensions: {},
   skills: {

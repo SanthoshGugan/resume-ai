@@ -28,7 +28,7 @@ const JDUpload = ({ setJdKey, setCanShowJDSummaryCard, setCanShowResumeUploadCar
         if (!files || !file) return;
         const { Key } = await uploadFile({ file, Bucket: BUCKET_NAME });
         setJdKey(`${Key}_${BUCKET_NAME}`);
-        dispatch(addKey({s3_key: Key, s3_bucket: BUCKET_NAME}));
+        dispatch(addKey({s3_key: Key}));
         // await fetchJDSummary({ key: Key, bucket: BUCKET_NAME });
         dispatch(fetchJDThunk());
     }

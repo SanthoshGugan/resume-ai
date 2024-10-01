@@ -49,7 +49,7 @@ export const triggerQueries = (queries) => async (dispatch, getState) => {
   // console.log(`trigger query api queries: ${queries} jd_key: ${jd_key}`);
   const { jobDescription } = getState();
   const {s3_key,s3_bucket} = jobDescription?.key;
-  const jd_key = `${s3_key}_${s3_bucket}`
+  const jd_key = `${s3_key}`
   try{
     dispatch(setQueryApiTriggered(true));
     const response = await queryFunctionApi({

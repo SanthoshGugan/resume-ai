@@ -16,7 +16,7 @@ const route = createBrowserRouter([
         children: [
             {
               path: "",
-              element: <Navigate to="/jd-upload" replace />
+              element: <JDuploadHoc/>
             },
             {
                 path: 'jd-upload',

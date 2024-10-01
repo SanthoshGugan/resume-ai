@@ -10,6 +10,7 @@ import awsconfig from '../../aws-exports';
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetStore } from "../../store/thunks/commonThunk";
+import { setuserId } from "../../store/userSlice";
 
 Amplify.configure(awsconfig);
 
@@ -21,6 +22,7 @@ const Home = ({isPassedToWithAuthenticator, signOut, user }) => {
         if (user) {
             // Redirect to home page once signed in successfully
             dispatch(resetStore());
+            dispatch(setuserId(user?.userId));
             navigate('/');
         }
     }, [user, navigate]);
@@ -35,6 +37,4 @@ const Home = ({isPassedToWithAuthenticator, signOut, user }) => {
 
   
 
-export default withAuthenticator(Home, {
-    
-});
+export default withAuthenticator(Home);

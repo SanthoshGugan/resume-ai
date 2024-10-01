@@ -4,6 +4,7 @@ const initialState = {
   isAuthenticated: false,
   details: null,           // User profile details
   userType: 'guest',       // User type: 'guest', 'free', 'premium'
+  userId: ''
 };
 
 const userSlice = createSlice({
@@ -21,9 +22,13 @@ const userSlice = createSlice({
       state.details = null;
       state.userType = 'guest';
     },
+    setuserId: (state, action) => {
+      const userId = action.payload;
+      state.userId = userId;
+    }
   },
 });
 
-export const { userReset, loginUser, logoutUser } = userSlice.actions;
+export const { userReset, loginUser, logoutUser, setuserId } = userSlice.actions;
 
 export default userSlice.reducer;
