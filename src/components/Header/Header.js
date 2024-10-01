@@ -1,4 +1,4 @@
-import { Button, Col, Container, Row } from "react-bootstrap"
+import { Button, Col, Container, Image, Row } from "react-bootstrap"
 
 const Header = ({ signOut, user}) => {
 
@@ -12,13 +12,14 @@ const Header = ({ signOut, user}) => {
             )
         }
     }
-    return (<Container>
-        <Row>
-            <Col md={2}></Col>
-            <Col md={7} sm={8}>Logo</Col>
+    return (
+        <Row className="d-flex justify-content-center align-items-center" style={{ backgroundColor: '#fefefe'}}>
+            {/* <Col md={2}></Col> */}
+            <Col md={9} sm={8} className="d-flex justify-content-start">
+                <Image src="./logo_blue.png" />
+            </Col>
             {renderLoginLogout()}
-        </Row>
-    </Container>);
+        </Row>);
 };
 
 export default Header;

@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 const Board = () => {
     return (
         <Container>
-            <Card >
+            <Card style={{ border: 'none'}}>
                 <Row style={{ minHeight: '35rem', display: 'flex', justifyContent: 'center', alignItems: "center"}}>
                     <Col md={11}>
                         <Outlet />
