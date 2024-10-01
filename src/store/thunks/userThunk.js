@@ -4,7 +4,7 @@ import { setuserId } from '../userSlice';
 
 export const userLogout = (navigate) => async  (dispatch, getState) => {
     signOut();
-    dispatch(resetStore());
+    // dispatch(resetStore());
     dispatch(setuserId(null));
     // navigate('/login'); 
 };
