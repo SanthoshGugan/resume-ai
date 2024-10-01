@@ -10,18 +10,6 @@ import QueryBoard from "./components/QueryBoard/QueryBoard";
 import UserProfile from "./components/UserProfile/UserProfile";
 
 const route = createBrowserRouter([
-    // {
-    //     path: '/chatresume',
-    //     element: <ResumeAi />
-    // },
-    // {
-    //     path: '/landing',
-    //     element: <Landing />
-    // },
-    // {
-    //     path: '/upload-resume',
-    //     element: <ResumeManagerContainer />
-    // },
     {
         path: '/',
         element: <Home />,
@@ -44,10 +32,6 @@ const route = createBrowserRouter([
                
             }
         ]
-    },
-    {
-        path: '/profile',
-        element: <UserProfile />
     }
 ]);
 
