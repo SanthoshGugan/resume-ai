@@ -3,7 +3,7 @@ export const generateJdKeyByUserId = (userId) => {
     const randomHex = Math.random().toString(16).substring(2, 10);
     
     // Combine the userId with the random hex to generate the key
-    const jdKey = `${userId}_${randomHex}`;
+    const jdKey = userId ? `${userId}_${randomHex}` : `${randomHex}`;
   
     return jdKey;
   }; 

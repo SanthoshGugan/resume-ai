@@ -67,7 +67,7 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
 
 export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispatch, getState) => {
     const { jobDescription } = getState();
-    const {s3_key, s3_bucket} = jobDescription?.key;
+    const s3_key = jobDescription?.key;
     console.log(`jd_key :${s3_key}`);
     const resume_keys = [];
     const key_map = new Map();

@@ -86,16 +86,15 @@ const useLongPollJDSummary = ({ interval = 5000 }) => {
     const [ dimensions, setDimensions ] = useState(null);
 
 
-    const fetchJDSummary = async ({ key, bucket }) => {
+    const fetchJDSummary = async ({ key }) => {
         const req = {
-            s3_key: key,
-            s3_bucket: bucket
+            s3_key: key
         };
         const res = await fetchJDSummaryApi(req);
         const { status, retry, dimensions, summary } = res?.data;
         if (retry && (!summary || !dimensions)) {
             setTimeout(() => {
-                fetchJDSummary({ key, bucket});
+                fetchJDSummary({ key });
             }, interval)
             setStatus(status);
             setRetry(retry);

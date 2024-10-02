@@ -12,14 +12,8 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
     // console.log(`JD ::: ${JSON.stringify(jobDescription)}`);
     const { key, jdUpdateSkillStatus } = jobDescription;
     try {
-        const { s3_key, s3_bucket } = key;
-        if (!s3_key) {
-            // console.log(`key : ${s3_bucket} ${s3_bucket}`);
-            return;
-        }
         const req = {
-            s3_key,
-            s3_bucket
+            s3_key: key
         };
 
         const res = await fetchJDSummaryApi(req);
@@ -65,11 +59,11 @@ export const fetchGlobalSkills = () => async (dispatch, getState) => {
 };
 
 export const updateJdThunk = () => async (dispatch, getState) => {
-    const { jobDescription: { jd, skills: { newSkills = [] } } } = getState();
-    const { dimensions, status, id, summary } = jd;
+    const { jobDescription: { jd, skills: { newSkills = [] }, key } } = getState();
+    const { dimensions, status, summary } = jd;
     try {
         dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.IN_PROGRESS));
-        const res = await updateJDApi({ jd: { dimensions, status, id, summary }, newSkills });
+        const res = await updateJDApi({ jd: { dimensions, status, id: key, summary }, newSkills });
         dispatch(fetchJDThunk());
 
     } catch (err) {
@@ -86,7 +80,7 @@ export const uploadJDThunk = ({ file, Bucket }) => async (dispatch, getState) =>
     dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
     await uploadFile({ file, Bucket, Key });
     // console.log(`on jdthunk ::; ${Key} ${Bucket}`);
-    dispatch(addKey({ s3_key: Key }));
+    dispatch(addKey(Key));
     dispatch(fetchJDThunk());
 }
 

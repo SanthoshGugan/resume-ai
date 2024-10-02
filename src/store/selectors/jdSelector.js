@@ -19,8 +19,7 @@ const selectJdKey = createSelector(
         selectJdKeyObj
     ],
     (jdKeyObject) => {
-        const { s3_key } = jdKeyObject;
-        return `${s3_key}`;
+        return jdKeyObject;
     }
 )
 

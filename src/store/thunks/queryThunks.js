@@ -48,7 +48,7 @@ export const triggerQueries = (queries) => async (dispatch, getState) => {
   // Only proceed if there are queries left to fetch
   // console.log(`trigger query api queries: ${queries} jd_key: ${jd_key}`);
   const { jobDescription } = getState();
-  const {s3_key,s3_bucket} = jobDescription?.key;
+  const s3_key = jobDescription?.key;
   const jd_key = `${s3_key}`
   try{
     dispatch(setQueryApiTriggered(true));
