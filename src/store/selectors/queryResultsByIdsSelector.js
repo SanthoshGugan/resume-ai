@@ -29,7 +29,7 @@ const selectSimilarityByResumeId = createSelector(
     // console.log(`in selector :::: ${JSON.stringify(similarityResult)}`);
     if(!similarityResult) return 0;
     const resumeResult = similarityResult.filter(result => result.resume_id === resumeId);
-    return resumeResult ? Math.ceil(resumeResult[0]?.match) : 0;
+    return resumeResult ? Math.round(resumeResult[0]?.match) : 0;
   }
 );
 
