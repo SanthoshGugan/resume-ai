@@ -26,7 +26,7 @@ const resumeMetadataByIdSelector = createSelector(
     (resumesById, id) => {
         const resume = resumesById[id];
         const { metadata } = resume;
-        const { name: names } = metadata;
+        const { name: names= [] } = metadata;
         const [name = ""] = names;
         
         const resumeMetadata = {};

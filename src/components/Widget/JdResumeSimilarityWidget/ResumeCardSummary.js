@@ -20,7 +20,7 @@ const ResumeCardSummary = ({ companies = [], yoe, location, phone, email, id }) 
     height: '100%',
   };
   const { summary } = useSelector(state => resumeSummaryByIdSelector(state, id));
-  const { name } = useSelector(state => resumeMetadataByIdSelector(state, id));
+  // const { name } = useSelector(state => resumeMetadataByIdSelector(state, id));
   return (
     <Card style={cardStyle}>
       <Card.Body>
