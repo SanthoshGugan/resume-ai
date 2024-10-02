@@ -9,15 +9,29 @@ import {Amplify} from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetStore } from "../../store/thunks/commonThunk";
-import { setuserId } from "../../store/userSlice";
+import { getCurrentUser,  } from 'aws-amplify/auth';
 import { userIdSelector, userSignOutSelector } from "../../store/selectors/userSelector";
+import { setuserId } from "../../store/userSlice";
 
 Amplify.configure(awsconfig);
 
 const Home = () => {
     const signOut = useSelector(state => userSignOutSelector(state));
-    const userId = useSelector(state => userIdSelector(state))
+    const userId = useSelector(state => userIdSelector(state));
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const initUser = async () => {
+            try {
+                const { username, userId, signInDetails } = await getCurrentUser();
+                console.log(`iserId on init `, userId);
+                dispatch(setuserId(userId));
+            } catch (err) {
+                console.log(`user not logged in`);
+            }
+        };
+        initUser();
+    }, []);
     return (<Container>
         <Header signOut={signOut} userId={userId} />
         <Board />
