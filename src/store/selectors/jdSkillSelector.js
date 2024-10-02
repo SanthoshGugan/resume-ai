@@ -1,4 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
+import { skillListFromCategories } from "../../utils/dimensionsUtil";
 
 // const selectSkillsFromFullStackDomain = state => state?.jobDescription?.jd?.domains[0]?.roles[0]?.skills || [];
 const selectSkillsFromFullStackDomain = state => state.jobDescription?.jd?.dimensions ? state?.jobDescription?.jd?.dimensions.domains[0]?.roles[0]?.skills : [];
@@ -60,6 +61,26 @@ const selectGlobalSkills = createSelector(
     }
 );
 
+const jdSkillsByCategorySelector = createSelector(
+    [
+        selectSkillsFromFullStackDomain
+    ],
+    (skills) => {
+        const skillsByCategory = skills.reduce((acc, skillItem) => {
+            const { label, skill, categories} = skillItem;
+            const skills = skillListFromCategories(categories);
+            return {
+                ...acc,
+                [skill]: {
+                    label,
+                    skills
+                }
+            }
+        }, {});
+        return skillsByCategory;
+    }
+);
+
 const isJdUpdateSkillVisible = createSelector([
     selectJDDimensions
 ], (
@@ -69,5 +90,12 @@ const isJdUpdateSkillVisible = createSelector([
     return dimensions?.domains?.length > 0;
 });
 
-export { selectSkillsFromAllCategory, selectGlobalSkills, isJdUpdateSkillVisible, selectSkillsCategories, selectJdSkillUpdateStatus } ;
+export {
+    selectSkillsFromAllCategory,
+    selectGlobalSkills,
+    isJdUpdateSkillVisible,
+    selectSkillsCategories,
+    selectJdSkillUpdateStatus,
+    jdSkillsByCategorySelector
+} ;
 

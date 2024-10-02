@@ -12,6 +12,11 @@ import {
   domainsQueryEnabledSelector
 } from '../../../store/selectors/queryResultsByIdsSelector';
 import "./ResumeRow.css";
+import { jdSkillsByCategorySelector } from '../../../store/selectors/jdSkillSelector';
+import { resumeSkillListSelector } from '../../../store/selectors/resumeSelector';
+
+import { RiEyeCloseLine } from "react-icons/ri";
+import { FaEye } from 'react-icons/fa';
 
 const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
   const isOpen = openIndex === index;
@@ -23,12 +28,21 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
   const companies = useSelector(state => selectCompaniesByResumeId(state, id));
   const enabledDomainQueries = useSelector(state => domainsQueryEnabledSelector(state));
 
+  // skills
+  const jdSkillsByCategory = useSelector(state => jdSkillsByCategorySelector(state));
+  const resumeSkillsByCategory = useSelector(state => resumeSkillListSelector(state, id));
+
+  const categories = Object.keys(jdSkillsByCategory);
+  console.log(`cateogries key : ${JSON.stringify(jdSkillsByCategory)}`);
+  console.log(`resume cateogries : ${JSON.stringify(resumeSkillsByCategory)}`);
+
   return (
     <>
       {/* Flex row */}
       <div className="flex-row" onClick={() => toggleRow(index)}>
         {showSimilarity && (
-          <div className="flex-row-item">
+          <div className="flex-row-item ">
+              {isOpen ? <FaEye size={20} className='m-2'/> : <RiEyeCloseLine className='m-2'/>}
             {metadata?.name?.[0] || 'Unknown Name'}
           </div>
         )}
@@ -80,7 +94,7 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
             <Card.Header>Details</Card.Header>
             <Card.Body>
               <Row>
-                <Col md={6}>
+                <Col md={12}>
                   <ResumeCardSummary
                     companies={resume.companies}
                     yoe={resume.yoe}
@@ -90,9 +104,15 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                     id={id}
                   />
                 </Col>
-                <Col md={6} className="d-flex flex-wrap align-items-start">
-                  <SkillsList skills={resume.frontEndSkills} category="Front End Skills" />
-                  <SkillsList skills={resume.backEndSkills} category="Back End Skills" />
+                <Col md={12} className="d-flex flex-wrap align-items-start justify-content-center">
+                  {categories.map(category => (
+                    <SkillsList
+                      jdSkills={jdSkillsByCategory[category]?.skills || []}
+                      resumeSkills={resumeSkillsByCategory[category]?.skillList || []}
+                      category={category}
+                      label={jdSkillsByCategory[category]?.label || 'Skill'}
+                    />
+                  ))}
                 </Col>
               </Row>
             </Card.Body>

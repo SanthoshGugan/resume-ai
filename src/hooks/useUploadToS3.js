@@ -22,14 +22,12 @@ const useUploadToS3 = ({ Bucket }) => {
     const uploadFile = async  ({ file, Bucket }) => {
         try {
             const Key = file.name;
-            console.log('Bucket ::::::', Bucket);
             const params = {
                 Bucket,
                 Key,
                 Body: file
             };
             const data = await client.send(new PutObjectCommand(params));
-            console.log(data);
             return {
                 Key: Key
             };

@@ -47,16 +47,16 @@ const resumeSlice = createSlice({
     resumeReset: state => initialState,
     addResume: (state, action) => {
       const { resume } = action.payload;
-      const { metadata = "{}"} = resume;
-      console.log(metadata);
-      let metadatjson;
+      const { metadata = "{}", dimensions = "{}"} = resume;
+      let metadatjson, dJson;
       try {
         metadatjson = metadata ? JSON.parse(metadata) : {};
+        dJson = JSON.parse(dimensions) || {};
       } catch (error) {
         console.log(error);
         metadatjson = {}
       }
-      state.byId[resume.id] = { ...resume, uploadStatus: 'idle', processStatus: 'idle', matchStatus: 'idle', metadata: metadatjson };
+      state.byId[resume.id] = { ...resume, uploadStatus: 'idle', processStatus: 'idle', matchStatus: 'idle', metadata: metadatjson, dimensions: dJson };
       if (!state.allIds.includes(resume.id)) {
         state.allIds.push(resume.id);
       }

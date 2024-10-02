@@ -31,7 +31,6 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
                 id
             }))
             dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED));
-            console.log(`jd update skill status : ${jdUpdateSkillStatus} ==== ${JD_UPDATE_SKILL_STATUS.IN_PROGRESS}`)
             if (jdUpdateSkillStatus === JD_UPDATE_SKILL_STATUS.IN_PROGRESS){
                 dispatch(setIsSkillUpdated(true));
                 dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));

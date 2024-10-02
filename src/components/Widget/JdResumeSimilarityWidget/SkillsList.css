@@ -1,18 +1,20 @@
 .bubble-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-    gap: 10px;
+    display: flex;
+    gap: 5px;
     align-items: center;
     justify-items: center;
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    flex-wrap: wrap;
   }
   
   .skill-badge {
-    padding: 0.5rem;
+    padding: 0.25rem;
     font-size: 0.75rem;
-    color: #fff;
+    color: #111;
     border-radius: 12px;
     text-align: center;
+    border: 1px solid grey;
+    display: flex;
+    margin: 5px;
   }
