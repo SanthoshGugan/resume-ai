@@ -1,5 +1,28 @@
-.nowrap {
-    white-space: nowrap; /* Prevent text wrapping */
-    text-align: center;  /* Optional: center-align the text */
-  }
-  
+.flex-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.flex-table-header {
+  display: flex;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.flex-header-item {
+  flex: 1; /* Each header takes equal width */
+  padding: 10px;
+  font-weight: bold;
+  border-right: 1px solid #dee2e6;
+}
+
+.flex-header-item:last-child {
+  border-right: none; /* Remove the border on the last header item */
+}
+
+.flex-table-body {
+  display: flex;
+  flex-direction: column;
+}

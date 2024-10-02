@@ -1,0 +1,21 @@
+.flex-row {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    cursor: pointer;
+  }
+  
+  .flex-row-item {
+    flex: 1; /* Each item takes equal width */
+    padding: 10px;
+    border-right: 1px solid #dee2e6;
+  }
+  
+  .flex-row-item:last-child {
+    border-right: none; /* Remove the border on the last item */
+  }
+  
+  .flex-row-details {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+  }

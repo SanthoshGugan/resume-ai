@@ -1,47 +1,54 @@
 import React, { useState } from 'react';
-import { Table } from 'react-bootstrap';
-import ResumeRow from './ResumeRow';
 import { useSelector } from 'react-redux';
+import { BsFilePerson, BsBarChart, BsAward, BsBuilding, BsFillQuestionCircleFill } from 'react-icons/bs';
+import ResumeRow from './ResumeRow'; // Assuming you will import the ResumeRow here
+import "./ResumeTable.css";
 import { domainsQueryEnabledSelector } from '../../../store/selectors/queryResultsByIdsSelector';
-import { DOMAINS } from '../../../store/reducerUtil/QueryResultUtil';
-import './ResumeTable.css';
-import { BsBuilding, BsFilePerson, BsBarChart, BsAward, BsFillQuestionCircleFill } from "react-icons/bs";
 import { DomainQueryIcons } from "../../../utils/uiUtils" ;
+import { DOMAINS } from '../../../store/reducerUtil/QueryResultUtil';
 
-const ResumeTable = ({ resumes, rows = [] }) => {
-  
+const ResumeTable = ({ rows = [], resumes }) => {
   const [openIndex, setOpenIndex] = useState(null);
-  const {
-    showSkillPercents,
-    showSimilarity,
-    showCompanies,
-    showLabelBadge
-  } = useSelector(state => state.widgets.flags);
+  const { showSkillPercents, showLabelBadge, showSimilarity, showCompanies } = useSelector(state => state.widgets.flags);
+  const enabledDomainQueries = useSelector(state => domainsQueryEnabledSelector(state));
   const toggleRow = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-  const enabledDomainQueries = useSelector(state => domainsQueryEnabledSelector(state));
-  // console.log(`enabled domains`, enabledDomainQueries);
-
-  // console.log(`rows in ResumeTable ::: ${JSON.stringify(rows)}`);
-  // console.log(`resumes in ResumeTable ::: ${JSON.stringify(resumes)}`);
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          {showSimilarity && (<th className="nowrap" key={"Candidate Name"}><BsFilePerson className='mx-2'/>Candidate Name</th>)}
-          {showSimilarity && (<th className="nowrap" key={"Overall Matching"}><BsBarChart className='mx-2'/>Overall Matching</th>)}
-          {showSimilarity && showLabelBadge && (<th className="nowrap" key={"Expertise"}><BsAward className='mx-2'/>Expertise</th>)}
-          {showSkillPercents && DOMAINS.map(domain => (
-            (enabledDomainQueries.includes(domain.value) && (<th className="nowrap" key={domain.value}>{DomainQueryIcons[domain.value] || <BsFillQuestionCircleFill className='mx-2'/>}{domain?.label}</th>))
-          ))}
-          {/* {showSkillPercents && (<th>Front End</th>)} 
-          {showSkillPercents && (<th>Back End</th>)} */}
-          {showCompanies  && (<th  className="nowrap" key={"Companies"}><BsBuilding className='mx-2'/>Companies</th>)}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map(({resume_id = ""}, index) => (
+    <div className="flex-table">
+      {/* Header */}
+      <div className="flex-table-header">
+        {showSimilarity && (
+          <div className="flex-header-item">
+            <BsFilePerson className='mx-2' /> Candidate Name
+          </div>
+        )}
+        {showSimilarity && (
+          <div className="flex-header-item">
+            <BsBarChart className='mx-2' /> Overall Matching
+          </div>
+        )}
+        {showSimilarity && showLabelBadge && (
+          <div className="flex-header-item">
+            <BsAward className='mx-2' /> Expertise
+          </div>
+        )}
+        {showSkillPercents && DOMAINS.map(domain => (
+          enabledDomainQueries.includes(domain.value) &&  
+            (<div className="flex-header-item" key={domain.value}>
+              {DomainQueryIcons[domain.value] || <BsFillQuestionCircleFill className='mx-2' />} {domain.label}
+          </div>)
+        ))}
+        {showCompanies && (
+          <div className="flex-header-item">
+            <BsBuilding className='mx-2' /> Companies
+          </div>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className="flex-table-body">
+        {rows.map(({ resume_id = "" }, index) => (
           <ResumeRow
             key={index}
             resume={resumes[resume_id]}
@@ -50,8 +57,8 @@ const ResumeTable = ({ resumes, rows = [] }) => {
             toggleRow={toggleRow}
           />
         ))}
-      </tbody>
-    </Table>
+      </div>
+    </div>
   );
 };
 

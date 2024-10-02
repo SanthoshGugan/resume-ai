@@ -1,107 +1,106 @@
-    import React from 'react';
-    import { Badge, ProgressBar, Accordion, Card, Button, Row, Col } from 'react-bootstrap';
-    import ResumeCardSummary from './ResumeCardSummary';
-    import SkillsList from './SkillList';
-    import { useSelector } from 'react-redux';
-    import SkillPercentCell from './SkillPercentCell';
-    import { selectLabelsByResumeId, selectSimilarityByResumeId, selectSkillPercentByResumeId, selectCompaniesByResumeId, domainsQueryEnabledSelector } from '../../../store/selectors/queryResultsByIdsSelector';
+import React from 'react';
+import { Badge, Card, Row, Col } from 'react-bootstrap';
+import ResumeCardSummary from './ResumeCardSummary';
+import SkillsList from './SkillList';
+import { useSelector } from 'react-redux';
+import SkillPercentCell from './SkillPercentCell';
+import {
+  selectLabelsByResumeId,
+  selectSimilarityByResumeId,
+  selectSkillPercentByResumeId,
+  selectCompaniesByResumeId,
+  domainsQueryEnabledSelector
+} from '../../../store/selectors/queryResultsByIdsSelector';
+import "./ResumeRow.css";
 
-    const domainColors = {
-        fullstack: 'primary',
-        frontend: 'success',
-        backend: 'warning',
-    };
+const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
+  const isOpen = openIndex === index;
+  const { showSkillPercents, showLabelBadge, showSimilarity, showCompanies } = useSelector(state => state.widgets.flags);
+  const { metadata = {}, id } = resume || {};
+  const match = useSelector(state => selectSimilarityByResumeId(state, id));
+  const labels = useSelector(state => selectLabelsByResumeId(state, id));
+  const skillPercent = useSelector(state => selectSkillPercentByResumeId(state, id));
+  const companies = useSelector(state => selectCompaniesByResumeId(state, id));
+  const enabledDomainQueries = useSelector(state => domainsQueryEnabledSelector(state));
 
-    const getProgressBarVariant = (value) => {
-        if (value >= 75) return 'gold';
-        if (value >= 50) return 'warning';
-        return 'danger';
-    };
+  return (
+    <>
+      {/* Flex row */}
+      <div className="flex-row" onClick={() => toggleRow(index)}>
+        {showSimilarity && (
+          <div className="flex-row-item">
+            {metadata?.name?.[0] || 'Unknown Name'}
+          </div>
+        )}
+        {showSimilarity && (
+          <div className="flex-row-item">
+            <Badge bg="primary">{match || 0} %</Badge>
+          </div>
+        )}
+        {showLabelBadge && (
+          <div className="flex-row-item">
+            {labels?.map(label => (
+              <Badge bg="success" key={label} className="me-1">{label}</Badge>
+            ))}
+          </div>
+        )}
+        {enabledDomainQueries.includes("front_end") && (
+          <div className="flex-row-item">
+            <SkillPercentCell value={skillPercent["front_end"] || 0} />
+          </div>
+        )}
+        {enabledDomainQueries.includes("back_end") && (
+          <div className="flex-row-item">
+            <SkillPercentCell value={skillPercent["back_end"] || 0} />
+          </div>
+        )}
+        {enabledDomainQueries.includes("cloud") && (
+          <div className="flex-row-item">
+            <SkillPercentCell value={skillPercent["cloud"] || 0} />
+          </div>
+        )}
+        {enabledDomainQueries.includes("devops") && (
+          <div className="flex-row-item">
+            <SkillPercentCell value={skillPercent["devops"] || 0} />
+          </div>
+        )}
+        {showCompanies && (
+          <div className="flex-row-item">
+            {companies?.map(company => (
+              <Badge bg="info" key={company} className="me-1">{company}</Badge>
+            ))}
+          </div>
+        )}
+      </div>
 
-    const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
-        const isOpen = openIndex === index;
-        const {
-            showSkillPercents,
-            showLabelBadge,
-            showSimilarity,
-            showCompanies
-        } = useSelector(state => state.widgets.flags)
-        const { metadata = {}, id } = resume || {};
-        const match = useSelector(state => selectSimilarityByResumeId(state, id))
-        const labels = useSelector(state => selectLabelsByResumeId(state, id));
-        const skillPercent = useSelector(state => selectSkillPercentByResumeId(state, id));
-        const companies = useSelector(state => selectCompaniesByResumeId(state, id));
-        console.log(`    ${JSON.stringify(skillPercent)}`, skillPercent);
-        // console.log(`match    ${match}`);
-        const enabledDomainQueries = useSelector(state => domainsQueryEnabledSelector(state));
+      {/* Details section, displayed when row is open */}
+      {isOpen && (
+        <div className="flex-row-details">
+          <Card>
+            <Card.Header>Details</Card.Header>
+            <Card.Body>
+              <Row>
+                <Col md={6}>
+                  <ResumeCardSummary
+                    companies={resume.companies}
+                    yoe={resume.yoe}
+                    location={resume.location}
+                    phone={resume.phone}
+                    email={resume.email}
+                    id={id}
+                  />
+                </Col>
+                <Col md={6} className="d-flex flex-wrap align-items-start">
+                  <SkillsList skills={resume.frontEndSkills} category="Front End Skills" />
+                  <SkillsList skills={resume.backEndSkills} category="Back End Skills" />
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </div>
+      )}
+    </>
+  );
+};
 
-        return (
-            <>
-                <tr onClick={() => toggleRow(index)}>
-                    {showSimilarity && (<td>
-                        {metadata?.name?.[0] || 'Unknown Name'} 
-                        {/* {showSimilarity && (<Badge bg="primary">{match || 0} %</Badge>)} */}
-                        {/* {showLabelBadge && (<>{labels.map(label => <Badge bg="success">{label}</Badge>)}</>)} */}
-                    </td>)}
-                    {showSimilarity && (
-                        <>
-                            <td>
-                                {<Badge bg="primary">{match || 0} %</Badge>}
-                            </td>
-                            {showLabelBadge && (<td>
-                                {(<>{labels.map(label => <Badge bg="success" key={label} className="me-1">{label}</Badge>)}</>)}
-                            </td>)}
-                        </>
-                    )}
-                    {enabledDomainQueries.includes("front_end") && (
-                        <td><SkillPercentCell value={skillPercent["front_end"] || 0} /></td>
-                    )}
-                    {enabledDomainQueries.includes("back_end") && (
-                        <td><SkillPercentCell value={skillPercent["back_end"] || 0} /></td>
-                    )}
-                    {/* {enabledDomainQueries.includes("database") && (
-                        <td><SkillPercentCell value={skillPercent["database"] || 0} /></td>
-                    )} */}
-                    {enabledDomainQueries.includes("cloud") && (
-                        <td><SkillPercentCell value={skillPercent["cloud"] || 0} /></td>
-                    )}
-                    {enabledDomainQueries.includes("devops") && (
-                        <td><SkillPercentCell value={skillPercent["devops"] || 0} /></td>
-                    )}
-                    {showCompanies &&(<td>
-                        {companies.map(company => <Badge bg="info" key={company} className="me-1">{company}</Badge>)}
-                    </td>)}
-                </tr>
-                {(isOpen) && (
-                    <tr>
-                        <td colSpan="3">
-                            <Card>
-                                <Card.Header>
-                                    Details
-                                </Card.Header>
-                                <Card.Body>
-                                    <Row>
-                                        <Col md={6}>
-                                            <ResumeCardSummary
-                                                companies={resume.companies}
-                                                yoe={resume.yoe}
-                                                location={resume.location}
-                                                phone={resume.phone}
-                                                email={resume.email}
-                                            />
-                                        </Col>
-                                        <Col md={6} className="d-flex flex-wrap align-items-start">
-                                            <SkillsList skills={resume.frontEndSkills} category="Front End Skills" />
-                                            <SkillsList skills={resume.backEndSkills} category="Back End Skills" />
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </td>
-                    </tr>
-                )}
-            </>
-        );
-    };
-
-    export default ResumeRow;
+export default ResumeRow;
