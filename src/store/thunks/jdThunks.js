@@ -75,7 +75,7 @@ export const updateJdThunk = () => async (dispatch, getState) => {
 export const uploadJDThunk = ({ file, Bucket }) => async (dispatch, getState) => {
     const { user } = getState();
     const { userId } = user;
-    const Key = generateJdKeyByUserId(userId);
+    const Key = generateJdKeyByUserId(userId, file.name);
     dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
     await uploadFile({ file, Bucket, Key });
     // console.log(`on jdthunk ::; ${Key} ${Bucket}`);
