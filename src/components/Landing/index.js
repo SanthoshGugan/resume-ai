@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image } from 'react-bootstrap';
+import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card } from 'react-bootstrap';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'; 
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,10 @@ const LandingPage = () => {
     const callToAction = () => {
         navigate(`/`);
     }
+
+    const signUp = () => {
+        navigate('/login');
+    };
 
     const renderBanner = () => {
         return (
@@ -36,32 +40,84 @@ const LandingPage = () => {
             </Container>
         );
     };
-    return (
-        <div>
-            {/* Header Section */}
-            <Navbar bg="light" expand="lg">
+
+    const renderHeader = () => {
+        return (
+            <Navbar bg="light" expand="lg" className="shadow-sm sticky-top">
                 <Container>
                     <Navbar.Brand href="#home">
                         <Image
                             src="./logo_blue.png"
-                            height="50"
+                            height="40"
                             className="d-inline-block align-top"
                             alt="Selectly Resumes"
                         />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="ms-auto d-flex" style={{ gap: '10px' }}>
-                            <Form className="d-flex">
-                                {/* <Form.Control type="email" placeholder="Subscribe" className="me-2" /> */}
-                                <Button variant="outline-primary">Subscribe</Button>
+                    <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+                        <Nav className="align-items-center">
+                            {/* Subscribe Button */}
+                            <Form className="d-none d-lg-block me-3">
+                                <Button variant="outline-primary" className="px-4">
+                                    Subscribe
+                                </Button>
                             </Form>
-                            {/* <Nav.Link href="#login">Login</Nav.Link> */}
-                            <Button variant="primary" href="#signup">Sign Up</Button>
+    
+                            {/* Sign Up Button */}
+                            <Button variant="primary" onClick={signUp} className="px-4">
+                                Sign Up
+                            </Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+        );
+    };
+
+    const renderTestimonials = () => {
+        return (
+            <Container className="my-5">
+                <h2 className="text-center mb-4">What Our Clients Say</h2>
+                <Carousel indicators={false} interval={3000} controls={false} pause={false}>
+                    <Carousel.Item>
+                        <Card className="text-center p-4 border-0">
+                            <Card.Body>
+                                <p className="mb-4" style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+                                    "This tool saved us countless hours in screening resumes!"
+                                </p>
+                                <em>- Hiring Manager at TechCorp</em>
+                            </Card.Body>
+                        </Card>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <Card className="text-center p-4 border-0">
+                            <Card.Body>
+                                <p className="mb-4" style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+                                    "Superb AI filtering system. Helped us find the best candidates."
+                                </p>
+                                <em>- HR Specialist at SoftWorks</em>
+                            </Card.Body>
+                        </Card>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <Card className="text-center p-4 border-0">
+                            <Card.Body>
+                                <p className="mb-4" style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+                                    "I love how easy it is to use this resume filtering app."
+                                </p>
+                                <em>- Recruiter at FastHire</em>
+                            </Card.Body>
+                        </Card>
+                    </Carousel.Item>
+                </Carousel>
+            </Container>
+        );
+    };
+
+    return (
+        <div>
+            {/* Header Section */}
+            {renderHeader()}
 
             {/* Banner Section */}
             {renderBanner()}
@@ -89,23 +145,7 @@ const LandingPage = () => {
             </Container>
 
             {/* Testimonials Section */}
-            <Container className="my-5">
-                <h2 className="text-center mb-4">Testimonials</h2>
-                <Carousel>
-                    <Carousel.Item>
-                        <p>"This tool saved us countless hours in screening resumes!"</p>
-                        <em>- Hiring Manager at TechCorp</em>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <p>"Superb AI filtering system. Helped us find the best candidates."</p>
-                        <em>- HR Specialist at SoftWorks</em>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <p>"I love how easy it is to use this resume filtering app."</p>
-                        <em>- Recruiter at FastHire</em>
-                    </Carousel.Item>
-                </Carousel>
-            </Container>
+            {renderTestimonials()}
 
             {/* Footer Section */}
             <footer className="bg-dark text-light py-4">

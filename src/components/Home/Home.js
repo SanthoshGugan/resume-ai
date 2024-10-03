@@ -5,11 +5,11 @@ import Actions from "../Actions/Actions";
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
 
-import {Amplify} from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUser,  } from 'aws-amplify/auth';
+import { getCurrentUser, } from 'aws-amplify/auth';
 import { userIdSelector, userSignOutSelector } from "../../store/selectors/userSelector";
 import { setuserId } from "../../store/userSlice";
 
@@ -32,13 +32,15 @@ const Home = () => {
         };
         initUser();
     }, []);
-    return (<Container>
-        <Header signOut={signOut} userId={userId} />
-        <Board />
-        <Actions />
-    </Container>);
+    return (
+        <Container>
+            <Header signOut={signOut} userId={userId} />
+            <Board />
+            <Actions />
+        </Container>
+    );
 };
 
-  
+
 
 export default Home;
