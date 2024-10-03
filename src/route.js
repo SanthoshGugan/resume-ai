@@ -9,6 +9,7 @@ import JDuploadHoc from "./components/JDUploadHoc"
 import QueryBoard from "./components/QueryBoard/QueryBoard";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/Login/Login";
+import DownloadCsv from "./components/Reports/DownloadCsv";
 
 const route = createBrowserRouter([
     {
@@ -36,6 +37,11 @@ const route = createBrowserRouter([
               path: "/",
               element: <JDuploadHoc/>
             },
+            {
+                path: "/reports",
+                element: <DownloadCsv/>
+            }
+            
         ]
     },
     {

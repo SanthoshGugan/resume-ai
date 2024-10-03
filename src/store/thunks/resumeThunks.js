@@ -4,7 +4,7 @@ import { uploadFile, uploadFiles } from "../../api/s3FileUploadApi";
 import { initializeResumeUploadApi } from "../../api/resumeApi";
 import { setResumeUploadStatus } from "../resumeSlice";
 import { updateStatusForStep, updateStepToActive } from "../timelineSlice";
-import { RESUME_UPLOAD_STATUS } from "../../utils/constants";
+import { KEY_DELIMTER, RESUME_UPLOAD_STATUS } from "../../utils/constants";
 
 export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispatch, getState) => {
     console.log(`keys ::: ${JSON.stringify(keys)}`);
@@ -71,16 +71,16 @@ export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispa
     console.log(`jd_key :${s3_key}`);
     const resume_keys = [];
     const key_map = new Map();
-
+    
     for(const file of files) {
         const resume_name = file.name;
-        const resume_key = `${resume_name}_${s3_key}`;
+        const resume_key = `${resume_name}${KEY_DELIMTER}${s3_key}`;
         resume_keys.push(resume_key);
         key_map.set(resume_name, resume_key);
     }
+    dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS));
     const response = await initializeResumeUploadApi({ jd_key:`${s3_key}`, resume_keys });
     // const { id } = response?.data;
-    dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS));
     const { Key } = await uploadFiles({ files, Bucket, key_map});
     // dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
     dispatch(updateResumesThunk(resume_keys, 5000, navigate));

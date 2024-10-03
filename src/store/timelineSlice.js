@@ -5,6 +5,7 @@ const initialState = {
         { id: 'jd', title: 'Submit JD', avatar: 'JD', status: 'enabled', url: '/jd-upload' },
         { id: 'resume', title: 'Submit Resumes', avatar: 'R', status: 'disabled', url: '/resume-upload' },
         { id: 'match', title: 'View Matches', avatar: 'M', status: 'disabled', url: '/queries' },
+        { id: 'reports', title: 'Export', avatar: 'D', status: 'disabled', url: '/reports'}
       ],
     current: 'jd',
     errors: [],
