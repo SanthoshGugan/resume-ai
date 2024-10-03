@@ -12,8 +12,8 @@ const Login = ({isPassedToWithAuthenticator, signOut, user }) => {
     useEffect(() => {
         if (user) {
             // Redirect to home page once signed in successfully
-            dispatch(resetStore());
-            dispatch(setuserId(user?.userId));
+            // dispatch(resetStore());
+            // dispatch(setuserId(user?.userId));
             navigate('/');
         }
     }, [user, navigate]);

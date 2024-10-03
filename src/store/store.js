@@ -49,7 +49,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',            // Root key for persistence (can be customized)
   storage,                // Default storage is localStorage
-  whitelist: ['user', 'queries', 'jobDescription', 'resumes'], // Only persist selected reducers (optional)
+  whitelist: ['user', 'queries', 'jobDescription', 'resumes', 'timeline', 'queryResults', 'widgets'], // Only persist selected reducers (optional)
 };
 
 // Create a persisted reducer

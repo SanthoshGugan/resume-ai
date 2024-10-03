@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { BsCheckCircle } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
-import { isCurrentStepActive } from '../../store/selectors/timelineSelector';
+import { currentStepSelector } from '../../store/selectors/timelineSelector';
 
 const StepAction = ({ step, index, onClick }) => {
   const { title, status, url, id } = step;
-  const isActive = useSelector(state => isCurrentStepActive(state, id));
+  const isActive = useSelector(state => currentStepSelector(state, id));
   
   const backgroundColor = 
     status === 'active'

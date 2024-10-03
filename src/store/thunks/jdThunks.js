@@ -87,5 +87,5 @@ export const skipSkillUpdateThunk = () => async (dispatch, getState) => {
     dispatch(setJDSkillUpdateSkill("completed"));
     dispatch(updateStatusForStep({ id: 'resume', status: 'enabled' }));
     dispatch(updateStatusForStep({ id: 'jd', status: 'completed' }));
-    dispatch(updateStepToActive({ id: 'resume ' }));
+    dispatch(updateStepToActive({ id: 'resume' }));
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import StepAction from './StepAction';
 import { useSelector } from 'react-redux';
-import { selectSteps } from '../../store/selectors/timelineSelector';
+import { stepsSelector } from '../../store/selectors/timelineSelector';
 import { userIdSelector } from '../../store/selectors/userSelector';
 
 const HorizontalTimeline = ({ activeStep }) => {
-  const steps = useSelector(state => selectSteps(state));
+  const steps = useSelector(state => stepsSelector(state));
   const userId = useSelector(state => userIdSelector(state));
 
   // if (!userId) return <></>;
