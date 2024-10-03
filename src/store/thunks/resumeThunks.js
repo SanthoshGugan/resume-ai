@@ -74,7 +74,8 @@ export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispa
     
     for(const file of files) {
         const resume_name = file.name;
-        const resume_key = `${resume_name}${KEY_DELIMTER}${s3_key}`;
+        const fileSplit = resume_name.split('.');
+        const resume_key = `${fileSplit[0]}${KEY_DELIMTER}${s3_key}`;
         resume_keys.push(resume_key);
         key_map.set(resume_name, resume_key);
     }

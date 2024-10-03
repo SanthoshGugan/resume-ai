@@ -8,15 +8,19 @@ export const downloadCsv = (headers, rows, onDownload) => {
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
 
     // Create a download link
-    const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `sorted_resumes.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadLink(url, 'sorted_resumes.csv');
     if(onDownload){
       onDownload();
     }
-    
+}
+
+export const downloadLink = (url, fileName) => {
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', fileName);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
 }
