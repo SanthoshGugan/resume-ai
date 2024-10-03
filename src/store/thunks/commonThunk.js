@@ -1,3 +1,4 @@
+import { dispatch } from "d3";
 import { jdReset } from "../jobDescriptionSlice";
 import { qResultReset } from "../queryResultsSlice";
 import { resumeReset } from "../resumeSlice";
@@ -11,3 +12,10 @@ export const resetStore = () => async (dispatch, getState) => {
     dispatch(timelineReset());
     dispatch(userReset());
 }
+
+export const startOver = () => async (dispatch, getState) => {
+    dispatch(jdReset());
+    dispatch(resumeReset());
+    dispatch(qResultReset());
+    dispatch(timelineReset());
+};

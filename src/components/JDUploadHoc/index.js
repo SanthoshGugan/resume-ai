@@ -9,23 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import JDFileUploader from "../JDFileUpload";
 import { FaCheckCircle } from "react-icons/fa";
 import { isDimensionsChanged, isJDUpdateSkillInProgressSelector, isJDUploadInProgress } from "../../store/selectors/jdSelector";
+import StartOver from "../StartOver/StartOver";
+import { startOver } from "../../store/thunks/commonThunk";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
-const CompletionBanner = () => {
-    return (
-        <Row className="d-flex align-items-center justify-content-center">
-            <Col md={10}>
-                <Alert variant="success" className="d-flex align-items-center" style={{ margin: '1rem 0' }}>
-                    <FaCheckCircle style={{ fontSize: '24px', marginRight: '10px' }} />
-                    <div>
-                        <strong>JD Upload and Skill Update Completed!</strong> Please proceed with the next steps.
-                    </div>
-                </Alert>
-            </Col>
-        </Row>
-    );
-};
+
 
 const JDUploadHoc = ({ }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -77,6 +66,22 @@ const JDUploadHoc = ({ }) => {
 
 
     const handleClose = () => setShowAlert(false);
+
+    const CompletionBanner = () => {
+        return (
+            <Row className="d-flex align-items-center justify-content-center">
+                <Col md={10}>
+                    <Alert variant="success" className="d-flex align-items-center justify-content-center flex-column" style={{ margin: '1rem 0' }}>
+                        <div className="d-flex justify-content-center align-items-center ">
+                            <FaCheckCircle style={{ fontSize: '30px', marginRight: '10px' }} />
+                            <strong>JD Upload and Skill Update Completed!</strong>. Please proceed with the next steps.
+                        </div>
+                        <StartOver />
+                    </Alert>
+                </Col>
+            </Row>
+        );
+    };
 
     useEffect(() => {
         dispatch(fetchGlobalSkills());

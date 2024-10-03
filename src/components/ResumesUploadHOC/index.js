@@ -8,6 +8,7 @@ import { RESUME_UPLOAD_STATUS } from "../../utils/constants";
 import ScreenProgress from "../ScreenProgress";
 import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { isResumeUploadInProgress } from "../../store/selectors/resumeSelector";
+import StartOver from "../StartOver/StartOver";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
@@ -52,6 +53,9 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                         <Col md={11}>
                             Your Resumes have been successfully uploaded.
                         </Col>
+                    </Row>
+                    <Row className="d-flex justify-content-center align-items-center">
+                        <StartOver />
                     </Row>
                 </Alert>
             </Container>
