@@ -7,7 +7,10 @@ import userReducer from './userSlice';
 import queryResultsReducer from './queryResultsSlice';
 import timelineReducer from './timelineSlice';
 
-// Define some global states outside of the slices
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for web
+
+// Global states outside of slices
 const globalInitialState = {
   appStatus: 'idle', // App-wide status (e.g., 'idle', 'loading', 'error')
   overallProgress: 0, // Tracks overall progress (e.g., for displaying a global progress bar)
@@ -42,7 +45,24 @@ const rootReducer = combineReducers({
   timeline: timelineReducer
 });
 
-// Configure the store
+// Configure persist settings
+const persistConfig = {
+  key: 'root',            // Root key for persistence (can be customized)
+  storage,                // Default storage is localStorage
+  whitelist: ['user', 'queries', 'jobDescription', 'resumes'], // Only persist selected reducers (optional)
+};
+
+// Create a persisted reducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Configure the store with the persisted reducer
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Disable serializable check for persist
+    }),
 });
+
+// Create persistor for rehydration
+export const persistor = persistStore(store);

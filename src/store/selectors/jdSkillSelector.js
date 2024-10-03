@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { skillListFromCategories } from "../../utils/dimensionsUtil";
 
 // const selectSkillsFromFullStackDomain = state => state?.jobDescription?.jd?.domains[0]?.roles[0]?.skills || [];
-const selectSkillsFromFullStackDomain = state => state.jobDescription?.jd?.dimensions ? state?.jobDescription?.jd?.dimensions.domains[0]?.roles[0]?.skills : [];
+const selectSkillsFromFullStackDomain = state => state.jobDescription?.jd?.dimensions?.domains ? state?.jobDescription?.jd?.dimensions.domains[0]?.roles[0]?.skills : [];
 
 const selectSkillsByCateogry = state => state.jobDescription?.skills?.byCategory;
 
