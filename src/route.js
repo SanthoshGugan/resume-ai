@@ -38,6 +38,10 @@ const route = createBrowserRouter([
             },
         ]
     },
+    {
+        path: '/welcome',
+        element: <Landing />
+    },
 ]);
 
 export default route;
