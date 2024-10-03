@@ -24,3 +24,11 @@ export const JD_UPDATE_SKILL_STATUS = {
     COMPLETED: "JD_UPDATE_SKILL_COMPLETED",
     FAILED: "JD_UPDATE_SKILL_FAILED"
 };
+
+export const KEY_DELIMTER = "_____";
+
+export const DOWNLOAD_CSV_HEADER = {
+    CANDIDATE_NAME: "Candidate Name",
+    OVERALL_MATCHING: "Overall Matching",
+    FILENAME: "FileName"
+}

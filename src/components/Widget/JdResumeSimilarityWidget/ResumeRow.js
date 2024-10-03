@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Card, Row, Col } from 'react-bootstrap';
+import { Badge, Card, Row, Col, Button } from 'react-bootstrap';
 import ResumeCardSummary from './ResumeCardSummary';
 import SkillsList from './SkillList';
 import { useSelector } from 'react-redux';
@@ -17,6 +17,9 @@ import { resumeSkillListSelector } from '../../../store/selectors/resumeSelector
 
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from 'react-icons/fa';
+import { downloadFile } from '../../../api/s3FileUploadApi';
+import { downloadLink } from '../../../utils/reports';
+import { KEY_DELIMTER } from '../../../utils/constants';
 
 const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
   const isOpen = openIndex === index;
@@ -36,13 +39,26 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
   console.log(`cateogries key : ${JSON.stringify(jdSkillsByCategory)}`);
   console.log(`resume cateogries : ${JSON.stringify(resumeSkillsByCategory)}`);
 
+  // Download function
+  const handleDownload = async () => {
+    // Implement your download logic here.
+    // This could involve calling an API or creating a download link for the resume file.
+    const url = await downloadFile({
+      Bucket: "resume-assets-008971676609",
+      Key: id
+    })
+    downloadLink(url, id);
+    console.log('Download clicked for resume ID:', id);
+    // Example: window.location.href = `/api/download/${id}`;
+  };
+
   return (
     <>
       {/* Flex row */}
       <div className="flex-row" onClick={() => toggleRow(index)}>
         {showSimilarity && (
           <div className="flex-row-item ">
-              {isOpen ? <FaEye size={20} className='m-2'/> : <RiEyeCloseLine className='m-2'/>}
+            {isOpen ? <FaEye size={20} className='m-2'/> : <RiEyeCloseLine className='m-2'/>}
             {metadata?.name?.[0] || 'Unknown Name'}
           </div>
         )}
@@ -107,6 +123,7 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                 <Col md={12} className="d-flex flex-wrap align-items-start justify-content-center">
                   {categories.map(category => (
                     <SkillsList
+                      key={category} // Ensure a unique key is provided for each mapped item
                       jdSkills={jdSkillsByCategory[category]?.skills || []}
                       resumeSkills={resumeSkillsByCategory[category]?.skillList || []}
                       category={category}
@@ -115,6 +132,15 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                   ))}
                 </Col>
               </Row>
+              {/* Center the download button */}
+              <div className="d-flex justify-content-center mt-3">
+                <Button 
+                  variant="primary" 
+                  onClick={handleDownload}
+                >
+                  Download Resume
+                </Button>
+              </div>
             </Card.Body>
           </Card>
         </div>
