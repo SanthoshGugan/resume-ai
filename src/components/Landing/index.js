@@ -225,7 +225,7 @@ const LandingPage = () => {
             </Container>
 
             {/* Testimonials Section */}
-            {renderTestimonials()}
+            {/* {renderTestimonials()} */}
 
             {/* Footer Section */}
             <footer className="bg-dark text-light py-4">
