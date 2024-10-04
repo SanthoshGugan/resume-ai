@@ -64,6 +64,10 @@ const JDUploadHoc = ({ }) => {
         navigate('/resume-upload')
     }
 
+    const reset = () => {
+        dispatch(startOver());
+    }
+
 
     const handleClose = () => setShowAlert(false);
 
@@ -119,45 +123,57 @@ const JDUploadHoc = ({ }) => {
             )}
             {updateFlag && (
                 <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
-                    {showAlert && (<Alert variant="success" onClose={handleClose}>
+                    {(
+                    <>
+                    <Alert variant="success" onClose={handleClose}>
                         {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
                         <Row>
                             <Col md={11}>
                                 Your Job Description has been successfully uploaded. You can now update the skills if necessary, or skip this step to proceed further.
                             </Col>
-                            <Col className="d-flex justify-content-end">
+                            <Col className="d-flex justify-content-end mb-2">
+                                <Button onClick={reset} variant="outline-info">
+                                    StartOver
+                                </Button>
+                            </Col>
+                            {/* <Col className="d-flex justify-content-end">
                                 <Button onClick={handleClose} variant="outline-info">
                                     Got it
                                 </Button>
-                            </Col>
+                            </Col> */}
                         </Row>
-                    </Alert>)}
+                    </Alert>
+                    </>
+                    )}
                     <SkillSelector />
                 </Container>
             )}
             {updateFlag && (
-                <Row className="d-flex justify-content-center mt-5">
-                    <Col md={3} style={{ display: 'flex', alignItems: "center", justifyContent: "space-between" }}>
+                <>
+                    <Row className="d-flex justify-content-center mt-5">
+                        <Col md={3} style={{ display: 'flex', alignItems: "center", justifyContent: "space-between" }}>
 
-                        <Button 
-                            variant="primary"
-                            onClick={() => dispatch(updateJdThunk())}
-                            disabled={isJdUpdateSkillInProgress || !dimensionsChanged}
-                        >
-                            Update Skill
-                            {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
-                        </Button>
-                        <Button
-                            variant="success"
-                            onClick={skipNext}
-                            disabled={isJdUpdateSkillInProgress || dimensionsChanged}
-                        >
-                            Continue
-                            {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
-
-                        </Button>
-                    </Col>
-                </Row>
+                            <Button 
+                                variant="primary"
+                                onClick={() => dispatch(updateJdThunk())}
+                                disabled={isJdUpdateSkillInProgress || !dimensionsChanged}
+                            >
+                                Update Skill
+                                {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
+                            </Button>
+                            <Button
+                                variant="success"
+                                onClick={skipNext}
+                                disabled={isJdUpdateSkillInProgress || dimensionsChanged}
+                            >
+                                Continue
+                                {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
+                            </Button>
+                        </Col>
+                    </Row>
+                </>
+                
+                
             )}
 
 

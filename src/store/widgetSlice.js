@@ -26,7 +26,7 @@ const widgetSlice = createSlice({
     },
     queryComplete: (state, action) => {
       const { queryId } = action.payload;
-      // console.log(`queryId :::: ${queryId}`);
+      console.log(`queryId :::: ${queryId}`);
       switch(queryId) {
         case "jd_resume_similarity":
           state.flags.showSimilarity = true;
@@ -40,10 +40,11 @@ const widgetSlice = createSlice({
         default: 
           break;
       }
-    }
+    },
+    widgetReset: state => initialState,
   },
 });
 
-export const { addWidget, updateWidgetStatus, queryComplete } = widgetSlice.actions;
+export const { addWidget, updateWidgetStatus, queryComplete, widgetReset } = widgetSlice.actions;
 
 export default widgetSlice.reducer;

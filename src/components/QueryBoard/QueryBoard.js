@@ -29,7 +29,6 @@ const QueryBoard = () => {
         <>
             <JDResumeSimilarityWidget />
             <div className="mt-4"><PromptActions/></div>
-            
             <div className="d-flex justify-content-center mt-4">
               <Button variant="primary" onClick={handleProceed}>
                 Proceed to Next

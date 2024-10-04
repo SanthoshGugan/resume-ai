@@ -8,6 +8,6 @@ export const generateJdKeyByUserId = (userId, fileName) => {
     const randomHex = Math.random().toString(16).substring(2, 10);
     
     // Combine the userId with the random hex to generate the key
-    const jdKey = userId ? `${userId}${KEY_DELIMTER}${fileNameWithoutExtension}.${ext}` : `${randomHex}${KEY_DELIMTER}${fileNameWithoutExtension}${ext}`;
+    const jdKey = userId ? `${userId}${KEY_DELIMTER}${randomHex}${KEY_DELIMTER}${fileNameWithoutExtension}.${ext}` : `${randomHex}${KEY_DELIMTER}${fileNameWithoutExtension}.${ext}`;
     return jdKey;
 }; 

@@ -36,8 +36,8 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
   const resumeSkillsByCategory = useSelector(state => resumeSkillListSelector(state, id));
 
   const categories = Object.keys(jdSkillsByCategory);
-  console.log(`cateogries key : ${JSON.stringify(jdSkillsByCategory)}`);
-  console.log(`resume cateogries : ${JSON.stringify(resumeSkillsByCategory)}`);
+  // console.log(`cateogries key : ${JSON.stringify(jdSkillsByCategory)}`);
+  // console.log(`resume cateogries : ${JSON.stringify(resumeSkillsByCategory)}`);
 
   // Download function
   const handleDownload = async () => {
@@ -122,13 +122,15 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                 </Col>
                 <Col md={12} className="d-flex flex-wrap align-items-start justify-content-center">
                   {categories.map(category => (
-                    <SkillsList
-                      key={category} // Ensure a unique key is provided for each mapped item
-                      jdSkills={jdSkillsByCategory[category]?.skills || []}
-                      resumeSkills={resumeSkillsByCategory[category]?.skillList || []}
-                      category={category}
-                      label={jdSkillsByCategory[category]?.label || 'Skill'}
-                    />
+                    jdSkillsByCategory[category]?.skills?.length > 0 && (
+                      <SkillsList
+                        key={category}
+                        jdSkills={jdSkillsByCategory[category]?.skills || []}
+                        resumeSkills={resumeSkillsByCategory[category]?.skillList || []}
+                        category={category}
+                        label={jdSkillsByCategory[category]?.label || 'Skill'}
+                      />
+                    )
                   ))}
                 </Col>
               </Row>
