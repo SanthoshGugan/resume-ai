@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card } from 'react-bootstrap';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { FaBolt, FaHourglassHalf } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
@@ -82,20 +83,20 @@ const LandingPage = () => {
 
                         {/* Left bottom overlay (WhatsApp message bubble style) */}
                         <Row style={leftBubbleStyle}>
+                            <Col md={2} style={{ fontSize: '3rem', padding: 0 }} className='d-flex justify-content-center align-items-center'>
+                                <FaHourglassHalf size="2rem" color='gold'/>
+                            </Col>
                             <Col md={10} style={{ padding: 0, textAlign: 'center' }}>
                                 Cut resume filtering by 50%
-                            </Col>
-                            <Col md={2} style={{ fontSize: '3rem', padding: 0 }}>
-                                &#x23F1;
                             </Col>
                         </Row>
 
                         {/* Right center overlay (notification text style) */}
                         <div style={rightNotificationStyle}>
-                            <Col md={3} style={{ fontSize: '3rem', padding: 0 }}>
-                                &#x1F4CA;
+                            <Col md={2} style={{ fontSize: '3rem', padding: 0 }} className='d-flex justify-content-center align-items-center'>
+                                <FaBolt size="2rem" color='gold'/>
                             </Col>
-                            <Col md={9} style={{ padding: 0, textAlign: 'center' }}>
+                            <Col md={10} style={{ padding: 0, textAlign: 'center' }}>
                                 Instantly compare 100s of resumes
                             </Col>
                         </div>
