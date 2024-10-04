@@ -93,11 +93,11 @@ const LandingPage = () => {
 
                         {/* Right center overlay (notification text style) */}
                         <div style={rightNotificationStyle}>
-                            <Col md={2} style={{ fontSize: '3rem', padding: 0 }} className='d-flex justify-content-center align-items-center'>
-                                <FaBolt size="2rem" color='gold'/>
-                            </Col>
                             <Col md={10} style={{ padding: 0, textAlign: 'center' }}>
                                 Instantly compare 100s of resumes
+                            </Col>
+                            <Col md={2} style={{ fontSize: '3rem', padding: 0 }} className='d-flex justify-content-center align-items-center'>
+                                <FaBolt size="2rem" color='gold'/>
                             </Col>
                         </div>
                     </Col>
