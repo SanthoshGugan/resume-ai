@@ -1,11 +1,51 @@
 import React from 'react';
 import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card } from 'react-bootstrap';
-import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'; 
+import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
+
     const navigate = useNavigate();
-    
+
+    // Style for WhatsApp-style message bubble
+    const leftBubbleStyle = {
+        position: 'absolute',
+        bottom: '10%',
+        left: '-10%',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Light white/grey with transparency
+        padding: '15px 20px',
+        borderRadius: '20px',
+        color: '#333', // Dark grey text for visibility
+        fontWeight: '600', // Semi-bold text similar to ConversionLab
+        fontSize: '1.1rem', // Slightly larger font size for readability
+        maxWidth: '250px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', // Softer shadow for a modern look
+        display: 'flex',
+        alignItems: 'center',
+    };
+
+    // Style for notification-style overlay
+    const rightNotificationStyle = {
+        position: 'absolute',
+        top: '20%',
+        right: '-10%',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        padding: '10px 15px',
+        borderRadius: '8px',
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: '1rem',
+        maxWidth: '200px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        color: '#333', // Dark grey text for visibility
+        fontWeight: '600', // Semi-bold text similar to ConversionLab
+        fontSize: '1.1rem', // Slightly larger font size for readability
+        maxWidth: '250px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', // Softer shadow for a modern look
+        display: 'flex',
+        alignItems: 'center',
+    };
+
     const callToAction = () => {
         navigate(`/`);
     }
@@ -14,27 +54,51 @@ const LandingPage = () => {
         navigate('/login');
     };
 
+
     const renderBanner = () => {
         return (
-            <Container fluid className="d-flex align-items-center justify-content-between p-5 bg-light" style={{ minHeight: '30rem' }}>
-                <Row className="w-100">
+            <Container fluid className="d-flex align-items-start justify-content-center bg-light position-relative pt-2" style={{ minHeight: '60vh', backgroundImage: 'url("./background-image.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                <Row className="w-100 d-flex align-items-start justify-content-center">
                     {/* Left Side - One Liner and Call to Action Button */}
-                    <Col md={6} className="d-flex flex-column justify-content-center">
-                        <div>
-                            <h1>AI-Powered Resume Filtering for Your Needs</h1>
-                            <p className="lead">Find the perfect candidate in seconds using our smart filtering system.</p>
-                            <Button variant="success" size="lg" onClick={callToAction}>Launch App</Button>
+                    <Col md={4} className="d-flex flex-column justify-content-end align-items-center " style={{ paddingTop: '4rem' }}>
+                        <div className="text-center text-md-start">
+                            <h1 style={{ fontSize: '2.5rem', fontWeight: '700' }}>Save time, hire smarter with AI-powered resume sorting</h1>
+                            <p className="lead" style={{ fontSize: '1.5rem' }}>Instantly match top talent with job requirements and streamline your recruitment process</p>
+                            <div className='d-flex justify-content-center flex-column' style={{ minHeight: '10rem' }}>
+                                <Button size="lg" onClick={callToAction} className="mt-3" style={{ fontSize: '1.2rem', borderRadius: '2rem', padding: '1rem', width: '20rem', fontWeight: 'bolder' }}>Get Sorted!</Button>
+                                <span className='d-flex' style={{ paddingLeft: '4.5rem', fontSize: '0.75rem' }}>No credit card needed, its free!</span>
+                            </div>
                         </div>
                     </Col>
 
-                    {/* Right Side - GIF or Illustration */}
-                    <Col md={6} className="d-flex justify-content-center align-items-center">
+                    {/* Right Side - Image */}
+                    <Col md={4} className="position-relative d-none d-md-flex justify-content-center align-items-center">
                         <Image
-                            src="./banner.png"
+                            src="./banner_bg.png"
                             alt="Illustration showing someone sorting resumes"
                             className="img-fluid"
-                            style={{ maxHeight: '25rem' }}
+                            style={{ maxHeight: '35rem' }}
                         />
+
+                        {/* Left bottom overlay (WhatsApp message bubble style) */}
+                        <Row style={leftBubbleStyle}>
+                            <Col md={10} style={{ padding: 0, textAlign: 'center' }}>
+                                Cut resume filtering by 50%
+                            </Col>
+                            <Col md={2} style={{ fontSize: '3rem', padding: 0 }}>
+                                &#x23F1;
+                            </Col>
+                        </Row>
+
+                        {/* Right center overlay (notification text style) */}
+                        <div style={rightNotificationStyle}>
+                            <Col md={3} style={{ fontSize: '3rem', padding: 0 }}>
+                                &#x1F4CA;
+                            </Col>
+                            <Col md={9} style={{ padding: 0, textAlign: 'center' }}>
+                                Instantly compare 100s of resumes
+                            </Col>
+                        </div>
                     </Col>
                 </Row>
             </Container>
@@ -50,7 +114,7 @@ const LandingPage = () => {
                             src="./logo_blue.png"
                             height="40"
                             className="d-inline-block align-top"
-                            alt="Selectly Resumes"
+                            alt="Sort My Resumes"
                         />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -62,7 +126,7 @@ const LandingPage = () => {
                                     Subscribe
                                 </Button>
                             </Form>
-    
+
                             {/* Sign Up Button */}
                             <Button variant="primary" onClick={signUp} className="px-4">
                                 Sign Up
@@ -125,21 +189,37 @@ const LandingPage = () => {
             {/* Features Section */}
             <Container className="my-5">
                 <h2 className="text-center mb-4">Features</h2>
-                <Row>
-                    <Col md={4} className="text-center">
-                        <i className="bi bi-bar-chart-fill" style={{ fontSize: '2rem' }}></i>
+                {/* First feature: Text on left, icon on right */}
+                <Row className="align-items-center mb-5">
+                    <Col md={6}>
                         <h4>Accurate Matching</h4>
                         <p>Matches resumes with job descriptions using advanced AI algorithms.</p>
                     </Col>
-                    <Col md={4} className="text-center">
-                        <i className="bi bi-lightning-charge" style={{ fontSize: '2rem' }}></i>
+                    <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem'}}>
+                        <Image src='./robo_resume_bg.png' width="200px" height="200px" />
+                    </Col>
+                </Row>
+
+                {/* Second feature: Flip - Icon on left, text on right */}
+                <Row className="align-items-center mb-5 flex-row-reverse">
+                    <Col md={6}>
                         <h4>Fast & Efficient</h4>
                         <p>Get ranked resumes instantly without manual filtering.</p>
                     </Col>
-                    <Col md={4} className="text-center">
-                        <i className="bi bi-shield-lock" style={{ fontSize: '2rem' }}></i>
+                    <Col md={6} className="text-center">
+                        <Image src='./ranking_bg.png' width="200px" height="200px" />
+                    </Col>
+                </Row>
+
+                {/* Third feature: Text on left, icon on right */}
+                <Row className="align-items-center mb-5">
+                    <Col md={6}>
                         <h4>Secure & Reliable</h4>
                         <p>Your data is securely processed and handled with care.</p>
+                    </Col>
+
+                    <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem'}}>
+                    <Image src='./secure_bg.png' width="200px" height="200px" />
                     </Col>
                 </Row>
             </Container>
@@ -152,7 +232,7 @@ const LandingPage = () => {
                 <Container>
                     <Row>
                         <Col md={6}>
-                            <p>© 2024 Selectly Resumes - All Rights Reserved</p>
+                            <p>© 2024 Sort My Resumes - All Rights Reserved</p>
                             <p><a href="#privacy" className="text-light">Privacy Policy</a></p>
                         </Col>
                         <Col md={6} className="text-md-end">
