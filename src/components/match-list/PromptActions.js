@@ -12,9 +12,9 @@ import { Button, Spinner } from 'react-bootstrap';
 
 const prompts = [
   { id: "jd_resume_similarity", sid: 1, label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
-  { id: "label", sid:2, label: "Add Labels to Candidates", category: 'Skills Match', accessibility: 'signup' },
+  { id: "label", sid:2, label: "Add Labels to Candidates", category: 'Skills Match', accessibility: 'guest' },
   // { id: 3, sid:3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
-  { id: "companies", sid:4, label: "Show resumes of candidates who have worked at top tech companies like Google, Amazon, or Facebook", category: 'Experience and Companies', accessibility: 'premium' },
+  { id: "companies", sid:4, label: "Show Candidates Companies", category: 'Experience and Companies',  accessibility: 'guest' },
   { id: "label",sid:5, label: "Show Front End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
   { id: "label",sid:6, label: "Show Back End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
   // { id: "label", sid:7,label: "Show Database Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "database" },
@@ -71,6 +71,12 @@ const PromptActions = () => {
       [category]: !prevState[category]
     }));
   };
+  
+  const isActiveListQueries = (prompt = {}) => {
+    if(isActiveList.includes(prompt.id) && prompt.id == "label" && prompt.sid != 2)
+      return false;
+    return isActiveList.includes(prompt.id);
+  }
 
   useEffect(() => {
     if (remainingQueries.length > 0) {
@@ -81,7 +87,9 @@ const PromptActions = () => {
 
   const isDisabled = (prompt) => {
     const { domain, id } = prompt;
-    if (!domain) return isActiveList.includes(prompt.id) || queryBySelectorId[prompt.id] !== undefined;
+    // const cond1 = (!isActiveList.length && !Object.keys(queryBySelectorId).length) || isActiveList.includes(prompt.id) || queryBySelectorId[prompt.id] !== undefined
+    // console.log(`domain: ${domain} id: ${id} cond1: ${cond1} isActiveList: ${JSON.stringify(isActiveList)} queryBySelectorId: ${JSON.stringify(queryBySelectorId)}`)
+    if (!domain) return  (isActiveList.length &&  isActiveList.includes(prompt.id)) || !Object.keys(queryBySelectorId).length || queryBySelectorId[prompt.id] !== undefined;
     return domainQueryEnabled.includes(domain) || isActiveList.includes(prompt.id);
   }
 
@@ -112,7 +120,7 @@ const PromptActions = () => {
       >
         {getIcon(prompt.accessibility)}
         {prompt.label}
-        {isActiveList.includes(prompt.id) && (<Spinner />)}
+        {isActiveListQueries(prompt) && (<Spinner />)}
         {isComplete(prompt) && (<TiTick color='green'/>)}
       </Button>
     );
