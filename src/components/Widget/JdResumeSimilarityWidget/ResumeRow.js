@@ -14,8 +14,8 @@ import {
 import "./ResumeRow.css";
 import { jdSkillsByCategorySelector } from '../../../store/selectors/jdSkillSelector';
 import { resumeSkillListSelector } from '../../../store/selectors/resumeSelector';
+import { HiEyeOff } from 'react-icons/hi';
 
-import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from 'react-icons/fa';
 import { downloadFile } from '../../../api/s3FileUploadApi';
 import { downloadLink } from '../../../utils/reports';
@@ -58,7 +58,7 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
       <div className="flex-row" onClick={() => toggleRow(index)}>
         {showSimilarity && (
           <div className="flex-row-item ">
-            {isOpen ? <FaEye size={20} className='m-2'/> : <RiEyeCloseLine className='m-2'/>}
+            {isOpen ? <FaEye size={20} className='m-2'/> : <HiEyeOff className='m-2'/>}
             {metadata?.name?.[0] || 'Unknown Name'}
           </div>
         )}
@@ -96,9 +96,13 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
         )}
         {showCompanies && (
           <div className="flex-row-item">
-            {companies?.map(company => (
-              <Badge bg="info" key={company} className="me-1">{company}</Badge>
-            ))}
+            {companies && companies.length > 0 ? (
+              companies.map(company => (
+                <Badge bg="info" key={company} className="me-1">{company}</Badge>
+              ))
+            ) : (
+              <Badge bg="warning">Companies not found</Badge>
+            )}
           </div>
         )}
       </div>
@@ -135,14 +139,14 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                 </Col>
               </Row>
               {/* Center the download button */}
-              <div className="d-flex justify-content-center mt-3">
+              {/* <div className="d-flex justify-content-center mt-3">
                 <Button 
                   variant="primary" 
                   onClick={handleDownload}
                 >
                   Download Resume
                 </Button>
-              </div>
+              </div> */}
             </Card.Body>
           </Card>
         </div>

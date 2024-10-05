@@ -108,12 +108,13 @@ const LandingPage = () => {
 
     const renderHeader = () => {
         return (
-            <Navbar bg="light" expand="lg" className="shadow-sm sticky-top">
+            <Navbar expand="lg" className="shadow-sm sticky-top" style={{backgroundColor: "rgb(255 255 255)"}}>
                 <Container>
                     <Navbar.Brand href="#home">
                         <Image
-                            src="./logo_blue.png"
-                            height="40"
+                            src="./logo5.png"
+                            height="65"
+                            width="200"
                             className="d-inline-block align-top"
                             alt="Sort My Resumes"
                         />
@@ -122,11 +123,11 @@ const LandingPage = () => {
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="align-items-center">
                             {/* Subscribe Button */}
-                            <Form className="d-none d-lg-block me-3">
+                            {/* <Form className="d-none d-lg-block me-3">
                                 <Button variant="outline-primary" className="px-4">
                                     Subscribe
                                 </Button>
-                            </Form>
+                            </Form> */}
 
                             {/* Sign Up Button */}
                             <Button variant="primary" onClick={signUp} className="px-4">

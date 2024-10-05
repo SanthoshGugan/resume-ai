@@ -1,4 +1,5 @@
 import { addRemainingQuery, enableDomainQuery } from "../queryResultsSlice";
+import { setQueryStatus } from "./loaderThunk";
 import { triggerQueries } from "./queryThunks";
 
 export const onQuerySelectThunk = ({ids = []}) => async (dispatch, getState) => {
@@ -17,6 +18,7 @@ export const onQuerySelect = ({id, domain}) => async (dispatch, getState) => {
         dispatch(enableDomainQuery({ domain }));
         return;
     }
+    dispatch(setQueryStatus({status: domain ? domain: id}))
     dispatch(triggerQueries([id]));
     dispatch(addRemainingQuery(id));
 };

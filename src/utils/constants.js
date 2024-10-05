@@ -39,3 +39,15 @@ export const JD_UPLOAD_STATUS_IMAGE = {
     JD_WORKFLOW_DIMENSION_EXTRACTION: "./jd/status_jd_upload_dimension_extraction.png",
     JD_WORKFLOW_SUMMARY: "./jd/status_jd_upload_summary.png"
 };
+
+export const RESUME_UPLOAD_STATUS_IMAGE = {
+    RESUME_WORKFLOW: "./resume/status_resume.png"
+}
+export const QUERY_LOADER_MESSAGE = {
+    "label": "Extracting labels",
+    "companies": "Extracting Companies from Resume",
+    "front_end": "Extracting Frontend skill percentage",
+    "back_end": "Extracting Backend skill percentage",
+    "cloud": "Extracting Cloud skill percentage",
+    "devops": "Extracting Devops skill percentage"
+}

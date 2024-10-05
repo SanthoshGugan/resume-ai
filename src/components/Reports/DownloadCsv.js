@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useSelector } from 'react-redux';
-import { Button, Toast, ToastContainer } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { Button, Alert } from 'react-bootstrap';
 import { FaFileCsv } from 'react-icons/fa';
 import { downloadCsv } from "../../utils/reports";
 import { getResumeIdsForQueries } from "../Widget/wrapperUtils";
@@ -8,14 +8,16 @@ import { DOWNLOAD_CSV_HEADER, KEY_DELIMTER } from "../../utils/constants";
 import { selectQueryResultsById } from "../../store/selectors/queryResultsByIdsSelector";
 import { resumesByIdsSelector } from '../../store/selectors/resumeByIdSelector';
 import './DownloadCsv.css'; // Import your custom CSS
+import { updateStatusForStep } from "../../store/timelineSlice";
 
 const DownloadCsv = () => {
-    const [showToast, setShowToast] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
     
     const queryIds = ['jd_resume_similarity', 'label'];
     const queryResults = useSelector((state) => selectQueryResultsById(state, queryIds)) || { };
     const resumeIds = getResumeIdsForQueries(queryResults, queryIds);
     const resumes = useSelector((state) => resumesByIdsSelector(state, resumeIds));
+    const dispatch = useDispatch();
 
     if (!queryResults || queryResults.result) {
         return <div>No data available.</div>;
@@ -37,13 +39,19 @@ const DownloadCsv = () => {
             DOWNLOAD_CSV_HEADER.CANDIDATE_NAME,
             DOWNLOAD_CSV_HEADER.OVERALL_MATCHING,
             DOWNLOAD_CSV_HEADER.FILENAME
-        ]
+        ];
         downloadCsv(headers, exportRows);
-        setShowToast(true); // Show the toast on download success
+        setShowAlert(true); // Show the alert on download success
+        dispatch(updateStatusForStep({id: 'reports', status: 'completed'}));
     };
 
     return (
         <>
+            {showAlert && (
+                <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+                    CSV file downloaded successfully!
+                </Alert>
+            )}
             {rows.length > 0 && (
                 <div className="d-flex justify-content-center mb-3">
                     <Button
@@ -52,18 +60,11 @@ const DownloadCsv = () => {
                         className="d-flex align-items-center"
                     >
                         <FaFileCsv size={20} className="me-2" />
-                        Export to CSV
+                        <span className="fw-semibold">Export Sorted Results</span>
                     </Button>
                 </div>
             )}
-            <ToastContainer className="toast-container">
-                <Toast show={showToast} onClose={() => setShowToast(false)} delay={3000} autohide>
-                    <Toast.Header>
-                        <strong className="me-auto">Download</strong>
-                    </Toast.Header>
-                    <Toast.Body>CSV file downloaded successfully!</Toast.Body>
-                </Toast>
-            </ToastContainer>
+
         </>
     );
 };

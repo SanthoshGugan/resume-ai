@@ -4,6 +4,8 @@ import { queryFunctionApi } from "../../api/queryFunctionApi";
 import { queryComplete } from '../widgetSlice';
 import { fetchResumesThunk } from './resumeThunks';
 import { getResumeIdsFromQueryResult } from '../../utils/queryResultUtils';
+import { setQueryStatus } from './loaderThunk';
+import { setLoaderStatusImage, setLoaderStatusMessage } from '../loaderSlice';
 
 export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, getState) => {
   const { queryResults } = getState();
@@ -39,7 +41,11 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
     } finally {
       dispatch(setFetching(false));  // End fetching
     }
+  }else{
+    dispatch(setLoaderStatusMessage(""));
+    dispatch(setLoaderStatusImage(null));
   }
+
 };
 
 export const triggerQueries = (queries) => async (dispatch, getState) => {

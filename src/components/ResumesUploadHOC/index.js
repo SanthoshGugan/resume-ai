@@ -9,10 +9,11 @@ import ScreenProgress from "../ScreenProgress";
 import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { isResumeUploadInProgress } from "../../store/selectors/resumeSelector";
 import StartOver from "../StartOver/StartOver";
+import StatusBox from "../StatusBox/StatusBox";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
-const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
+const ResumesUploadHoc = ({ }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     // const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
     const dispatch = useDispatch();
@@ -22,9 +23,6 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
     const resumeUploadStatus = useSelector((state) => state.resumes.resumeUploadStatus);
 
     const isResumeUplodInProgressFlag = useSelector((state) => isResumeUploadInProgress(state)); 
-
-    // Array of progress messages
-    const progressMessages = ["Initializing...", "Preparing...", "Computing...", "Matching...", "Finalizing..."];
 
     const onAddFiles = (files) => {
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
@@ -73,7 +71,7 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                 disabled={isResumeUplodInProgressFlag}
             />
             {uploadedFiles.length > 0 && (
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", flexDirection: 'column' }}>
                     <button
                         onClick={onUpload}
                         style={{
@@ -87,9 +85,15 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                         }}
                         disabled = {isResumeUplodInProgressFlag}
                     >
-                        Upload Files
+                        <span className="fw-semibold">Upload Files</span>
                         {isResumeUplodInProgressFlag && <Spinner style={{ marginLeft: '5px' }}size="sm"/>}
                     </button>
+                    {(isResumeUplodInProgressFlag) && (
+                        <Container className="d-flex justify-content-center align-items-center">
+                            <StatusBox />
+                        </Container>
+                    )}
+
                 </div>
             )}
         </>
