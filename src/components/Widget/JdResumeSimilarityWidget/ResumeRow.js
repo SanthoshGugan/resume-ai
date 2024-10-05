@@ -139,14 +139,14 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
                 </Col>
               </Row>
               {/* Center the download button */}
-              <div className="d-flex justify-content-center mt-3">
+              {/* <div className="d-flex justify-content-center mt-3">
                 <Button 
                   variant="primary" 
                   onClick={handleDownload}
                 >
                   Download Resume
                 </Button>
-              </div>
+              </div> */}
             </Card.Body>
           </Card>
         </div>

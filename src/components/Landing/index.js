@@ -108,7 +108,7 @@ const LandingPage = () => {
 
     const renderHeader = () => {
         return (
-            <Navbar bg="rgb(255 255 255)" expand="lg" className="shadow-sm sticky-top">
+            <Navbar expand="lg" className="shadow-sm sticky-top" style={{backgroundColor: "rgb(255 255 255)"}}>
                 <Container>
                     <Navbar.Brand href="#home">
                         <Image
