@@ -52,7 +52,7 @@ const DownloadCsv = () => {
                         className="d-flex align-items-center"
                     >
                         <FaFileCsv size={20} className="me-2" />
-                        Export to CSV
+                        Export Sorted Results
                     </Button>
                 </div>
             )}
