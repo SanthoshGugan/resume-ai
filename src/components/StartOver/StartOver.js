@@ -31,6 +31,9 @@ const StartOver = ({ onClick }) => {
 
   const handleClick = () => {
     dispatch(startOver());
+    if (onClick) {
+      onClick();
+    }
     navigate('/');
   }
 

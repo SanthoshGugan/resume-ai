@@ -32,3 +32,10 @@ export const DOWNLOAD_CSV_HEADER = {
     OVERALL_MATCHING: "Overall Matching",
     FILENAME: "FileName"
 }
+
+export const JD_UPLOAD_STATUS_IMAGE = {
+    JD_WORKFLOW_PROGRESS: "./jd/status_jd_upload_in_progress.png",
+    JD_WORKFLOW_TEXT_EXTRACTION: "./jd/status_jd_upload_text_extraction.png",
+    JD_WORKFLOW_DIMENSION_EXTRACTION: "./jd/status_jd_upload_dimension_extraction.png",
+    JD_WORKFLOW_SUMMARY: "./jd/status_jd_upload_summary.png"
+};

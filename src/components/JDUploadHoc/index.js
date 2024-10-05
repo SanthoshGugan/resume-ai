@@ -11,12 +11,14 @@ import { FaCheckCircle } from "react-icons/fa";
 import { isDimensionsChanged, isJDUpdateSkillInProgressSelector, isJDUploadInProgress } from "../../store/selectors/jdSelector";
 import StartOver from "../StartOver/StartOver";
 import { startOver } from "../../store/thunks/commonThunk";
+import StatusBox from "../StatusBox/StatusBox";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
 
 
 const JDUploadHoc = ({ }) => {
+
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [showAlert, setShowAlert] = useState(true);
     const dispatch = useDispatch();
@@ -64,11 +66,6 @@ const JDUploadHoc = ({ }) => {
         navigate('/resume-upload')
     }
 
-    const reset = () => {
-        dispatch(startOver());
-    }
-
-
     const handleClose = () => setShowAlert(false);
 
     const CompletionBanner = () => {
@@ -95,15 +92,16 @@ const JDUploadHoc = ({ }) => {
 
     return (
         <div>
+            <h2 className="d-flex justify-content-center align-items-center flex-column">Upload your Job Description</h2>
             {!updateFlag && (<JDFileUploader
                 onAddFiles={onAddFiles}
                 onRemoveFiles={onRemoveFiles}
                 onCancel={onCancel}
-                description="Select Job Description File"
+                description="Browse  File"
                 disabled={jdUploadInProgressFlag}
             />)}
             {uploadedFiles.length > 0 && !updateFlag && (  // Conditionally render upload button
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", flexDirection: 'column', alignItems: "center" }}>
                     <Button
                         onClick={onUpload}
                         style={{
@@ -113,37 +111,40 @@ const JDUploadHoc = ({ }) => {
                             borderRadius: "5px",
                             cursor: "pointer",
                             padding: "10px 15px",
+                            // maxWidth: '35%'
                         }}
                         disabled={jdUploadInProgressFlag}
                     >
                         Upload
-                        {jdUploadInProgressFlag && <Spinner style={{ marginLeft: '5px' }}size="sm"/>}
+                        {jdUploadInProgressFlag && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
                     </Button>
+
+                    {(jdUploadInProgressFlag) && (
+                        <StatusBox />
+                    )}
                 </div>
             )}
             {updateFlag && (
                 <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
                     {(
-                    <>
-                    <Alert variant="success" onClose={handleClose}>
-                        {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
-                        <Row>
-                            <Col md={11}>
-                                Your Job Description has been successfully uploaded. You can now update the skills if necessary, or skip this step to proceed further.
-                            </Col>
-                            <Col className="d-flex justify-content-end mb-2">
-                                <Button onClick={reset} variant="outline-info">
-                                    StartOver
-                                </Button>
-                            </Col>
-                            {/* <Col className="d-flex justify-content-end">
+                        <>
+                            <Alert variant="success" onClose={handleClose}>
+                                {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
+                                <Row>
+                                    <Col md={11}>
+                                        Your Job Description has been successfully uploaded. You can now update the skills if necessary, or skip this step to proceed further.
+                                    </Col>
+                                    <Col className="d-flex justify-content-end mb-2">
+                                        <StartOver onClick={() => setUploadedFiles([])} />
+                                    </Col>
+                                    {/* <Col className="d-flex justify-content-end">
                                 <Button onClick={handleClose} variant="outline-info">
                                     Got it
                                 </Button>
                             </Col> */}
-                        </Row>
-                    </Alert>
-                    </>
+                                </Row>
+                            </Alert>
+                        </>
                     )}
                     <SkillSelector />
                 </Container>
@@ -153,13 +154,13 @@ const JDUploadHoc = ({ }) => {
                     <Row className="d-flex justify-content-center mt-5">
                         <Col md={3} style={{ display: 'flex', alignItems: "center", justifyContent: "space-between" }}>
 
-                            <Button 
+                            <Button
                                 variant="primary"
                                 onClick={() => dispatch(updateJdThunk())}
                                 disabled={isJdUpdateSkillInProgress || !dimensionsChanged}
                             >
                                 Update Skill
-                                {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
+                                {isJdUpdateSkillInProgress && <Spinner size="sm" />}
                             </Button>
                             <Button
                                 variant="success"
@@ -167,13 +168,13 @@ const JDUploadHoc = ({ }) => {
                                 disabled={isJdUpdateSkillInProgress || dimensionsChanged}
                             >
                                 Continue
-                                {isJdUpdateSkillInProgress && <Spinner size="sm"/>}
+                                {isJdUpdateSkillInProgress && <Spinner size="sm" />}
                             </Button>
                         </Col>
                     </Row>
                 </>
-                
-                
+
+
             )}
 
 

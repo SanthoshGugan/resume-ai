@@ -66,7 +66,7 @@ const LandingPage = () => {
                             <h1 style={{ fontSize: '2.5rem', fontWeight: '700' }}>Save time, hire smarter with AI-powered resume sorting</h1>
                             <p className="lead" style={{ fontSize: '1.5rem' }}>Instantly match top talent with job requirements and streamline your recruitment process</p>
                             <div className='d-flex justify-content-center flex-column' style={{ minHeight: '10rem' }}>
-                                <Button size="lg" onClick={callToAction} className="mt-3" style={{ fontSize: '1.2rem', borderRadius: '2rem', padding: '1rem', width: '20rem', fontWeight: 'bolder' }}>Get Sorted!</Button>
+                                <Button size="lg" onClick={callToAction} className="mt-3" style={{ fontSize: '1.2rem', borderRadius: '2rem', padding: '1rem', width: '20rem', fontWeight: 'bolder' }}>Get Your Resumes Sorted</Button>
                                 <span className='d-flex' style={{ paddingLeft: '4.5rem', fontSize: '0.75rem' }}>No credit card needed, its free!</span>
                             </div>
                         </div>
