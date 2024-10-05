@@ -9,6 +9,7 @@ import ScreenProgress from "../ScreenProgress";
 import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { isResumeUploadInProgress } from "../../store/selectors/resumeSelector";
 import StartOver from "../StartOver/StartOver";
+import StatusBox from "../StatusBox/StatusBox";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
@@ -73,7 +74,7 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                 disabled={isResumeUplodInProgressFlag}
             />
             {uploadedFiles.length > 0 && (
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", flexDirection: 'column' }}>
                     <button
                         onClick={onUpload}
                         style={{
@@ -90,6 +91,12 @@ const ResumesUploadHoc = ({ jd_key = 'tc1-jd.pdf_jd-assets-008971676609' }) => {
                         Upload Files
                         {isResumeUplodInProgressFlag && <Spinner style={{ marginLeft: '5px' }}size="sm"/>}
                     </button>
+                    {(isResumeUplodInProgressFlag) && (
+                        <Container className="d-flex justify-content-center align-items-center">
+                            <StatusBox />
+                        </Container>
+                    )}
+
                 </div>
             )}
         </>

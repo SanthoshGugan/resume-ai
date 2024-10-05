@@ -39,3 +39,7 @@ export const JD_UPLOAD_STATUS_IMAGE = {
     JD_WORKFLOW_DIMENSION_EXTRACTION: "./jd/status_jd_upload_dimension_extraction.png",
     JD_WORKFLOW_SUMMARY: "./jd/status_jd_upload_summary.png"
 };
+
+export const RESUME_UPLOAD_STATUS_IMAGE = {
+    RESUME_WORKFLOW: "./resume/status_resume.png"
+}

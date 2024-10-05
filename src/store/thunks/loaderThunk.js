@@ -1,4 +1,4 @@
-import { JD_UPLOAD_STATUS_IMAGE } from "../../utils/constants";
+import { JD_UPLOAD_STATUS_IMAGE, RESUME_UPLOAD_STATUS_IMAGE } from "../../utils/constants";
 import { setLoaderStatusImage, setLoaderStatusMessage } from "../loaderSlice";
 
 
@@ -25,4 +25,10 @@ export const setJdStatus = ({ status }) => (dispatch, getState) => {
             dispatch(setLoaderStatusImage(JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_DIMENSION_EXTRACTION));
             break;
     }
+};
+
+export const setResumeStatus = () => (dispatch, getState) => {
+    dispatch(setLoaderStatusMessage("Extracting information from Resume"));
+    dispatch(setLoaderStatusImage(RESUME_UPLOAD_STATUS_IMAGE.RESUME_WORKFLOW));
+
 };
