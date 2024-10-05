@@ -108,12 +108,13 @@ const LandingPage = () => {
 
     const renderHeader = () => {
         return (
-            <Navbar bg="light" expand="lg" className="shadow-sm sticky-top">
+            <Navbar bg="rgb(255 255 255)" expand="lg" className="shadow-sm sticky-top">
                 <Container>
                     <Navbar.Brand href="#home">
                         <Image
-                            src="./logo_blue.png"
-                            height="40"
+                            src="./logo5.png"
+                            height="65"
+                            width="200"
                             className="d-inline-block align-top"
                             alt="Sort My Resumes"
                         />
