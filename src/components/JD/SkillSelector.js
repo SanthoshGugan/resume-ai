@@ -5,6 +5,23 @@ import { selectGlobalSkills, selectSkillsFromAllCategory } from "../../store/sel
 import { addSkill, removeSkill } from "../../store/jobDescriptionSlice";
 import SkillBadge from "./SkillBadge";
 
+const dropdownMenuStyles = {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    width: "100%",
+    zIndex: 1,
+};
+
+const notFoundStyles = {
+    padding: "8px 16px",
+    color: "#6c757d",
+    fontStyle: "italic",
+    textAlign: "center",
+    backgroundColor: "#f8f9fa",
+    borderRadius: "4px",
+};
+
 const SkillSelector = () => {
     const dispatch = useDispatch();
     const skillList = useSelector((state) => selectGlobalSkills(state)) || [];
@@ -53,69 +70,61 @@ const SkillSelector = () => {
 
     return (
         <div>
-            <Dropdown autoClose="outside" show={isDropdownOpen}>
-                <Form.Group controlId="skillSearch" style={{ position: "relative" }}>
-                    <Form.Control
-                        ref={inputRef}
-                        type="text"
-                        placeholder="Search for a skill..."
-                        value={searchTerm}
-                        onChange={handleSearch}
-                        onKeyDown={handleKeyDown}
-                        autoComplete="off"
-                    />
-                </Form.Group>
+            <Container className="d-flex justify-content-center align-items-center" style={{ width: '80%', padding: 0, margin: '0 2rem' }}>
+                <div style={{ fontWeight: 'bolder', marginRight: '1rem', flex: '10% 0' }}>Add Skills</div>
+                <div style={{ flex: '1 1' }}>
+                    <Dropdown autoClose="outside" show={isDropdownOpen}>
+                        <Form.Group controlId="skillSearch" style={{ position: "relative" }}>
+                            <Form.Control
+                                ref={inputRef}
+                                type="text"
+                                placeholder="Search for a skill..."
+                                value={searchTerm}
+                                onChange={handleSearch}
+                                onKeyDown={handleKeyDown}
+                                autoComplete="off"
+                            />
+                        </Form.Group>
 
-                {/* Dropdown Menu */}
-                <Dropdown.Menu
-                    show={isDropdownOpen && filteredSkills.length > 0}
-                    style={{ position: "absolute", top: "100%", left: 0, width: "100%", zIndex: 1 }}
-                >
-                    {filteredSkills.map((skill, index) => (
-                        <Dropdown.Item
-                            key={index}
-                            onClick={(e) => {
-                                e.stopPropagation(); // Ensure click propagates correctly
-                                handleSelectSkill(skill);
-                            }}
+                        {/* Dropdown Menu */}
+                        <Dropdown.Menu
+                            show={isDropdownOpen && filteredSkills.length >= 0}
+                            style={dropdownMenuStyles}
                         >
-                            {skill?.skill}
-                        </Dropdown.Item>
-                    ))}
-                </Dropdown.Menu>
-            </Dropdown>
+                            {filteredSkills.length > 0 ? (
+                                filteredSkills.map((skill, index) => (
+                                    <Dropdown.Item
+                                        key={index}
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Ensure click propagates correctly
+                                            handleSelectSkill(skill);
+                                        }}
+                                    >
+                                        {skill?.skill}
+                                    </Dropdown.Item>
+                                ))
+                            ) : (
+                                <div style={notFoundStyles}>
+                                    No matching skills found. Please type a new skill.
+                                </div>
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
+
+                </div>
+            </Container>
 
             <Container className="d-flex flex-wrap" style={{ gap: "10px", margin: '1rem' }}>
                 {skills.map((item, idx) => (
                     <SkillBadge
                         key={idx}
-                        category={item.categoryId} 
+                        category={item.categoryId}
                         tooltipText={item?.categoryName}
                         label={item?.skill}
                         onRemove={(e) => dispatch(removeSkill({ skill: item.skill, categoryName: item.categoryName }))} // Add remove functionality if needed
                     />
                 ))}
             </Container>
-
-            {/* Legend for Color Codes */}
-            {/* <div style={{ marginTop: "20px", fontSize: "14px", display: 'flex' }}>
-                <div>
-                    <span style={{ backgroundColor: "#007bff", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
-                    Category 1
-                </div>
-                <div>
-                    <span style={{ backgroundColor: "#28a745", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
-                    Category 2
-                </div>
-                <div>
-                    <span style={{ backgroundColor: "#dc3545", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
-                    Category 3
-                </div>
-                <div>
-                    <span style={{ backgroundColor: "#ffc107", padding: "3px 8px", borderRadius: "3px", color: "#fff", marginRight: "5px" }}></span>
-                    Category 4
-                </div>
-            </div> */}
         </div>
     );
 };

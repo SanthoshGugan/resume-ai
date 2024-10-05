@@ -69,6 +69,10 @@ export const updateJdThunk = () => async (dispatch, getState) => {
     try {
         dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.IN_PROGRESS));
         const res = await updateJDApi({ jd: { dimensions, status, id: key, summary }, newSkills });
+        dispatch(setLoaderVisibility(true));
+        dispatch(setLoaderProgress(20));
+        dispatch(setJdStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
+        // dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
         dispatch(fetchJDThunk());
 
     } catch (err) {

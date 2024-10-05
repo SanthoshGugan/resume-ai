@@ -92,7 +92,7 @@ const JDUploadHoc = ({ }) => {
 
     return (
         <div>
-            <h2 className="d-flex justify-content-center align-items-center flex-column">Upload your Job Description</h2>
+            {!updateFlag && (<h2 className="d-flex justify-content-center align-items-center flex-column">Upload your Job Description</h2>)}
             {!updateFlag && (<JDFileUploader
                 onAddFiles={onAddFiles}
                 onRemoveFiles={onRemoveFiles}
@@ -125,34 +125,37 @@ const JDUploadHoc = ({ }) => {
                 </div>
             )}
             {updateFlag && (
-                <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
-                    {(
-                        <>
-                            <Alert variant="success" onClose={handleClose}>
-                                {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
-                                <Row>
-                                    <Col md={11}>
-                                        Your Job Description has been successfully uploaded. You can now update the skills if necessary, or skip this step to proceed further.
-                                    </Col>
-                                    <Col className="d-flex justify-content-end mb-2">
-                                        <StartOver onClick={() => setUploadedFiles([])} />
-                                    </Col>
-                                    {/* <Col className="d-flex justify-content-end">
+                <>
+                    <h2 className="d-flex justify-content-start align-items-center flex-column">Here are the key skills we found in the Job Description</h2>
+                    <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
+                        {(
+                            <>
+                                <Alert variant="success" onClose={handleClose}>
+                                    {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
+                                    <Row>
+                                        <Col md={11}>
+                                            Your Job Description has been successfully uploaded. You can now update the skills if necessary, or skip this step to proceed further.
+                                        </Col>
+                                        <Col className="d-flex justify-content-end mb-2">
+                                            <StartOver onClick={() => setUploadedFiles([])} />
+                                        </Col>
+                                        {/* <Col className="d-flex justify-content-end">
                                 <Button onClick={handleClose} variant="outline-info">
                                     Got it
                                 </Button>
                             </Col> */}
-                                </Row>
-                            </Alert>
-                        </>
-                    )}
-                    <SkillSelector />
-                </Container>
+                                    </Row>
+                                </Alert>
+                            </>
+                        )}
+                        <SkillSelector />
+                    </Container>
+                </>
             )}
             {updateFlag && (
                 <>
                     <Row className="d-flex justify-content-center mt-5">
-                        <Col md={3} style={{ display: 'flex', alignItems: "center", justifyContent: "space-between" }}>
+                        <Col md={6} style={{ display: 'flex', alignItems: "center", justifyContent: "space-between" }}>
 
                             <Button
                                 variant="primary"
@@ -167,11 +170,16 @@ const JDUploadHoc = ({ }) => {
                                 onClick={skipNext}
                                 disabled={isJdUpdateSkillInProgress || dimensionsChanged}
                             >
-                                Continue
+                                Continue to Resume Upload
                                 {isJdUpdateSkillInProgress && <Spinner size="sm" />}
                             </Button>
                         </Col>
                     </Row>
+                    {(isJdUpdateSkillInProgress) && (
+                        <Row className="d-flex justify-content-center mt-5">
+                            <StatusBox />
+                        </Row>
+                    )}
                 </>
 
 
