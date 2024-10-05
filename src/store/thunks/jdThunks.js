@@ -5,10 +5,12 @@ import { uploadFile } from "../../api/s3FileUploadApi";
 import { updateStatusForStep, updateStepToActive } from "../timelineSlice";
 import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants";
 import { generateJdKeyByUserId } from "../../utils/userUtils";
+import { resetLoader, setLoaderProgress, setLoaderVisibility } from "../loaderSlice";
+import { setJdStatus } from "./loaderThunk";
 
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
-    const { jobDescription } = getState();
+    const { jobDescription, loader: { progress } } = getState();
     // console.log(`JD ::: ${JSON.stringify(jobDescription)}`);
     const { key, jdUpdateSkillStatus } = jobDescription;
     try {
@@ -22,6 +24,8 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
         if (retry) {
             setTimeout(() => {
                 dispatch(fetchJDThunk(interval));
+                dispatch(setLoaderProgress(Math.min((progress * 2.5), 80)));
+                dispatch(setJdStatus({ status }));
             }, interval)
         } else {
             dispatch(updatedJD({
@@ -31,6 +35,8 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
                 id
             }))
             dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED));
+            dispatch(setLoaderProgress(100));
+            dispatch(resetLoader());
             if (jdUpdateSkillStatus === JD_UPDATE_SKILL_STATUS.IN_PROGRESS){
                 dispatch(setIsSkillUpdated(true));
                 dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));
@@ -76,6 +82,9 @@ export const uploadJDThunk = ({ file, Bucket }) => async (dispatch, getState) =>
     const { user } = getState();
     const { userId } = user;
     const Key = generateJdKeyByUserId(userId, file.name);
+    dispatch(setLoaderVisibility(true));
+    dispatch(setLoaderProgress(20));
+    dispatch(setJdStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
     dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
     await uploadFile({ file, Bucket, Key });
     // console.log(`on jdthunk ::; ${Key} ${Bucket}`);

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser, } from 'aws-amplify/auth';
 import { userIdSelector, userSignOutSelector } from "../../store/selectors/userSelector";
 import { setuserId } from "../../store/userSlice";
+import Loader from "../Loader/Loader";
 
 Amplify.configure(awsconfig);
 
@@ -33,11 +34,12 @@ const Home = () => {
         initUser();
     }, []);
     return (
-        <Container>
+        <>
+            <Loader />
             <Header signOut={signOut} userId={userId} />
             <Board />
             <Actions />
-        </Container>
+        </>
     );
 };
 

@@ -91,6 +91,13 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
         cursor: "pointer",
     };
 
+
+    const subtext = {
+        fontSize: '12px',
+        color: 'gray',
+        marginTop: '4px'
+    };
+
     return (
         <div
             onDrop={handleDrop}
@@ -128,6 +135,11 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
                             >
                                 {description}
                             </label>
+
+                    {/* Subtext */}
+                    <p style={subtext}>
+                        Only PDF files supported at the moment.
+                    </p>
                         </Col>
                     </Row>
                 </>

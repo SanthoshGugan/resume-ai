@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card } from 'react-bootstrap';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { FaBolt, FaHourglassHalf } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
@@ -65,7 +66,7 @@ const LandingPage = () => {
                             <h1 style={{ fontSize: '2.5rem', fontWeight: '700' }}>Save time, hire smarter with AI-powered resume sorting</h1>
                             <p className="lead" style={{ fontSize: '1.5rem' }}>Instantly match top talent with job requirements and streamline your recruitment process</p>
                             <div className='d-flex justify-content-center flex-column' style={{ minHeight: '10rem' }}>
-                                <Button size="lg" onClick={callToAction} className="mt-3" style={{ fontSize: '1.2rem', borderRadius: '2rem', padding: '1rem', width: '20rem', fontWeight: 'bolder' }}>Get Sorted!</Button>
+                                <Button size="lg" onClick={callToAction} className="mt-3" style={{ fontSize: '1.2rem', borderRadius: '2rem', padding: '1rem', width: '20rem', fontWeight: 'bolder' }}>Get Your Resumes Sorted</Button>
                                 <span className='d-flex' style={{ paddingLeft: '4.5rem', fontSize: '0.75rem' }}>No credit card needed, its free!</span>
                             </div>
                         </div>
@@ -82,21 +83,21 @@ const LandingPage = () => {
 
                         {/* Left bottom overlay (WhatsApp message bubble style) */}
                         <Row style={leftBubbleStyle}>
+                            <Col md={2} style={{ fontSize: '3rem', padding: 0, justifyContent: 'space-between' }} className='d-flex align-items-center'>
+                                <FaHourglassHalf size="2rem" color='gold'/>
+                            </Col>
                             <Col md={10} style={{ padding: 0, textAlign: 'center' }}>
                                 Cut resume filtering by 50%
-                            </Col>
-                            <Col md={2} style={{ fontSize: '3rem', padding: 0 }}>
-                                &#x23F1;
                             </Col>
                         </Row>
 
                         {/* Right center overlay (notification text style) */}
                         <div style={rightNotificationStyle}>
-                            <Col md={3} style={{ fontSize: '3rem', padding: 0 }}>
-                                &#x1F4CA;
-                            </Col>
-                            <Col md={9} style={{ padding: 0, textAlign: 'center' }}>
+                            <Col md={10} style={{ padding: 0, textAlign: 'center' }}>
                                 Instantly compare 100s of resumes
+                            </Col>
+                            <Col md={2} style={{ fontSize: '3rem', padding: 0, justifyContent: 'space-between' }} className='d-flex justify-content-center align-items-center'>
+                                <FaBolt size="2rem" color='gold'/>
                             </Col>
                         </div>
                     </Col>
@@ -187,7 +188,7 @@ const LandingPage = () => {
             {renderBanner()}
 
             {/* Features Section */}
-            <Container className="my-5">
+            <Container className="my-5 p">
                 <h2 className="text-center mb-4">Features</h2>
                 {/* First feature: Text on left, icon on right */}
                 <Row className="align-items-center mb-5">
