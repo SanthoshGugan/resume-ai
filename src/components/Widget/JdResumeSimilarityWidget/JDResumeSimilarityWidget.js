@@ -1,6 +1,7 @@
 import React from 'react';
 import withWidgetWrapper from '../withWidgetWrapper';
 import ResumeTable from './ResumeTable';
+import StatusBox from '../../StatusBox/StatusBox';
 
 // JD-Resume Similarity Widget Component
 const JdResumeSimilarityWidget = ({ queryResults, resumes }) => {
@@ -14,6 +15,9 @@ const JdResumeSimilarityWidget = ({ queryResults, resumes }) => {
 
   return (
     <div className="jd-resume-similarity-widget">
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        <StatusBox />
+      </div>
       <ResumeTable resumes={resumes} rows={rows} />
     </div>
   );

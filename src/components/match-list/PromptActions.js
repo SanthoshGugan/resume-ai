@@ -11,15 +11,15 @@ import { domainsQueryEnabledSelector, fetchInProgressQueries, isFetchInProgressB
 import { Button, Spinner } from 'react-bootstrap';
 
 const prompts = [
-  { id: "jd_resume_similarity", sid: 1, label: "Show resumes with over 80% match in front-end skills", category: 'Skills Match', accessibility: 'guest' },
-  { id: "label", sid:2, label: "Add Labels to Candidates", category: 'Skills Match', accessibility: 'guest' },
+  { id: "jd_resume_similarity", sid: 1, label: "Explore Resumes with Top Similarity Percentages", category: 'Skills Match', accessibility: 'guest' },
+  { id: "label", sid:2, label: "Tagging Skills: Frontend, Backend, Cloud, etc.", category: 'Skills Match', accessibility: 'guest' },
   // { id: 3, sid:3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
-  { id: "companies", sid:4, label: "Show Candidates Companies", category: 'Experience and Companies',  accessibility: 'guest' },
-  { id: "label",sid:5, label: "Show Front End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
-  { id: "label",sid:6, label: "Show Back End Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
+  { id: "companies", sid:4, label: "Find Out Where Candidates Have Worked", category: 'Experience and Companies',  accessibility: 'guest' },
+  { id: "label",sid:5, label: "Explore Percentages of Front end Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
+  { id: "label",sid:6, label: "Explore Percentages of Back end Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
   // { id: "label", sid:7,label: "Show Database Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "database" },
-  { id: "label",sid:8, label: "Show Cloud Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "cloud" },
-  { id: "label",sid:9, label: "Show Dev Ops Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "devops" },
+  { id: "label",sid:8, label: "Explore Percentages of Cloud Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "cloud" },
+  { id: "label",sid:9, label: "Explore Percentages of Dev ops Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "devops" },
   // { id: 6, label: "List candidates within a 50-mile radius of the job location", category: 'Location-Based Filtering', accessibility: 'signup' },
   // { id: 7, label: "Show resumes with degrees from top-tier universities", category: 'Educational Background', accessibility: 'early-access' },
   // { id: 8, label: "Filter candidates with a Master's degree in Computer Science", category: 'Educational Background', accessibility: 'premium' },
