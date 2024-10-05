@@ -6,7 +6,7 @@ export const setJdStatus = ({ status }) => (dispatch, getState) => {
     switch(status) {
         case JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_PROGRESS:
             dispatch(setLoaderStatusMessage("JD Upload In progress"));
-            dispatch(setLoaderStatusImage(JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_PROGRESS));
+            dispatch(setLoaderStatusImage(JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_DIMENSION_EXTRACTION));
             break;
         case "DIMENSION_EXTRACTION_COMPLETED":
             dispatch(setLoaderStatusMessage("Extracting information from JD"));
@@ -21,8 +21,8 @@ export const setJdStatus = ({ status }) => (dispatch, getState) => {
             dispatch(setLoaderStatusImage(JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_DIMENSION_EXTRACTION));
             break;
         default:
-            dispatch(setLoaderStatusMessage("Uploading..."));
+            dispatch(setLoaderStatusMessage("Extracting information from JD"));
             dispatch(setLoaderStatusImage(JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_DIMENSION_EXTRACTION));
             break;
     }
-}
+};
