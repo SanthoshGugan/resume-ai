@@ -122,11 +122,11 @@ const LandingPage = () => {
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="align-items-center">
                             {/* Subscribe Button */}
-                            <Form className="d-none d-lg-block me-3">
+                            {/* <Form className="d-none d-lg-block me-3">
                                 <Button variant="outline-primary" className="px-4">
                                     Subscribe
                                 </Button>
-                            </Form>
+                            </Form> */}
 
                             {/* Sign Up Button */}
                             <Button variant="primary" onClick={signUp} className="px-4">
