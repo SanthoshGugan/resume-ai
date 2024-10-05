@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from 'react-redux';
-import { Button, Toast, ToastContainer } from 'react-bootstrap';
+import { Button, Alert } from 'react-bootstrap';
 import { FaFileCsv } from 'react-icons/fa';
 import { downloadCsv } from "../../utils/reports";
 import { getResumeIdsForQueries } from "../Widget/wrapperUtils";
@@ -10,7 +10,7 @@ import { resumesByIdsSelector } from '../../store/selectors/resumeByIdSelector';
 import './DownloadCsv.css'; // Import your custom CSS
 
 const DownloadCsv = () => {
-    const [showToast, setShowToast] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
     
     const queryIds = ['jd_resume_similarity', 'label'];
     const queryResults = useSelector((state) => selectQueryResultsById(state, queryIds)) || { };
@@ -37,13 +37,18 @@ const DownloadCsv = () => {
             DOWNLOAD_CSV_HEADER.CANDIDATE_NAME,
             DOWNLOAD_CSV_HEADER.OVERALL_MATCHING,
             DOWNLOAD_CSV_HEADER.FILENAME
-        ]
+        ];
         downloadCsv(headers, exportRows);
-        setShowToast(true); // Show the toast on download success
+        setShowAlert(true); // Show the alert on download success
     };
 
     return (
         <>
+            {showAlert && (
+                <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+                    CSV file downloaded successfully!
+                </Alert>
+            )}
             {rows.length > 0 && (
                 <div className="d-flex justify-content-center mb-3">
                     <Button
@@ -52,18 +57,11 @@ const DownloadCsv = () => {
                         className="d-flex align-items-center"
                     >
                         <FaFileCsv size={20} className="me-2" />
-                        Export Sorted Results
+                        <span className="fw-semibold">Export Sorted Results</span>
                     </Button>
                 </div>
             )}
-            <ToastContainer className="toast-container">
-                <Toast show={showToast} onClose={() => setShowToast(false)} delay={3000} autohide>
-                    <Toast.Header>
-                        <strong className="me-auto">Download</strong>
-                    </Toast.Header>
-                    <Toast.Body>CSV file downloaded successfully!</Toast.Body>
-                </Toast>
-            </ToastContainer>
+
         </>
     );
 };

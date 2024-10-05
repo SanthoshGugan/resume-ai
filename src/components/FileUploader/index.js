@@ -182,7 +182,7 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                             }}
                         >
                             <FaPlus style={{ marginRight: "5px" }} />
-                            Add Files
+                            <span className="fw-semibold">Add Resumes</span>
                         </label>
                     </div>
                 </>)}

@@ -54,7 +54,7 @@ const ResumeTable = ({ rows = [], resumes }) => {
         {
         !showSimilarity ? (
           <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100px' }}>
-            <span className="mb-2">Sorting resumes for best fit...</span> {/* Add Loading text */}
+            <span className="fw-semibold">Sorting resumes for best fit...</span>
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
