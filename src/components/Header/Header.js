@@ -48,10 +48,18 @@ const Header = () => {
         );
     }
     return (
-        <Row className="d-flex justify-content-center align-items-center" style={{ backgroundColor: '#fefefe' }}>
+        <Row
+            className="d-flex justify-content-center align-items-center"
+            style={{
+                backgroundColor: '#fefefe',
+                padding: '0.5rem 0',
+                borderBottom: '1px solid #e0e0e0',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                marginBottom: '0.5rem'
+            }}
+        >
             {/* <Col md={2}></Col> */}
             <Col md={9} sm={8} className="d-flex justify-content-start">
-
                 <Image
                     src="./logo5.png"
                     height="65"

@@ -36,7 +36,7 @@ const Board = () => {
         <Container
             style={{
                 width: '100vw',              // Full width
-                height: 'calc(100vh - 150px)', // Full height minus the timeline height (adjust 50px as needed)
+                height: 'calc(100vh - 160px)', // Full height minus the timeline height (adjust 50px as needed)
                 overflowY: 'auto',           // Vertical scroll
                 scrollbarWidth: 'none',      // For Firefox
                 msOverflowStyle: 'none',     // For Internet Explorer and Edge
