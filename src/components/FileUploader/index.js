@@ -144,44 +144,48 @@ const FileUploader = ({ onAddFiles, onRemoveFiles, onCancel, multiple, descripti
                 transition: "border 0.3s",
             }}
         >
-            <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
-            <h4>{description}</h4>
-            {/* <p>Only PDF files are allowed.</p> */}
-            <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf"
-                multiple={multiple}
-                onChange={handleFileChange}
-                style={{ display: "none", opacity: disabled ? '0.5': '1'}}
-                id="fileInput"
-                disabled = {disabled}
-            />
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px", gap: "15px" }}>
-                {files.length > 0 && (<Button
-                    variant="danger"
-                    onClick={removeFiles}
-                    disabled={selectedFiles.size === 0 || disabled}
-                >
-                    <FaTrashAlt style={{ marginRight: "5px" }} />
-                    Remove
-                </Button>)}
-                <label
-                    htmlFor="fileInput"
-                    style={{
-                        padding: "10px 20px",
-                        backgroundColor: "#007bff",
-                        color: "#fff",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                    }}
-                >
-                    <FaPlus style={{ marginRight: "5px" }} />
-                    Add Files
-                </label>
-            </div>
+
+            {!disabled && (
+                <>
+                    <MdOutlineCloudUpload size={50} color="#007bff" style={{ marginBottom: "15px" }} />
+                    <h4>{description}</h4>
+                    {/* <p>Only PDF files are allowed.</p> */}
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".pdf"
+                        multiple={multiple}
+                        onChange={handleFileChange}
+                        style={{ display: "none", opacity: disabled ? '0.5' : '1' }}
+                        id="fileInput"
+                        disabled={disabled}
+                    />
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px", gap: "15px" }}>
+                        {files.length > 0 && (<Button
+                            variant="danger"
+                            onClick={removeFiles}
+                            disabled={selectedFiles.size === 0 || disabled}
+                        >
+                            <FaTrashAlt style={{ marginRight: "5px" }} />
+                            Remove
+                        </Button>)}
+                        <label
+                            htmlFor="fileInput"
+                            style={{
+                                padding: "10px 20px",
+                                backgroundColor: "#007bff",
+                                color: "#fff",
+                                borderRadius: "5px",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                            }}
+                        >
+                            <FaPlus style={{ marginRight: "5px" }} />
+                            Add Files
+                        </label>
+                    </div>
+                </>)}
 
             {files.length > 0 && (
                 <div style={{ marginTop: "20px" }}>
