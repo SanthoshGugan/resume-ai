@@ -1,5 +1,5 @@
-import { JD_UPLOAD_STATUS_IMAGE, RESUME_UPLOAD_STATUS_IMAGE } from "../../utils/constants";
-import { setLoaderStatusImage, setLoaderStatusMessage } from "../loaderSlice";
+import { JD_UPLOAD_STATUS_IMAGE, RESUME_UPLOAD_STATUS_IMAGE, QUERY_LOADER_MESSAGE } from "../../utils/constants";
+import { setLoaderProgress, setLoaderStatusImage, setLoaderStatusMessage, setLoaderVisibility } from "../loaderSlice";
 
 
 export const setJdStatus = ({ status }) => (dispatch, getState) => {
@@ -32,3 +32,9 @@ export const setResumeStatus = () => (dispatch, getState) => {
     dispatch(setLoaderStatusImage(RESUME_UPLOAD_STATUS_IMAGE.RESUME_WORKFLOW));
 
 };
+
+export const setQueryStatus = ({ status }) => (dispatch, getState) => {
+    const message = QUERY_LOADER_MESSAGE[status] ?  QUERY_LOADER_MESSAGE[status] : "Extracting resumes results..."
+    dispatch(setLoaderStatusMessage(message));
+    dispatch(setLoaderStatusImage(JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_DIMENSION_EXTRACTION));
+}

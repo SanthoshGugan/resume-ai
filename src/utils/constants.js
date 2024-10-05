@@ -43,3 +43,11 @@ export const JD_UPLOAD_STATUS_IMAGE = {
 export const RESUME_UPLOAD_STATUS_IMAGE = {
     RESUME_WORKFLOW: "./resume/status_resume.png"
 }
+export const QUERY_LOADER_MESSAGE = {
+    "label": "Extracting labels",
+    "companies": "Extracting companies",
+    "front_end": "Extracting frontend skill percentage",
+    "back_end": "Extracting backend skill percentage",
+    "cloud": "Extracting cloud skill percentage",
+    "devops": "Extracting devops skill percentage"
+}
