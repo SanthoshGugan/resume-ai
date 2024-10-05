@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Alert } from 'react-bootstrap';
 import { FaFileCsv } from 'react-icons/fa';
 import { downloadCsv } from "../../utils/reports";
@@ -8,6 +8,7 @@ import { DOWNLOAD_CSV_HEADER, KEY_DELIMTER } from "../../utils/constants";
 import { selectQueryResultsById } from "../../store/selectors/queryResultsByIdsSelector";
 import { resumesByIdsSelector } from '../../store/selectors/resumeByIdSelector';
 import './DownloadCsv.css'; // Import your custom CSS
+import { updateStatusForStep } from "../../store/timelineSlice";
 
 const DownloadCsv = () => {
     const [showAlert, setShowAlert] = useState(false);
@@ -16,6 +17,7 @@ const DownloadCsv = () => {
     const queryResults = useSelector((state) => selectQueryResultsById(state, queryIds)) || { };
     const resumeIds = getResumeIdsForQueries(queryResults, queryIds);
     const resumes = useSelector((state) => resumesByIdsSelector(state, resumeIds));
+    const dispatch = useDispatch();
 
     if (!queryResults || queryResults.result) {
         return <div>No data available.</div>;
@@ -40,6 +42,7 @@ const DownloadCsv = () => {
         ];
         downloadCsv(headers, exportRows);
         setShowAlert(true); // Show the alert on download success
+        dispatch(updateStatusForStep({id: 'reports', status: 'completed'}));
     };
 
     return (
