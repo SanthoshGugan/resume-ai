@@ -13,7 +13,7 @@ const Login = ({isPassedToWithAuthenticator, signOut, user }) => {
         if (user) {
             // Redirect to home page once signed in successfully
             // dispatch(resetStore());
-            // dispatch(setuserId(user?.userId));
+            dispatch(setuserId(user?.userId));
             navigate('/');
         }
     }, [user, navigate]);

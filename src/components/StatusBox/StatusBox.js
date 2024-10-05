@@ -36,7 +36,7 @@ const StatusBox = () => {
   return (
     <div style={statusBoxStyle}>
       <p style={{ margin: "0", marginRight: "10px", color: "#0070f3", textAlign: 'center', fontSize: '1.5rem' }}>
-        {message}
+        <span className="mb-2 fw-semibold">{message}</span>
       </p>
       <div style={statusImageStyle}>
         <img

@@ -4,8 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isLoading: false,
     progress: 0,
-    statusMessage: 'Calculating various dimensions...',
-    imagePath: './jd/status_jd_upload_dimension_extraction.png'
+    statusMessage: '',
+    imagePath: null
 };
 
 const loaderSlice = createSlice({

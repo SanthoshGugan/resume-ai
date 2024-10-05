@@ -133,7 +133,7 @@ const JDFileUploader = ({ onAddFiles, onRemoveFiles, description = "Upload your 
                                     justifyContent: "center"
                                 }}
                             >
-                                {description}
+                                <span className="fw-semibold">{description}</span>
                             </label>
 
                     {/* Subtext */}

@@ -96,9 +96,13 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
         )}
         {showCompanies && (
           <div className="flex-row-item">
-            {companies?.map(company => (
-              <Badge bg="info" key={company} className="me-1">{company}</Badge>
-            ))}
+            {companies && companies.length > 0 ? (
+              companies.map(company => (
+                <Badge bg="info" key={company} className="me-1">{company}</Badge>
+              ))
+            ) : (
+              <Badge bg="warning">Companies not found</Badge>
+            )}
           </div>
         )}
       </div>

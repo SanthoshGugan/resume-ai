@@ -115,7 +115,7 @@ const JDUploadHoc = ({ }) => {
                         }}
                         disabled={jdUploadInProgressFlag}
                     >
-                        Upload
+                        <span className="fw-semibold">Upload</span>
                         {jdUploadInProgressFlag && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
                     </Button>
 
@@ -162,7 +162,7 @@ const JDUploadHoc = ({ }) => {
                                 onClick={() => dispatch(updateJdThunk())}
                                 disabled={isJdUpdateSkillInProgress || !dimensionsChanged}
                             >
-                                Update Skill
+                                <span className="fw-semibold">Update Skill</span>
                                 {isJdUpdateSkillInProgress && <Spinner size="sm" />}
                             </Button>
                             <Button
@@ -170,7 +170,7 @@ const JDUploadHoc = ({ }) => {
                                 onClick={skipNext}
                                 disabled={isJdUpdateSkillInProgress || dimensionsChanged}
                             >
-                                Continue to Resume Upload
+                                <span className="fw-semibold">Continue to Resume Upload</span>
                                 {isJdUpdateSkillInProgress && <Spinner size="sm" />}
                             </Button>
                         </Col>

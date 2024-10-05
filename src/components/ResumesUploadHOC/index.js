@@ -85,7 +85,7 @@ const ResumesUploadHoc = ({ }) => {
                         }}
                         disabled = {isResumeUplodInProgressFlag}
                     >
-                        Upload Files
+                        <span className="fw-semibold">Upload Files</span>
                         {isResumeUplodInProgressFlag && <Spinner style={{ marginLeft: '5px' }}size="sm"/>}
                     </button>
                     {(isResumeUplodInProgressFlag) && (

@@ -45,9 +45,9 @@ export const RESUME_UPLOAD_STATUS_IMAGE = {
 }
 export const QUERY_LOADER_MESSAGE = {
     "label": "Extracting labels",
-    "companies": "Extracting companies",
-    "front_end": "Extracting frontend skill percentage",
-    "back_end": "Extracting backend skill percentage",
-    "cloud": "Extracting cloud skill percentage",
-    "devops": "Extracting devops skill percentage"
+    "companies": "Extracting Companies from Resume",
+    "front_end": "Extracting Frontend skill percentage",
+    "back_end": "Extracting Backend skill percentage",
+    "cloud": "Extracting Cloud skill percentage",
+    "devops": "Extracting Devops skill percentage"
 }
