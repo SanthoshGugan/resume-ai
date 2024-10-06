@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Form, Dropdown, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGlobalSkills, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
 import { addSkill, removeSkill } from "../../store/jobDescriptionSlice";
 import SkillBadge from "./SkillBadge";
+import { fetchGlobalSkills } from "../../store/thunks/jdThunks";
 
 const dropdownMenuStyles = {
     position: "absolute",
@@ -22,7 +23,7 @@ const notFoundStyles = {
     borderRadius: "4px",
 };
 
-const SkillSelector = () => {
+const  SkillSelector = () => {
     const dispatch = useDispatch();
     const skillList = useSelector((state) => selectGlobalSkills(state)) || [];
     const skills = useSelector((state) => selectSkillsFromAllCategory(state, ""));
@@ -31,6 +32,15 @@ const SkillSelector = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const inputRef = useRef(null); // Reference for the input field
+    const isSkillistAvailable = skillList.length !== 0;
+    console.log(`isSkillavailable : ${isSkillistAvailable}`, skillList);
+
+
+
+    useEffect(() => {
+        dispatch(fetchGlobalSkills());
+    }, [])
+
 
     // Update search term and filter skills accordingly
     const handleSearch = (e) => {
@@ -67,6 +77,9 @@ const SkillSelector = () => {
             handleSelectSkill(filteredSkills[0]); // Select first skill on Enter
         }
     };
+
+    if (!isSkillistAvailable) return <>Loading Skills</>
+
 
     return (
         <div>

@@ -37,11 +37,11 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
             dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED));
             dispatch(setLoaderProgress(100));
             dispatch(resetLoader());
-            if (jdUpdateSkillStatus === JD_UPDATE_SKILL_STATUS.IN_PROGRESS){
+            if (jdUpdateSkillStatus === JD_UPDATE_SKILL_STATUS.IN_PROGRESS) {
                 dispatch(setIsSkillUpdated(true));
-                dispatch(updateStatusForStep({ id: 'resume', status: 'enabled'}));
+                dispatch(updateStatusForStep({ id: 'resume', status: 'enabled' }));
                 dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.COMPLETED));
-            } 
+            }
         }
 
 
@@ -73,7 +73,10 @@ export const updateJdThunk = () => async (dispatch, getState) => {
         dispatch(setLoaderProgress(20));
         dispatch(setJdStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
         // dispatch(setJDUploadStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_PROGRESS));
-        dispatch(fetchJDThunk());
+
+        setTimeout(() => {
+            dispatch(fetchJDThunk());
+        }, 2000);
 
     } catch (err) {
         console.error(`error while updating jd`, err);
