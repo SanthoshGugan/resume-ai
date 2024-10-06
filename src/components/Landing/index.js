@@ -127,8 +127,8 @@ const LandingPage = () => {
                     <Navbar.Brand href="#home">
                         <Image
                             src="./logo5.png"
-                            height="65"
-                            width="200"
+                            height="55"
+                            width="189"
                             className="d-inline-block align-top"
                             alt="Sort My Resumes"
                         />
@@ -162,7 +162,7 @@ const LandingPage = () => {
                 <Row className="align-items-center mb-5">
                     <Col md={6}>
                         <h4>Accurate Matching</h4>
-                        <p>Matches resumes with job descriptions using advanced AI algorithms.</p>
+                        <p>Using cutting-edge AI, we ensure the right resumes are matched to your job descriptions with precision. Our system understands job-specific skills, helping you quickly find the best-fit candidates, reducing shortlisting time and effort.</p>
                     </Col>
                     <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem'}}>
                         <Image src='./robo_resume_bg.png' width="200px" height="200px" alt="AI matching resumes" />
@@ -173,7 +173,7 @@ const LandingPage = () => {
                 <Row className="align-items-center mb-5 flex-row-reverse">
                     <Col md={6}>
                         <h4>Fast & Efficient</h4>
-                        <p>Get ranked resumes instantly without manual filtering.</p>
+                        <p>Get results in minutes, not hours. Our AI-driven system swiftly analyzes hundreds of resumes, delivering ranked candidates almost instantly, so you can focus on interviewing the top talent. Accelerate your hiring process without compromising quality, saving both time and resources.</p>
                     </Col>
                     <Col md={6} className="text-center">
                         <Image src='./ranking_bg.png' width="200px" height="200px" alt="Instant resume ranking with AI" />
@@ -184,7 +184,7 @@ const LandingPage = () => {
                 <Row className="align-items-center mb-5">
                     <Col md={6}>
                         <h4>Secure & Reliable</h4>
-                        <p>Your data is securely processed and handled with care.</p>
+                        <p>Your data is in safe hands. Our platform ensures that all resume data is securely processed with end-to-end encryption, protecting sensitive information at every step. Trust our reliable system to deliver consistent, accurate results while maintaining the highest security standards.</p>
                     </Col>
 
                     <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem'}}>
