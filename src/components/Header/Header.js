@@ -63,8 +63,8 @@ const Header = () => {
                 <div onClick={() => navigate("/welcome")} style={{ cursor: 'pointer'}}>
                     <Image
                         src="./logo5.png"
-                        height="65"
-                        width="200"
+                        height="55"
+                        width="189"
                         className="d-inline-block align-top"
                         alt="Sort My Resumes"
                     />
