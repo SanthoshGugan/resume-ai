@@ -10,6 +10,7 @@ import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { isResumeUploadInProgress } from "../../store/selectors/resumeSelector";
 import StartOver from "../StartOver/StartOver";
 import StatusBox from "../StatusBox/StatusBox";
+import { FaCheckCircle } from "react-icons/fa";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
@@ -22,7 +23,7 @@ const ResumesUploadHoc = ({ }) => {
     // Access resumeUploadStatus from the Redux store
     const resumeUploadStatus = useSelector((state) => state.resumes.resumeUploadStatus);
 
-    const isResumeUplodInProgressFlag = useSelector((state) => isResumeUploadInProgress(state)); 
+    const isResumeUplodInProgressFlag = useSelector((state) => isResumeUploadInProgress(state));
 
     const onAddFiles = (files) => {
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
@@ -44,18 +45,20 @@ const ResumesUploadHoc = ({ }) => {
 
     if (resumeUploadStatus === 'completed') {
         return (
-            <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
+            <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3" style={{ gap: '2rem' }}>
                 <Alert variant="success">
                     {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
                     <Row>
-                        <Col md={11}>
+                        <Col md={12}>
+                            <FaCheckCircle style={{ fontSize: '30px', marginRight: '10px' }} />
                             Your Resumes have been successfully uploaded.
                         </Col>
                     </Row>
-                    <Row className="d-flex justify-content-center align-items-center">
-                        <StartOver />
-                    </Row>
                 </Alert>
+                <Row className="d-flex justify-content-center align-items-center">
+                    <Col style={{ marginBottom: '1rem'}}>
+                        <StartOver asIcon /></Col>
+                </Row>
             </Container>
         )
     }
@@ -83,10 +86,10 @@ const ResumesUploadHoc = ({ }) => {
                             padding: "10px 15px",
                             opacity: isResumeUplodInProgressFlag ? "0.5" : "1"
                         }}
-                        disabled = {isResumeUplodInProgressFlag}
+                        disabled={isResumeUplodInProgressFlag}
                     >
                         <span className="fw-semibold">Upload Files</span>
-                        {isResumeUplodInProgressFlag && <Spinner style={{ marginLeft: '5px' }}size="sm"/>}
+                        {isResumeUplodInProgressFlag && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
                     </button>
                     {(isResumeUplodInProgressFlag) && (
                         <Container className="d-flex justify-content-center align-items-center">

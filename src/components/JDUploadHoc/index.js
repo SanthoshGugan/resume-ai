@@ -77,16 +77,15 @@ const JDUploadHoc = ({ }) => {
                             <FaCheckCircle style={{ fontSize: '30px', marginRight: '10px' }} />
                             <strong>JD Upload and Skill Update Completed!</strong>. Please proceed with the next steps.
                         </div>
-                        <StartOver />
                     </Alert>
+                </Col>
+                <Col>
+                    <StartOver asIcon />
                 </Col>
             </Row>
         );
     };
 
-    useEffect(() => {
-        dispatch(fetchGlobalSkills());
-    }, [])
 
     if (jdSkillUpdateStatus == 'completed') return <CompletionBanner />;
 
@@ -128,7 +127,7 @@ const JDUploadHoc = ({ }) => {
                 <>
                     <h2 className="d-flex justify-content-start align-items-center flex-column">Here are the key skills we found in the Job Description</h2>
                     <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
-                        {(
+                        {!isJdUpdateSkillInProgress && (
                             <>
                                 <Alert variant="success" onClose={handleClose}>
                                     {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
@@ -137,7 +136,7 @@ const JDUploadHoc = ({ }) => {
                                             Your Job Description has been successfully uploaded. You can now update the skills if necessary, or skip this step to proceed further.
                                         </Col>
                                         <Col className="d-flex justify-content-end mb-2">
-                                            <StartOver onClick={() => setUploadedFiles([])} />
+                                            <StartOver onClick={() => setUploadedFiles([])} asIcon />
                                         </Col>
                                         {/* <Col className="d-flex justify-content-end">
                                 <Button onClick={handleClose} variant="outline-info">
@@ -147,6 +146,12 @@ const JDUploadHoc = ({ }) => {
                                     </Row>
                                 </Alert>
                             </>
+                        )}
+
+                        {(isJdUpdateSkillInProgress) && (
+                            <Row className="d-flex justify-content-center mt-5">
+                                <StatusBox />
+                            </Row>
                         )}
                         <SkillSelector />
                     </Container>
@@ -175,11 +180,6 @@ const JDUploadHoc = ({ }) => {
                             </Button>
                         </Col>
                     </Row>
-                    {(isJdUpdateSkillInProgress) && (
-                        <Row className="d-flex justify-content-center mt-5">
-                            <StatusBox />
-                        </Row>
-                    )}
                 </>
 
 

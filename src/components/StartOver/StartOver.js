@@ -1,13 +1,14 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaRedo } from 'react-icons/fa'; // For the refresh icon
+import { IoIosRefresh } from "react-icons/io";
 import { startOver } from '../../store/thunks/commonThunk';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const StartOver = ({ onClick }) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+const StartOver = ({ onClick, asIcon = false }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   // Inline styles for the card
   const cardStyle = {
     width: '150px',
@@ -38,12 +39,40 @@ const StartOver = ({ onClick }) => {
   }
 
   return (
-    <Card style={cardStyle} onClick={handleClick }>
-      <Card.Body>
-        <Card.Title>Start Over</Card.Title>
-        <FaRedo style={iconStyle} />
-      </Card.Body>
-    </Card>
+    <>
+      {!asIcon && (
+        <Card style={cardStyle} onClick={handleClick}>
+          <Card.Body>
+            <Card.Title>Start Over</Card.Title>
+            <FaRedo style={iconStyle} />
+          </Card.Body>
+        </Card>)}
+      {asIcon && (
+        <OverlayTrigger
+          placement="top" // or 'right', 'bottom', 'left'
+          overlay={
+            <Tooltip id="startover-tooltip">
+              Start Over
+            </Tooltip>
+          }
+        >
+          <Button
+            type="button"
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '0',
+              color: 'green',
+              fontSize: '2rem'
+            }}
+            onClick={handleClick}x  
+          >
+            <IoIosRefresh />
+          </Button>
+        </OverlayTrigger>
+      )}
+    </>
   );
 };
 
