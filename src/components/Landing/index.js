@@ -3,11 +3,16 @@ import React from 'react';
 import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card } from 'react-bootstrap';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { FaBolt, FaHourglassHalf } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { userIdSelector } from '../../store/selectors/userSelector';
+import UserProfile from '../UserProfile/UserProfile';
 
 const LandingPage = () => {
 
     const navigate = useNavigate();
+
+    const userId = useSelector(state => userIdSelector(state));
 
     // Style for WhatsApp-style message bubble
     const leftBubbleStyle = {
@@ -50,6 +55,31 @@ const LandingPage = () => {
     const signUp = () => {
         navigate('/login');
     };
+
+
+    const renderLoginLogout = () => {
+
+        if (userId) {
+
+            return (
+                <Col md={2} className="d-flex justify-content-center align-items-end">
+                    <UserProfile />
+                </Col>
+            );
+        }
+
+        return (
+            <Col md={2}>
+                <Button>
+                    <Link
+                        to="/login"
+                        style={{ color: "white", fontSize: "1rem", textDecoration: "none" }}>
+                        Signup
+                    </Link>
+                </Button>
+            </Col>
+        );
+    }
 
     // Add SEO Meta Tags
     React.useEffect(() => {
@@ -137,9 +167,7 @@ const LandingPage = () => {
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="align-items-center">
                             {/* Sign Up Button */}
-                            <Button variant="primary" onClick={signUp} className="px-4">
-                                Sign Up
-                            </Button>
+                            {renderLoginLogout()}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
