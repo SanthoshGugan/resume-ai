@@ -91,6 +91,12 @@ const JDUploadHoc = ({ }) => {
 
     return (
         <div>
+            {!updateFlag && (
+                <Alert variant="info" dismissible>
+                    Currently, we only support Software Engineering Full-Stack job descriptions. If you need support for other domains, please reach out to us at
+                    <span style={{ marginLeft: '5px'}}><a href="mailto:info@sortmyresumes.com" target="_blank">info@sortmyresumes.com</a></span>
+                </Alert>
+            )}
             {!updateFlag && (<h2 className="d-flex justify-content-center align-items-center flex-column">Upload your Job Description</h2>)}
             {!updateFlag && (<JDFileUploader
                 onAddFiles={onAddFiles}
