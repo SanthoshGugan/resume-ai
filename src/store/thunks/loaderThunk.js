@@ -2,7 +2,7 @@ import { JD_UPLOAD_STATUS_IMAGE, RESUME_UPLOAD_STATUS_IMAGE, QUERY_LOADER_MESSAG
 import { setLoaderProgress, setLoaderStatusImage, setLoaderStatusMessage, setLoaderVisibility } from "../loaderSlice";
 
 
-export const setJdStatus = ({ status }) => (dispatch, getState) => {
+export const setLoaderJdStatus = ({ status }) => (dispatch, getState) => {
     switch(status) {
         case JD_UPLOAD_STATUS_IMAGE.JD_WORKFLOW_PROGRESS:
             dispatch(setLoaderStatusMessage("JD Upload In progress"));

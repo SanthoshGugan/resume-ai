@@ -75,6 +75,12 @@ const jobDescriptionSlice = createSlice({
     },
     setJDUpdateSkillStatus: (state, action) => {
       state.jdUpdateSkillStatus = action.payload;
+    },
+    setJdFetchFailed: (state, action) => {
+      state.jdUploadStatus = JD_UPLOAD_STATUS.JD_WORKFLOW_FAILED;
+    },
+    setJdSkillUpdateFailed: (state, action) => {
+      state.jdSkillUpdateSkill = JD_UPDATE_SKILL_STATUS.FAILED;
     }
   },
 });
@@ -91,7 +97,9 @@ export const {
   setIsJDAdded,
   setJDUploadStatus,
   setJDSkillUpdateSkill,
-  setJDUpdateSkillStatus
+  setJDUpdateSkillStatus,
+  setJdFetchFailed,
+  setJdSkillUpdateFailed
 } = jobDescriptionSlice.actions;
 
 export default jobDescriptionSlice.reducer;

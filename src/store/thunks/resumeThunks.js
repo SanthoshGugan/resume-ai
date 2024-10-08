@@ -34,7 +34,7 @@ export const fetchResumesThunk = ({keys = [], interval = 5000}) => async (dispat
     }
 };
 
-export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async (dispatch, getState) => {
+export const pollResumesThunk = (ids =[], interval = 5000, navigate) => async (dispatch, getState) => {
     // console.log(`keys ::: ${JSON.stringify(keys)}`);
     try {
        const res = await fetchResumeSummaryApi({
@@ -51,7 +51,7 @@ export const updateResumesThunk = (ids =[], interval = 5000, navigate) => async 
        if(remainingResumesIds.length > 0 || resumes.length == 0){
             ids = resumes.length == 0 ? ids : remainingResumesIds;
             setTimeout(() => {
-                dispatch(updateResumesThunk(ids, interval, navigate));
+                dispatch(pollResumesThunk(ids, interval, navigate));
             }, interval)
        }
        else {
@@ -90,7 +90,7 @@ export const initUploadResumeThunk = ({files, Bucket, navigate}) => async (dispa
     // const { id } = response?.data;
     const { Key } = await uploadFiles({ files, Bucket, key_map});
     // dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
-    dispatch(updateResumesThunk(resume_keys, 5000, navigate));
+    dispatch(pollResumesThunk(resume_keys, 5000, navigate));
     console.log(resume_keys);
 }
 

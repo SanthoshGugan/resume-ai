@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Form, Dropdown, Container } from "react-bootstrap";
+import { Form, Dropdown, Container, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGlobalSkills, selectSkillsFromAllCategory } from "../../store/selectors/jdSkillSelector";
 import { addSkill, removeSkill } from "../../store/jobDescriptionSlice";
@@ -78,7 +78,10 @@ const  SkillSelector = () => {
         }
     };
 
-    if (!isSkillistAvailable) return <>Loading Skills</>
+    if (!isSkillistAvailable) return (<div className="d-flex justify-content-center align-items-center" style={{ gap: '1rem'}}>
+        <Spinner  /> 
+        <div>Loading Skills</div>
+    </div>);
 
 
     return (
