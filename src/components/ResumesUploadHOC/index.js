@@ -10,7 +10,7 @@ import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { isResumeUploadInProgress } from "../../store/selectors/resumeSelector";
 import StartOver from "../StartOver/StartOver";
 import StatusBox from "../StatusBox/StatusBox";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaRegWindowClose } from "react-icons/fa";
 
 const BUCKET_NAME = `${process.env.REACT_APP_RESUME_BUCKET_NAME}`;
 
@@ -24,6 +24,8 @@ const ResumesUploadHoc = ({ }) => {
     const resumeUploadStatus = useSelector((state) => state.resumes.resumeUploadStatus);
 
     const isResumeUplodInProgressFlag = useSelector((state) => isResumeUploadInProgress(state));
+
+    const isResumeUploadFailed = resumeUploadStatus === RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_FAILED;
 
     const onAddFiles = (files) => {
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
@@ -56,7 +58,7 @@ const ResumesUploadHoc = ({ }) => {
                     </Row>
                 </Alert>
                 <Row className="d-flex justify-content-center align-items-center">
-                    <Col style={{ marginBottom: '1rem'}}>
+                    <Col style={{ marginBottom: '1rem' }}>
                         <StartOver asIcon /></Col>
                 </Row>
             </Container>
@@ -65,6 +67,23 @@ const ResumesUploadHoc = ({ }) => {
 
     return (
         <>
+            {isResumeUploadFailed && uploadedFiles.length > 0 && (
+                <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3" style={{ gap: '2rem' }}>
+                    <Alert variant="warning">
+                        {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
+                        <Row>
+                            <Col md={12}>
+                                <FaRegWindowClose style={{ fontSize: '30px', marginRight: '10px', color: 'red' }} />
+                                    Resume upload failed.
+                            </Col>
+                        </Row>
+                    </Alert>
+                    <Row className="d-flex justify-content-center align-items-center">
+                        <Col style={{ marginBottom: '1rem' }}>
+                            <StartOver asIcon /></Col>
+                    </Row>
+                </Container>
+            )}
             <FileUploader
                 onAddFiles={onAddFiles}
                 multiple={true}
@@ -84,9 +103,9 @@ const ResumesUploadHoc = ({ }) => {
                             borderRadius: "5px",
                             cursor: "pointer",
                             padding: "10px 15px",
-                            opacity: isResumeUplodInProgressFlag ? "0.5" : "1"
+                            opacity: (isResumeUplodInProgressFlag ||isResumeUploadFailed)  ? "0.5" : "1"
                         }}
-                        disabled={isResumeUplodInProgressFlag}
+                        disabled={isResumeUplodInProgressFlag || isResumeUploadFailed}
                     >
                         <span className="fw-semibold">Upload Files</span>
                         {isResumeUplodInProgressFlag && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
