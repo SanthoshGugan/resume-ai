@@ -39,7 +39,7 @@ const isJDUploadInProgress = createSelector(
     ],
     (jdUploadStatus) => {
         console.log(`jd upload status : ${jdUploadStatus}`);
-        if ([JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED, JD_UPLOAD_STATUS.JD_WORKFLOW_IDLE].includes(jdUploadStatus)) return false;
+        if ([JD_UPLOAD_STATUS.JD_WORKFLOW_COMPLETED, JD_UPLOAD_STATUS.JD_WORKFLOW_IDLE, JD_UPLOAD_STATUS.JD_WORKFLOW_FAILED].includes(jdUploadStatus)) return false;
         return true;
     }
 );

@@ -10,8 +10,8 @@ import JDFileUploader from "../JDFileUpload";
 import { FaCheckCircle } from "react-icons/fa";
 import { isDimensionsChanged, isJDUpdateSkillInProgressSelector, isJDUploadInProgress } from "../../store/selectors/jdSelector";
 import StartOver from "../StartOver/StartOver";
-import { startOver } from "../../store/thunks/commonThunk";
 import StatusBox from "../StatusBox/StatusBox";
+import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
@@ -26,11 +26,13 @@ const JDUploadHoc = ({ }) => {
 
     const updateFlag = useSelector(state => isJdUpdateSkillVisible(state, ""));
     const jdUploadStatus = useSelector((state) => state.jobDescription.jdUploadStatus);
+    const jdUpdateStatus = useSelector((state) => state.jobDescription.jdUpdateSkillStatus);
     const progressMessages = ["Uploading..."];
     const jdSkillUpdateStatus = useSelector(state => selectJdSkillUpdateStatus(state));
     const jdUploadInProgressFlag = useSelector(state => isJDUploadInProgress(state));
     const isJdUpdateSkillInProgress = useSelector(state => isJDUpdateSkillInProgressSelector(state));
     const dimensionsChanged = useSelector(state => isDimensionsChanged(state));
+    const isUploadOrUpdateFailed = jdUploadStatus === JD_UPLOAD_STATUS.JD_WORKFLOW_FAILED || jdUpdateStatus === JD_UPDATE_SKILL_STATUS.FAILED;
 
     const onAddFiles = (files) => {
         console.log(`onAddFiles files: ${files}`);
@@ -77,21 +79,35 @@ const JDUploadHoc = ({ }) => {
                             <FaCheckCircle style={{ fontSize: '30px', marginRight: '10px' }} />
                             <strong>JD Upload and Skill Update Completed!</strong>. Please proceed with the next steps.
                         </div>
-                        <StartOver />
                     </Alert>
+                </Col>
+                <Col>
+                    <StartOver asIcon onClick={() => setUploadedFiles([])}/>
                 </Col>
             </Row>
         );
     };
 
-    useEffect(() => {
-        dispatch(fetchGlobalSkills());
-    }, [])
 
     if (jdSkillUpdateStatus == 'completed') return <CompletionBanner />;
 
     return (
         <div>
+            {!updateFlag && (
+                <Alert variant="info" dismissible>
+                    Currently, we only support Software Engineering Full-Stack job descriptions. If you need support for other domains, please reach out to us at
+                    <span style={{ marginLeft: '5px'}}><a href="mailto:info@sortmyresumes.com" target="_blank">info@sortmyresumes.com</a></span>
+                </Alert>
+            )}
+            {isUploadOrUpdateFailed && uploadedFiles?.length > 0 && (
+                <Alert
+                    variant="warning"
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ gap: '1rem'}}
+                >
+                    Job Description Upload/Update failed. please start over <StartOver asIcon onClick={() => setUploadedFiles([])}/>
+                </Alert>
+            )}
             {!updateFlag && (<h2 className="d-flex justify-content-center align-items-center flex-column">Upload your Job Description</h2>)}
             {!updateFlag && (<JDFileUploader
                 onAddFiles={onAddFiles}
@@ -113,10 +129,10 @@ const JDUploadHoc = ({ }) => {
                             padding: "10px 15px",
                             // maxWidth: '35%'
                         }}
-                        disabled={jdUploadInProgressFlag}
+                        disabled={jdUploadInProgressFlag || isUploadOrUpdateFailed}
                     >
                         <span className="fw-semibold">Upload</span>
-                        {jdUploadInProgressFlag && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
+                        {jdUploadInProgressFlag  && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
                     </Button>
 
                     {(jdUploadInProgressFlag) && (
@@ -128,7 +144,7 @@ const JDUploadHoc = ({ }) => {
                 <>
                     <h2 className="d-flex justify-content-start align-items-center flex-column">Here are the key skills we found in the Job Description</h2>
                     <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3">
-                        {(
+                        {!isJdUpdateSkillInProgress && (
                             <>
                                 <Alert variant="success" onClose={handleClose}>
                                     {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
@@ -137,7 +153,7 @@ const JDUploadHoc = ({ }) => {
                                             Your Job Description has been successfully uploaded. You can now update the skills if necessary, or skip this step to proceed further.
                                         </Col>
                                         <Col className="d-flex justify-content-end mb-2">
-                                            <StartOver onClick={() => setUploadedFiles([])} />
+                                            <StartOver onClick={() => setUploadedFiles([])} asIcon />
                                         </Col>
                                         {/* <Col className="d-flex justify-content-end">
                                 <Button onClick={handleClose} variant="outline-info">
@@ -147,6 +163,12 @@ const JDUploadHoc = ({ }) => {
                                     </Row>
                                 </Alert>
                             </>
+                        )}
+
+                        {(isJdUpdateSkillInProgress) && (
+                            <Row className="d-flex justify-content-center mt-5">
+                                <StatusBox />
+                            </Row>
                         )}
                         <SkillSelector />
                     </Container>
@@ -175,11 +197,6 @@ const JDUploadHoc = ({ }) => {
                             </Button>
                         </Col>
                     </Row>
-                    {(isJdUpdateSkillInProgress) && (
-                        <Row className="d-flex justify-content-center mt-5">
-                            <StatusBox />
-                        </Row>
-                    )}
                 </>
 
 

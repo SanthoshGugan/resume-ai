@@ -60,13 +60,15 @@ const Header = () => {
         >
             {/* <Col md={2}></Col> */}
             <Col md={9} sm={8} className="d-flex justify-content-start">
-                <Image
-                    src="./logo5.png"
-                    height="65"
-                    width="200"
-                    className="d-inline-block align-top"
-                    alt="Sort My Resumes"
-                />
+                <div onClick={() => navigate("/welcome")} style={{ cursor: 'pointer'}}>
+                    <Image
+                        src="./logo5.png"
+                        height="55"
+                        width="189"
+                        className="d-inline-block align-top"
+                        alt="Sort My Resumes"
+                    />
+                </div>
             </Col>
             {renderLoginLogout()}
         </Row>);
