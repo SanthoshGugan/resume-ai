@@ -23,7 +23,7 @@ const ResumesUploadHoc = ({ }) => {
 
     const { 
         [USER_FLAGS.ALLOWED_RESUMES_PER_MATCH]: allowedResumesCount
-    } = usePermissions([{ name: USER_FLAGS.ALLOWED_RESUMES_PER_MATCH, defaultVal: 0}]);
+    } = usePermissions([{ name: USER_FLAGS.ALLOWED_RESUMES_PER_MATCH, defaultVal: 100}]);
 
     // Access resumeUploadStatus from the Redux store
     const resumeUploadStatus = useSelector((state) => state.resumes.resumeUploadStatus);
@@ -84,7 +84,6 @@ const ResumesUploadHoc = ({ }) => {
             {isResumeUploadFailed && uploadedFiles.length > 0 && (
                 <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3" style={{ gap: '2rem' }}>
                     <Alert variant="warning">
-                        {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
                         <Row>
                             <Col md={12}>
                                 <FaRegWindowClose style={{ fontSize: '30px', marginRight: '10px', color: 'red' }} />

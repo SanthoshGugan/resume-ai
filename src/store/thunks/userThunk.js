@@ -12,7 +12,11 @@ export const userLogout = (navigate) => async  (dispatch, getState) => {
 
 export const userSync = (id) => async (dispatch, getState) => {
     if (!id) return;
+    const { user } = getState();
+    const{ flags = {}, loadingFlags } = user;
+    const isEmpty = Object.keys(flags).length === 0;
     try {
+        if (isEmpty || loadingFlags) return;
         dispatch(setLoadingFlags(true));
         const res = await fetchUserFeature({ Key: { id } });
         const {user: user_feature} = res?.data;
