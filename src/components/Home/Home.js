@@ -13,6 +13,7 @@ import { getCurrentUser, } from 'aws-amplify/auth';
 import { userIdSelector, userSignOutSelector } from "../../store/selectors/userSelector";
 import { setuserId } from "../../store/userSlice";
 import Loader from "../Loader/Loader";
+import { userSync } from "../../store/thunks/userThunk";
 
 Amplify.configure(awsconfig);
 
@@ -26,13 +27,13 @@ const Home = () => {
             try {
                 const { username, userId, signInDetails } = await getCurrentUser();
                 console.log(`iserId on init `, userId);
-                dispatch(setuserId(userId));
+                dispatch(userSync(userId));
             } catch (err) {
                 console.log(`user not logged in`);
             }
         };
         initUser();
-    }, []);
+    }, [userId]);
     return (
         <>
             <Loader />
