@@ -6,7 +6,7 @@ const selectResumeUploadStatus = state => state.resumes.resumeUploadStatus;
 
 const selectAllResumeById = state => state.resumes.byId;
 
-const selectSkillsFromFullStackDomain = dimensions => dimensions.domains[0]?.roles[0]?.skills || [];
+const selectSkillsFromFullStackDomain = dimensions => dimensions ? dimensions.domains[0]?.roles[0]?.skills : [];
 
 
 const isResumeUploadInProgress = createSelector(
