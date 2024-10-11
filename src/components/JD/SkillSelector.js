@@ -33,7 +33,7 @@ const  SkillSelector = () => {
 
     const inputRef = useRef(null); // Reference for the input field
     const isSkillistAvailable = skillList.length !== 0;
-    console.log(`isSkillavailable : ${isSkillistAvailable}`, skillList);
+    // console.log(`isSkillavailable : ${isSkillistAvailable}`, skillList);
 
 
 

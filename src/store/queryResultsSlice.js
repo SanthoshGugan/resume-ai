@@ -6,7 +6,9 @@ const initialState = {
   fetching: false,              // Flag to indicate if fetching is ongoing
   remainingQueries: [],         // List of queryIds yet to be fetched
   queryApiTriggered: false,
-  domainsQueryEnabled: []
+  domainsQueryEnabled: [],
+  queryRetries: 0,
+  maxQueryRetries: 15
 };
 
 const queryResultsSlice = createSlice({
@@ -45,6 +47,10 @@ const queryResultsSlice = createSlice({
         ...state.domainsQueryEnabled,
         domain
       ]
+    },
+    setQueryRetries: (state, action) => {
+      const retries = action.payload;
+      state.queryRetries = retries;
     }
   },
 });
@@ -57,7 +63,8 @@ export const {
   setFetching,
   addRemainingQuery,
   setQueryApiTriggered,
-  enableDomainQuery
+  enableDomainQuery,
+  setQueryRetries
 } = queryResultsSlice.actions;
 
 export default queryResultsSlice.reducer;
