@@ -17,7 +17,9 @@ const initialState = {
   status: 'idle',           // 'idle' | 'uploading' | 'processing'
   error: null,              // Error related to resumes
   isResumeAdded: false,
-  resumeUploadStatus: ''
+  resumeUploadStatus: '',
+  resumeRetries: 0,
+  maxResumeRetries: 15
 };
 
 // Async thunk for uploading a resume
@@ -91,6 +93,10 @@ const resumeSlice = createSlice({
     },
     setResumeUploadStatus: (state, action) => {
       state.resumeUploadStatus = action.payload;
+    },
+    setResumeRetries: (state, action) => {
+      const retries = action.payload;
+      state.resumeRetries = retries;
     }
 
   },
@@ -117,5 +123,16 @@ const resumeSlice = createSlice({
   }
 });
 
-export const { resumeReset, addResume, updateResumeStatus, removeResume, addFetchInProgress, removeFetchInProgress, setIsResumeAdded, setIds, setResumeUploadStatus } = resumeSlice.actions;
+export const {
+  resumeReset,
+  addResume, 
+  updateResumeStatus,
+  removeResume,
+  addFetchInProgress,
+  removeFetchInProgress,
+  setIsResumeAdded,
+  setIds,
+  setResumeUploadStatus,
+  setResumeRetries
+  } = resumeSlice.actions;
 export default resumeSlice.reducer;
