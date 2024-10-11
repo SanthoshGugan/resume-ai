@@ -17,7 +17,7 @@ const initialState = {
   jdSkillUpdateSkill: '',
   jdUpdateSkillStatus: JD_UPDATE_SKILL_STATUS.IDLE,
   jdFetchRetries: 0,
-  maxAllowedJdRetries: 6
+  maxAllowedJdRetries: 18
 };
 
 const jobDescriptionSlice = createSlice({
