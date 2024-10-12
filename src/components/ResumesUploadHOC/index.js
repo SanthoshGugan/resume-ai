@@ -57,8 +57,6 @@ const ResumesUploadHoc = ({ }) => {
 
     }
 
-    console.log(`isResumeUplodInProgressFlag ${isResumeUplodInProgressFlag}`);
-
     if (resumeUploadStatus === 'completed') {
         return (
             <Container className="d-flex flex-wrap justify-content-center align-items-center mt-3" style={{ gap: '2rem' }}>

@@ -1,5 +1,5 @@
 import { fetchResumesApi, fetchResumeSummaryApi } from "../../api/resumeApi";
-import { addFetchInProgress, addResume, removeFetchInProgress, setIds } from "../resumeSlice";
+import { addFetchInProgress, addResume, removeFetchInProgress, setIds, setResumeRetries } from "../resumeSlice";
 import { uploadFile, uploadFiles } from "../../api/s3FileUploadApi";
 import { initializeResumeUploadApi } from "../../api/resumeApi";
 import { setResumeUploadStatus } from "../resumeSlice";
@@ -37,6 +37,8 @@ export const fetchResumesThunk = ({ keys = [], interval = 5000 }) => async (disp
 
 export const pollResumesThunk = (ids = [], interval = 5000, navigate) => async (dispatch, getState) => {
     // console.log(`keys ::: ${JSON.stringify(keys)}`);
+    const { resumes } = getState();
+    const { resumeRetries, maxResumeRetries } = resumes;
     try {
         const res = await fetchResumeSummaryApi({
             resumeIds: ids
@@ -49,13 +51,17 @@ export const pollResumesThunk = (ids = [], interval = 5000, navigate) => async (
                 remainingResumesIds.push(resume.id);
             }
         }
-        if (remainingResumesIds.length > 0 || resumes.length == 0) {
+        const hasFetchPending = remainingResumesIds.length > 0 || resumes.length == 0;
+        if (hasFetchPending && resumeRetries < maxResumeRetries) {
             ids = resumes.length == 0 ? ids : remainingResumesIds;
+            dispatch(setResumeRetries(resumeRetries + 1));
             setTimeout(() => {
                 dispatch(pollResumesThunk(ids, interval, navigate));
             }, interval)
-        }
-        else {
+        } else if (hasFetchPending && resumeRetries >= maxResumeRetries) {
+            console.error("Max retries reaching for resume fetch");
+            throw new Error("Max retries reached for resume fetch");
+        } else {
             dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_COMPLETED));
             dispatch(updateStatusForStep({ id: "resume", status: "completed" }));
             dispatch(updateStatusForStep({ id: "match", status: "enabled" }));
@@ -94,7 +100,7 @@ export const initUploadResumeThunk = ({ files, Bucket, navigate }) => async (dis
         const { Key } = await uploadFiles({ files, Bucket, key_map });
         // dispatch(updateStatusForStep({ id: "match", status: "enabled"}));
         dispatch(pollResumesThunk(resume_keys, 5000, navigate));
-        console.log(resume_keys);
+        // console.log(resume_keys);
 
     } catch (err) {
         dispatch(setResumeUploadStatus(RESUME_UPLOAD_STATUS.RESUME_WORKFLOW_FAILED));

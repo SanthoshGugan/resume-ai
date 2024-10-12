@@ -1,5 +1,5 @@
 import { fetchJdSkillsApi, fetchJDSummaryApi, updateJDApi } from "../../api/jdApi";
-import { initSkill, setIsSkillUpdated, updatedJD, addKey, setJDUploadStatus, setJDSkillUpdateSkill, setJDUpdateSkillStatus, setJdFetchFailed, setJdSkillUpdateFailed } from "../jobDescriptionSlice";
+import jobDescriptionSlice, { initSkill, setIsSkillUpdated, updatedJD, addKey, setJDUploadStatus, setJDSkillUpdateSkill, setJDUpdateSkillStatus, setJdFetchFailed, setJdSkillUpdateFailed, setJdRetries } from "../jobDescriptionSlice";
 import { uploadFile } from "../../api/s3FileUploadApi";
 import { updateStatusForStep, updateStepToActive } from "../timelineSlice";
 import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants";
@@ -10,7 +10,7 @@ import { setLoaderJdStatus } from "./loaderThunk";
 
 export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
     const { jobDescription, loader: { progress } } = getState();
-    const { key, jdUpdateSkillStatus } = jobDescription;
+    const { key, jdUpdateSkillStatus, jdFetchRetries, maxAllowedJdRetries } = jobDescription;
     try {
         const req = {
             s3_key: key
@@ -19,12 +19,16 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
         const res = await fetchJDSummaryApi(req);
         // console.log(`response ::: ${JSON.stringify(res)}`);
         const { status, retry, dimensions, summary, id } = res?.data;
-        if (retry) {
+        if (retry && jdFetchRetries <= maxAllowedJdRetries) {
             setTimeout(() => {
+                dispatch(setJdRetries(jdFetchRetries + 1));
                 dispatch(fetchJDThunk(interval));
                 dispatch(setLoaderProgress(Math.min((progress * 2.5), 80)));
                 dispatch(setLoaderJdStatus({ status }));
             }, interval)
+        } else if (retry && jdFetchRetries > maxAllowedJdRetries) {
+            console.error(`max retries reached`);
+            throw new Error("Max retried reached");
         } else {
             dispatch(updatedJD({
                 ...(status !== undefined && { status }),
@@ -41,14 +45,13 @@ export const fetchJDThunk = (interval = 5000) => async (dispatch, getState) => {
                 dispatch(setJDUpdateSkillStatus(JD_UPDATE_SKILL_STATUS.COMPLETED));
             }
         }
-
-
     } catch (err) {
         console.error(`Error while fetching JD ::::`, err);
         dispatch(setJdFetchFailed());
         dispatch(setJdSkillUpdateFailed());
         dispatch(resetLoader());
         dispatch(setLoaderJdStatus(JD_UPLOAD_STATUS.JD_WORKFLOW_FAILED))
+        dispatch(setJdRetries(0));
     }
 };
 

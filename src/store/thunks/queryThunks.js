@@ -1,4 +1,4 @@
-import { addQueryResult, setRemainingQueries, setFetching, setQueryApiTriggered } from '../queryResultsSlice';
+import { addQueryResult, setRemainingQueries, setFetching, setQueryApiTriggered, setQueryRetries } from '../queryResultsSlice';
 import { fetchQueriesApi } from '../../api/queryApi';  // API call to fetch query results
 import { queryFunctionApi } from "../../api/queryFunctionApi";
 import { queryComplete } from '../widgetSlice';
@@ -10,6 +10,7 @@ import { setLoaderStatusImage, setLoaderStatusMessage } from '../loaderSlice';
 export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, getState) => {
   const { queryResults } = getState();
   // console.log(`remiaing queries ::::: $${JSON.stringify(queryResults.remainingQueries)}`)
+  const { queryRetries, maxQueryRetries } = queryResults;
 
   // Only proceed if there are queries left to fetch
   if (queryResults.remainingQueries.length > 0 && !queryResults.fetching) {
@@ -31,11 +32,16 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
         dispatch(fetchResumesThunk({keys}));
       });
 
-      // After the results are fetched, continue long polling after the interval
-      setTimeout(() => {
-        dispatch(longPollQueries(jd_key, interval));
-      }, interval);
-      
+      if (queryRetries < maxQueryRetries) {
+        dispatch(setQueryRetries(queryRetries + 1));
+        // After the results are fetched, continue long polling after the interval
+        setTimeout(() => {
+          dispatch(longPollQueries(jd_key, interval));
+        }, interval);
+      } else {
+        console.error("Max retries reached");
+        throw new Error("Max retries reached");
+      }   
     } catch (error) {
       console.error('Error fetching queries:', error);
     } finally {
@@ -45,7 +51,6 @@ export const longPollQueries = (jd_key, interval = 5000) => async (dispatch, get
     dispatch(setLoaderStatusMessage(""));
     dispatch(setLoaderStatusImage(null));
   }
-
 };
 
 export const triggerQueries = (queries) => async (dispatch, getState) => {
