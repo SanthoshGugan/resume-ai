@@ -11,7 +11,7 @@ export const onQuerySelectThunk = ({ids = []}) => async (dispatch, getState) => 
 };
 
 export const onQuerySelect = ({id, domain}) => async (dispatch, getState) => {
-    console.log(`on query think select`, id, domain);
+    // console.log(`on query think select`, id, domain);
     const { queryResults } = getState();
     const { byQueryId } = queryResults;
     if (byQueryId[id]){ 

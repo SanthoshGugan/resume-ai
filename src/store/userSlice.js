@@ -4,7 +4,10 @@ const initialState = {
   isAuthenticated: false,
   details: null,           // User profile details
   userType: 'guest',       // User type: 'guest', 'free', 'premium'
-  userId: null
+  userId: null,
+  flags: {
+  },
+  loadingFlags: false,
 };
 
 const userSlice = createSlice({
@@ -26,9 +29,17 @@ const userSlice = createSlice({
       const userId = action.payload;
       state.userId = userId;
     },
+    setFlags: (state, action) => {
+      const flags = action.payload;
+      state.flags = flags;
+    },
+    setLoadingFlags: (state, action) => {
+      const loading = action.payload;
+      state.loadingFlags = loading;
+    }
   },
 });
 
-export const { userReset, loginUser, logoutUser, setuserId } = userSlice.actions;
+export const { userReset, loginUser, logoutUser, setuserId, setFlags, setLoadingFlags } = userSlice.actions;
 
 export default userSlice.reducer;

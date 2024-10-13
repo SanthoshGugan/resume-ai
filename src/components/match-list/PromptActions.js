@@ -8,18 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { longPollQueries } from '../../store/thunks/queryThunks';
 import { selectJdKey } from '../../store/selectors/jdSelector';
 import { domainsQueryEnabledSelector, fetchInProgressQueries, isFetchInProgressByQueryId, remainingQueriesSelector, selectQueryResultsById, selectQueryResultsByIds } from '../../store/selectors/queryResultsByIdsSelector';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, OverlayTrigger, Spinner, Tooltip } from 'react-bootstrap';
+import { USER_FLAGS } from '../../utils/constants';
+import usePermissions from '../../hooks/usePermissions';
 
 const prompts = [
   { id: "jd_resume_similarity", sid: 1, label: "Explore Resumes with Top Similarity Percentages", category: 'Skills Match', accessibility: 'guest' },
-  { id: "label", sid:2, label: "Tagging Skills: Frontend, Backend, Cloud, etc.", category: 'Skills Match', accessibility: 'guest' },
+  { id: "label", sid: 2, label: "Tagging Skills: Frontend, Backend, Cloud, etc.", category: 'Skills Match', accessibility: 'guest' },
   // { id: 3, sid:3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
-  { id: "companies", sid:4, label: "Find Out Where Candidates Have Worked", category: 'Experience and Companies',  accessibility: 'guest' },
-  { id: "label",sid:5, label: "Explore Percentages of Front end Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
-  { id: "label",sid:6, label: "Explore Percentages of Back end Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
+  { id: "companies", sid: 4, label: "Find Out Where Candidates Have Worked", category: 'Experience and Companies', accessibility: 'guest' },
+  { id: "label", sid: 5, label: "Explore Percentages of Front end Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },
+  { id: "label", sid: 6, label: "Explore Percentages of Back end Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "back_end" },
   // { id: "label", sid:7,label: "Show Database Skill Percentages ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "database" },
-  { id: "label",sid:8, label: "Explore Percentages of Cloud Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "cloud" },
-  { id: "label",sid:9, label: "Explore Percentages of Dev ops Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "devops" },
+  { id: "label", sid: 8, label: "Explore Percentages of Cloud Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "cloud" },
+  { id: "label", sid: 9, label: "Explore Percentages of Dev ops Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "devops" },
   // { id: 6, label: "List candidates within a 50-mile radius of the job location", category: 'Location-Based Filtering', accessibility: 'signup' },
   // { id: 7, label: "Show resumes with degrees from top-tier universities", category: 'Educational Background', accessibility: 'early-access' },
   // { id: 8, label: "Filter candidates with a Master's degree in Computer Science", category: 'Educational Background', accessibility: 'premium' },
@@ -65,15 +67,19 @@ const PromptActions = () => {
   const domainQueryEnabled = useSelector(state => domainsQueryEnabledSelector(state));
   const dispatch = useDispatch();
   const isActiveList = useSelector(state => remainingQueriesSelector(state));
+  const {
+    [USER_FLAGS.ALLOWED_QUERIES]: allowedQueries
+  } = usePermissions([{ name: USER_FLAGS.ALLOWED_QUERIES, defaultVal: [] }]);
+
   const handleCategoryChange = (category) => {
     setSelectedCategories(prevState => ({
       ...prevState,
       [category]: !prevState[category]
     }));
   };
-  
+
   const isActiveListQueries = (prompt = {}) => {
-    if(isActiveList.includes(prompt.id) && prompt.id == "label" && prompt.sid != 2)
+    if (isActiveList.includes(prompt.id) && prompt.id == "label" && prompt.sid != 2)
       return false;
     return isActiveList.includes(prompt.id);
   }
@@ -87,9 +93,10 @@ const PromptActions = () => {
 
   const isDisabled = (prompt) => {
     const { domain, id } = prompt;
+    if (!allowedQueries.includes(id)) return true;
     // const cond1 = (!isActiveList.length && !Object.keys(queryBySelectorId).length) || isActiveList.includes(prompt.id) || queryBySelectorId[prompt.id] !== undefined
     // console.log(`domain: ${domain} id: ${id} cond1: ${cond1} isActiveList: ${JSON.stringify(isActiveList)} queryBySelectorId: ${JSON.stringify(queryBySelectorId)}`)
-    if (!domain) return  (isActiveList.length &&  isActiveList.includes(prompt.id)) || !Object.keys(queryBySelectorId).length || queryBySelectorId[prompt.id] !== undefined;
+    if (!domain) return (isActiveList.length && isActiveList.includes(prompt.id)) || !Object.keys(queryBySelectorId).length || queryBySelectorId[prompt.id] !== undefined;
     return domainQueryEnabled.includes(domain) || isActiveList.includes(prompt.id);
   }
 
@@ -100,46 +107,69 @@ const PromptActions = () => {
   }
 
   const renderPromptBadge = (prompt) => {
+    const isQueryRestricted = !allowedQueries.includes(prompt?.id);
+    console.log(`${prompt.id} : ${isQueryRestricted}, allowedQueries : ${JSON.stringify(allowedQueries)}`);
+    if (!isQueryRestricted) {
+      return (
+        <Button
+          key={prompt.sid}
+          className={`prompt-badge ${prompt.accessibility}`}
+          onClick={() => dispatch(onQuerySelect({ id: prompt.id, domain: prompt?.domain }))}
+          title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
+          disabled={isDisabled(prompt)} // Disable button while query fetch is in progress
+          style={{
+            backgroundColor: 'transparent',
+            // border: 'none',
+            // padding: '0',
+            display: 'inline-flex',
+            alignItems: 'center',
+            cursor: (isDisabled(prompt) || isComplete(prompt)) ? 'not-allowed' : 'pointer',
+            fontSize: 'inherit',
+            color: 'inherit'
+          }}
+        >
+          {getIcon(prompt.accessibility)}
+          {prompt.label}
+          {isActiveListQueries(prompt) && (<Spinner />)}
+          {isComplete(prompt) && (<TiTick color='green' />)}
+        </Button>
+      )
+    }
     return (
-      <Button
-        key={prompt.sid}
-        className={`prompt-badge ${prompt.accessibility}`}
-        onClick={() => dispatch(onQuerySelect({ id: prompt.id, domain: prompt?.domain }))}
-        title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
-        disabled={isDisabled(prompt)} // Disable button while query fetch is in progress
-        style={{
-          backgroundColor: 'transparent',
-          // border: 'none',
-          // padding: '0',
-          display: 'inline-flex',
-          alignItems: 'center',
-          cursor: (isDisabled(prompt) || isComplete(prompt)) ? 'not-allowed' : 'pointer',
-          fontSize: 'inherit',
-          color: 'inherit'
-        }}
+      <OverlayTrigger
+        placement='top'
+        overlay={<Tooltip>Premium Feature</Tooltip>}
+        trigger="hover"
       >
-        {getIcon(prompt.accessibility)}
-        {prompt.label}
-        {isActiveListQueries(prompt) && (<Spinner />)}
-        {isComplete(prompt) && (<TiTick color='green'/>)}
-      </Button>
+        <Button
+          key={prompt.sid}
+          className={`prompt-badge ${prompt.accessibility}`}
+          onClick={() => {}}
+          title={prompt.accessibility === 'premium' ? 'Available on Premium' : ''}
+          style={{
+            backgroundColor: '#D3D3D3',
+            // border: 'none',
+            // padding: '0',
+            display: 'inline-flex',
+            alignItems: 'center',
+            cursor:  'not-allowed',
+            fontSize: 'inherit',
+            color: 'inherit',
+            opacity: 0.5
+          }}
+        >
+          {getIcon(prompt.accessibility)}
+          {prompt.label}
+          {isActiveListQueries(prompt) && (<Spinner />)}
+        </Button>
+
+      </OverlayTrigger>
+
     );
   };
 
   return (
     <div className="prompt-actions-container">
-      {/* <div className="filter-box">
-        {categories.map(category => (
-          <label key={category}>
-            <input
-              type="checkbox"
-              checked={selectedCategories[category]}
-              onChange={() => handleCategoryChange(category)}
-            />
-            {category}
-          </label>
-        ))}
-      </div> */}
       <div className="prompt-actions">
         {prompts.filter(prompt => selectedCategories[prompt.category]).map(prompt => renderPromptBadge(prompt))}
       </div>
