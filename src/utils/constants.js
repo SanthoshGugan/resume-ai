@@ -53,5 +53,6 @@ export const QUERY_LOADER_MESSAGE = {
 }
 
 export const USER_FLAGS = {
-    ALLOWED_RESUMES_PER_MATCH: "allowed_resumes_per_match"
+    ALLOWED_RESUMES_PER_MATCH: "allowed_resumes_per_match",
+    ALLOWED_QUERIES: "allowed_queries"
 }

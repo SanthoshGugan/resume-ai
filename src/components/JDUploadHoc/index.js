@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import SkillSelector from "../JD/SkillSelector";
 import { isJdUpdateSkillVisible, selectJdSkillUpdateStatus } from "../../store/selectors/jdSkillSelector";
-import { setIsJDAdded } from "../../store/jobDescriptionSlice";
+import { jdReset, setIsJDAdded } from "../../store/jobDescriptionSlice";
 import { useNavigate } from 'react-router-dom';
 import JDFileUploader from "../JDFileUpload";
 import { FaCheckCircle } from "react-icons/fa";
@@ -105,7 +105,7 @@ const JDUploadHoc = ({ }) => {
                     className="d-flex justify-content-center align-items-center"
                     style={{ gap: '1rem' }}
                 >
-                    Job Description Upload/Update failed. please start over <StartOver asIcon onClick={() => setUploadedFiles([])} />
+                    Job Description Upload/Update failed. please start over <StartOver asIcon onClick={() => dispatch(jdReset())} />
                 </Alert>
             )}
             {!updateFlag && (<h2 className="d-flex justify-content-center align-items-center flex-column">Upload your Job Description</h2>)}

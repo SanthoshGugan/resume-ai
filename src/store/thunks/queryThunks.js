@@ -67,7 +67,7 @@ export const triggerQueries = (queries) => async (dispatch, getState) => {
       "queries": queries,
       "jd_key": jd_key
     });
-    console.log(`query trigger api response ${JSON.stringify(response)}`);
+    // console.log(`query trigger api response ${JSON.stringify(response)}`);
   } catch(error) {
     console.error('Error fetching queries:', error);
   } finally {

@@ -26,7 +26,7 @@ const Home = () => {
         const initUser = async () => {
             try {
                 const { username, userId, signInDetails } = await getCurrentUser();
-                console.log(`iserId on init `, userId);
+                console.log(`iserId on changes `, userId);
                 dispatch(userSync(userId));
             } catch (err) {
                 console.log(`user not logged in`);
@@ -34,6 +34,18 @@ const Home = () => {
         };
         initUser();
     }, [userId]);
+    useEffect(() => {
+        const initUser = async () => {
+            try {
+                const { username, userId, signInDetails } = await getCurrentUser();
+                console.log(`iserId on init `, userId);
+                dispatch(userSync(userId));
+            } catch (err) {
+                console.log(`user not logged in`);
+            }
+        };
+        initUser();
+    }, []);
     return (
         <>
             <Loader />

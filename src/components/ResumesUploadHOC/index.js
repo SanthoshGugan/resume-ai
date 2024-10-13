@@ -100,10 +100,11 @@ const ResumesUploadHoc = ({ }) => {
                 <Alert variant="warning">
                     {/* <Alert.Heading>Job Description Uploaded!</Alert.Heading> */}
                     <Row>
-                        <Col md={12}>
+                        <Col md={10}>
                             <FaRegWindowClose style={{ fontSize: '30px', marginRight: '10px', color: 'red' }} />
                                 Exceeded resume upload count. Max allowed resumes are {allowedResumesCount}
                         </Col>
+                        <Col md="auto">Purchase</Col>
                     </Row>
                 </Alert>
                 <Row className="d-flex justify-content-center align-items-center">

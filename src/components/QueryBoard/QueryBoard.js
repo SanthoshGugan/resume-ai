@@ -13,7 +13,7 @@ const QueryBoard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-      dispatch(onQuerySelectThunk({ ids: ['jd_resume_similarity','label'] }));
+      dispatch(onQuerySelectThunk({ ids: ['jd_resume_similarity'] }));
     }, [dispatch]);
 
     const handleProceed = () => {
