@@ -43,7 +43,7 @@ const ResumeTable = ({ rows = [], resumes }) => {
           </div>)
         ))}
         {showCompanies && (
-          <div className="flex-header-item">
+          <div className="flex-header-item company-header-item">
             <BsBuilding className='mx-2' /> Companies
           </div>
         )}
