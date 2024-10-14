@@ -14,7 +14,7 @@ import usePermissions from '../../hooks/usePermissions';
 
 const prompts = [
   { id: "jd_resume_similarity", sid: 1, label: "Explore Resumes with Top Similarity Percentages", category: 'Skills Match', accessibility: 'guest' },
-  { id: "label", sid: 2, label: "Tagging Skills: Frontend, Backend, Cloud, etc.", category: 'Skills Match', accessibility: 'guest' },
+  { id: "label", sid: 2, label: "Skills Tag: Frontend, Backend, Cloud, etc.", category: 'Skills Match', accessibility: 'guest' },
   // { id: 3, sid:3, label: "Filter candidates with 5+ years of experience in full stack development", category: 'Experience and Companies', accessibility: 'early-access' },
   { id: "companies", sid: 4, label: "Find Out Where Candidates Have Worked", category: 'Experience and Companies', accessibility: 'guest' },
   { id: "label", sid: 5, label: "Explore Percentages of Front end Skills ", category: 'Location-Based Filtering', accessibility: 'guest', domain: "front_end" },

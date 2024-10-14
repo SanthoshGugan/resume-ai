@@ -35,18 +35,17 @@ const Board = () => {
     return (
         <Container
             style={{
-                width: '100vw',              // Full width
+                minWidth: '100vw',              // Full width
                 height: 'calc(100vh - 175px)', // Full height minus the timeline height (adjust 50px as needed)
                 overflowY: 'auto',           // Vertical scroll
-                scrollbarWidth: 'none',      // For Firefox
+                // scrollbarWidth: 'none',      // For Firefox
                 msOverflowStyle: 'none',     // For Internet Explorer and Edge
-                // margin: 0,
-                // padding: 0,
+                display: 'flex'
             }}
         >
-            <Card style={{ border: 'none', height: '100%' }}>
+            <Card style={{ border: 'none', height: '100%', minWidth: '100%', flex: "1 0" }}>
                 <Row style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: "center" }}>
-                    <Col md={11}>
+                    <Col md="auto">
                         <Outlet />
                     </Col>
                 </Row>
