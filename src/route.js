@@ -7,6 +7,7 @@ import QueryBoard from "./components/QueryBoard/QueryBoard";
 import Login from "./components/Login/Login";
 import DownloadCsv from "./components/Reports/DownloadCsv";
 import PricingPlan from "./components/Pricing/Pricing";
+import RazorpayButton from "./components/Payment/RazorpayButton";
 
 const route = createBrowserRouter([
     {
@@ -48,6 +49,10 @@ const route = createBrowserRouter([
     {
         path: '/pricing',
         element: <PricingPlan />
+    },
+    {
+        path: '/payment',
+        element: <RazorpayButton />
     }
 ]);
 
