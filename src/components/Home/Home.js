@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser, } from 'aws-amplify/auth';
 import { userIdSelector, userSignOutSelector } from "../../store/selectors/userSelector";
-import { setuserId } from "../../store/userSlice";
+import { setUserGuest, setuserId } from "../../store/userSlice";
 import Loader from "../Loader/Loader";
 import { userSync } from "../../store/thunks/userThunk";
 
@@ -30,6 +30,7 @@ const Home = () => {
                 dispatch(userSync(userId));
             } catch (err) {
                 console.log(`user not logged in`);
+                dispatch(setUserGuest());
             }
         };
         initUser();
@@ -42,6 +43,7 @@ const Home = () => {
                 dispatch(userSync(userId));
             } catch (err) {
                 console.log(`user not logged in`);
+                dispatch(setUserGuest());
             }
         };
         initUser();

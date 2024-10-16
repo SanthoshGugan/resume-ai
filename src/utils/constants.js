@@ -56,3 +56,5 @@ export const USER_FLAGS = {
     ALLOWED_RESUMES_PER_MATCH: "allowed_resumes_per_match",
     ALLOWED_QUERIES: "allowed_queries"
 }
+
+export const PREMIUM_PLANS = ["basic", "starter", "scale", "growth"];
