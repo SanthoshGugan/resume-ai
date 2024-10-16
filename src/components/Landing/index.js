@@ -4,6 +4,7 @@ import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card }
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { FaBolt, FaHourglassHalf } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+import LandingHeader from '../LandingHeader/LandingHeader';
 
 const LandingPage = () => {
 
@@ -150,7 +151,7 @@ const LandingPage = () => {
     return (
         <div>
             {/* Header Section */}
-            {renderHeader()}
+            <LandingHeader signUp={signUp}/>
 
             {/* Banner Section */}
             {renderBanner()}
