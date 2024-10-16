@@ -2,36 +2,17 @@ import React from 'react';
 import { Card, Button, Container, Row, Col, Navbar, Image, Nav } from 'react-bootstrap';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import './Pricing.css'; // We'll add custom styles here
+import LandingHeader from '../LandingHeader/LandingHeader';
+import { useNavigate } from 'react-router-dom';
 
 const PricingPlan = () => {
-    const renderHeader = () => {
-        return (
-            <Navbar expand="lg" className="shadow-sm sticky-top" style={{ backgroundColor: "rgb(255 255 255)" }}>
-                <Container>
-                    <Navbar.Brand href="#home">
-                        <Image
-                            src="./logo5.png"
-                            height="55"
-                            width="189"
-                            className="d-inline-block align-top"
-                            alt="Sort My Resumes"
-                        />
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    {/* <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-                        <Nav className="align-items-center">
-                            <Button variant="primary" onClick={() => {}} className="px-4">
-                                Sign Up
-                            </Button>
-                        </Nav>
-                    </Navbar.Collapse> */}
-                </Container>
-            </Navbar>
-        );
+    const navigate = useNavigate();
+    const signUp = () => {
+        navigate('/login');
     };
     return (
         <div>
-            {renderHeader()}
+            <LandingHeader signUp={signUp} />
             <Container className='my-5'>
                 <h2 className="text-center mb-4">Our Pricing Plans</h2>
                 <div className="banner-section text-center text-white py-5 my-5" style={{ backgroundColor: '#007bff' }}>
