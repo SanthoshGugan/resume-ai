@@ -1,8 +1,9 @@
 import React,{ useEffect, useState } from "react";
-import { paymentOrderCreationApi } from "../../api/paymentApi";
+import { paymentOrderCreationApi, paymentCompletionApi } from "../../api/paymentApi";
+import { Button } from "react-bootstrap";
 const apiKey = process.env.REACT_APP_PAYMENT_API_KEY;
 
-const RazorpayButton = () => {
+const RazorpayButton = ({ amount }) => {
 
   const loadScript = (src, id) => {
     return new Promise((resolve) => {
@@ -37,8 +38,10 @@ const RazorpayButton = () => {
 
     try {
 
+      const convertedAmount = `${amount*100}`;
+
       const orderCreationPayload = {
-        "amount": "100",
+        "amount": convertedAmount,
         "currency": "USD",
         "planId": "abc",
         "userId": "123"
@@ -49,13 +52,21 @@ const RazorpayButton = () => {
   
       const options = {
         key: apiKey,
-        amount: '50000', //amount in paise, 100
-        currency: 'INR',
+        amount: convertedAmount, //amount in cents
+        currency: 'USD',
         name: 'SortMyResumes',
         description: 'Test Transaction',
-        order_id: orderCreationResponse.id,
-        handler: function (response) {
+        order_id: orderCreationResponse.data?.id,
+        handler: async function (response) {
           console.log(`Payment Response:  ${JSON.stringify(response)}`);
+          const paymentPayload = {
+              "orderId": orderCreationResponse.data?.id,
+              "paymentId": response.razorpay_payment_id,
+              "userId": "123", // todo: should be real user id
+              "paymentStatus": "SUCCESS"
+          }
+          const paymentResponse = await paymentCompletionApi(paymentPayload);
+          console.log(`paymentResponse:: ${paymentResponse}`);
         },
         prefill: {
           name: 'Your Name',
@@ -75,9 +86,9 @@ const RazorpayButton = () => {
   };
 
   return (
-    <button onClick={displayRazorpay}>
-      Pay Now
-    </button>
+    <Button variant="primary" onClick={displayRazorpay}>
+      Choose Plan
+    </Button>
   );
 };
 
