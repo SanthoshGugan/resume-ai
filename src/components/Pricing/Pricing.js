@@ -39,6 +39,7 @@ const PricingPlan = () => {
                                     <div className="feature"><FaCheckCircle /> Basic AI Queries</div>
                                     <div className="feature"><FaTimesCircle /> Advanced Features</div>
                                 </div>
+                                <Button variant="secondary" size="md">Your Current Plan</Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -57,7 +58,7 @@ const PricingPlan = () => {
                                     <div className="feature"><FaCheckCircle /> Export Advanced Results</div>
                                     <div className="feature"><FaCheckCircle /> 24/7 Support</div>
                                 </div>
-                                <RazorpayButton amount={25} />
+                                <RazorpayButton amount={25} planId={"basic"}/>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -75,7 +76,7 @@ const PricingPlan = () => {
                                     <div className="feature"><FaCheckCircle /> 24/7 Support</div>
                                     <div className="feature"><FaCheckCircle /> All Features Included</div>
                                 </div>
-                                <RazorpayButton amount={70} />
+                                <RazorpayButton amount={70} planId={"starter"}/>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -92,7 +93,7 @@ const PricingPlan = () => {
                                     <div className="feature"><FaCheckCircle /> Customizable Matching Algorithms</div>
                                     <div className="feature"><FaCheckCircle /> 24/7 Support</div>
                                 </div>
-                                <RazorpayButton amount={210} />
+                                <RazorpayButton amount={210} planId={"growth"}/>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -110,7 +111,7 @@ const PricingPlan = () => {
                                     <div className="feature"><FaCheckCircle /> 24/7 Support</div>
                                     <div className="feature"><FaCheckCircle /> Priority Support</div>
                                 </div>
-                                <RazorpayButton amount={700} />
+                                <RazorpayButton amount={700} planId={"scale"}/>
                             </Card.Body>
                         </Card>
                     </Col>

@@ -3,7 +3,7 @@ import { paymentOrderCreationApi, paymentCompletionApi } from "../../api/payment
 import { Button } from "react-bootstrap";
 const apiKey = process.env.REACT_APP_PAYMENT_API_KEY;
 
-const RazorpayButton = ({ amount }) => {
+const RazorpayButton = ({ amount, planId }) => {
 
   const loadScript = (src, id) => {
     return new Promise((resolve) => {
@@ -41,10 +41,12 @@ const RazorpayButton = ({ amount }) => {
       const convertedAmount = `${amount*100}`;
 
       const orderCreationPayload = {
-        "amount": convertedAmount,
+        "amount": amount,
         "currency": "USD",
-        "planId": "abc",
-        "userId": "123"
+        "planId": planId,
+        "userId": "123",
+        "units": "cents",
+        "amount_in_units": convertedAmount
       };
   
       const orderCreationResponse = await paymentOrderCreationApi(orderCreationPayload);
@@ -86,7 +88,7 @@ const RazorpayButton = ({ amount }) => {
   };
 
   return (
-    <Button variant="primary" onClick={displayRazorpay}>
+    <Button variant="primary" size="lg" onClick={displayRazorpay}>
       Choose Plan
     </Button>
   );
