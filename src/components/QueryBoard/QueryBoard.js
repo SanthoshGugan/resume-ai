@@ -1,20 +1,24 @@
 import { useEffect } from "react";
 import PromptActions from "../match-list/PromptActions";
 import JDResumeSimilarityWidget from "../Widget/JdResumeSimilarityWidget";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { onQuerySelectThunk } from "../../store/thunks/queryButtonThunks";
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { updateStatusForStep, updateStepToActive } from "../../store/timelineSlice";
+import { totalMatchesSelector } from "../../store/selectors/userSelector";
+import { setTotalMatches } from "../../store/userSlice";
 
 const QueryBoard = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const totalMatches = useSelector(state => totalMatchesSelector(state));
+    
     useEffect(() => {
       dispatch(onQuerySelectThunk({ ids: ['jd_resume_similarity'] }));
     }, [dispatch]);
+
 
     const handleProceed = () => {
       // Add your logic to proceed to the next step
