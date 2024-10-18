@@ -8,6 +8,7 @@ import { KEY_DELIMTER, RESUME_UPLOAD_STATUS, USER_FLAGS } from "../../utils/cons
 import { setResumeStatus } from "./loaderThunk";
 import { resetLoader, setLoaderProgress, setLoaderVisibility } from "../loaderSlice";
 import usePermissions from "../../hooks/usePermissions";
+import { setTotalMatches } from "../userSlice";
 
 export const fetchResumesThunk = ({ keys = [], interval = 5000 }) => async (dispatch, getState) => {
     console.log(`keys ::: ${JSON.stringify(keys)}`);
@@ -37,8 +38,10 @@ export const fetchResumesThunk = ({ keys = [], interval = 5000 }) => async (disp
 
 export const pollResumesThunk = (ids = [], interval = 5000, navigate) => async (dispatch, getState) => {
     // console.log(`keys ::: ${JSON.stringify(keys)}`);
-    const { resumes } = getState();
+    const { resumes, user } = getState();
     const { resumeRetries, maxResumeRetries } = resumes;
+    const { usage = {} } = user;
+    const { totalMatches = 0 } = usage;
     try {
         const res = await fetchResumeSummaryApi({
             resumeIds: ids
@@ -68,6 +71,7 @@ export const pollResumesThunk = (ids = [], interval = 5000, navigate) => async (
             dispatch(updateStepToActive({ id: "match" }));
             dispatch(setResumeUploadStatus('completed'));
             dispatch(resetLoader());
+            dispatch(setTotalMatches(totalMatches + 1));
             navigate('/queries');
         }
     } catch (err) {

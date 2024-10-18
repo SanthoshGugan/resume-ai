@@ -8,6 +8,9 @@ const initialState = {
   flags: {
   },
   loadingFlags: false,
+  usage:{
+    totalMatches:0
+  }
 };
 
 const userSlice = createSlice({
@@ -44,10 +47,23 @@ const userSlice = createSlice({
     setUserGuest: (state, action) => {
       state.userPlan = "guest";
       state.userId = "";  
+    },
+    setTotalMatches: (state, action) => {
+      state.usage.totalMatches = action.payload;
     }
   },
 });
 
-export const { userReset, loginUser, logoutUser, setuserId, setFlags, setLoadingFlags, setUserPlan, setUserGuest } = userSlice.actions;
+export const { 
+  userReset, 
+  loginUser, 
+  logoutUser, 
+  setuserId, 
+  setFlags, 
+  setLoadingFlags, 
+  setUserPlan, 
+  setUserGuest,
+  setTotalMatches 
+} = userSlice.actions;
 
 export default userSlice.reducer;
