@@ -3,8 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isAuthenticated: false,
   details: null,           // User profile details
-  userType: 'guest',       // User type: 'guest', 'free', 'premium'
-  userId: null
+  userPlan: 'guest',       
+  userId: null,
+  flags: {
+  },
+  loadingFlags: false,
+  usage:{
+    totalMatches:0
+  }
 };
 
 const userSlice = createSlice({
@@ -15,20 +21,49 @@ const userSlice = createSlice({
     loginUser: (state, action) => {
       state.isAuthenticated = true;
       state.details = action.payload.details;
-      state.userType = action.payload.userType;
+      state.userPlan = action.payload.userType;
     },
     logoutUser: (state) => {
       state.isAuthenticated = false;
       state.details = null;
-      state.userType = 'guest';
+      state.userPlan = 'guest';
     },
     setuserId: (state, action) => {
       const userId = action.payload;
       state.userId = userId;
     },
+    setFlags: (state, action) => {
+      const flags = action.payload;
+      state.flags = flags;
+    },
+    setLoadingFlags: (state, action) => {
+      const loading = action.payload;
+      state.loadingFlags = loading;
+    },
+    setUserPlan: (state, action) => {
+      const planId = action.payload;
+      state.userPlan = planId;
+    },
+    setUserGuest: (state, action) => {
+      state.userPlan = "guest";
+      state.userId = "";  
+    },
+    setTotalMatches: (state, action) => {
+      state.usage.totalMatches = action.payload;
+    }
   },
 });
 
-export const { userReset, loginUser, logoutUser, setuserId } = userSlice.actions;
+export const { 
+  userReset, 
+  loginUser, 
+  logoutUser, 
+  setuserId, 
+  setFlags, 
+  setLoadingFlags, 
+  setUserPlan, 
+  setUserGuest,
+  setTotalMatches 
+} = userSlice.actions;
 
 export default userSlice.reducer;

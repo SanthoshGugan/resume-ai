@@ -1,15 +1,13 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import App from "./App";
-import ResumeAi from "./components/ResumeAi";
 import Landing from "./components/Landing";
-import ResumeManagerContainer from "./components/ResumeManager/ResumeManagerContainer";
 import Home from "./components/Home/Home";
 import ResumesUploadHOC from "./components/ResumesUploadHOC"
 import JDuploadHoc from "./components/JDUploadHoc"
 import QueryBoard from "./components/QueryBoard/QueryBoard";
-import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/Login/Login";
 import DownloadCsv from "./components/Reports/DownloadCsv";
+import PricingPlan from "./components/Pricing/Pricing";
+import RazorpayButton from "./components/Payment/RazorpayButton";
 
 const route = createBrowserRouter([
     {
@@ -40,7 +38,7 @@ const route = createBrowserRouter([
             {
                 path: "/reports",
                 element: <DownloadCsv/>
-            }
+            },
             
         ]
     },
@@ -48,6 +46,14 @@ const route = createBrowserRouter([
         path: '/welcome',
         element: <Landing />
     },
+    {
+        path: '/pricing',
+        element: <PricingPlan />
+    },
+    {
+        path: '/payment',
+        element: <RazorpayButton />
+    }
 ]);
 
 export default route;

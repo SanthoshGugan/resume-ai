@@ -31,7 +31,7 @@ const ResumeTable = ({ rows = [], resumes }) => {
             <BsBarChart className='mx-2' /> Overall Matching
           </div>
         )}
-        {(
+        {showLabelBadge && (
           <div className="flex-header-item">
             <BsAward className='mx-2' /> Expertise
           </div>
@@ -43,7 +43,7 @@ const ResumeTable = ({ rows = [], resumes }) => {
           </div>)
         ))}
         {showCompanies && (
-          <div className="flex-header-item">
+          <div className="flex-header-item company-header-item">
             <BsBuilding className='mx-2' /> Companies
           </div>
         )}
