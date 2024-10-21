@@ -58,3 +58,7 @@ export const USER_FLAGS = {
 }
 
 export const PREMIUM_PLANS = ["basic", "starter", "scale", "growth"];
+
+export const API_ERROR = {
+    USER_NOT_FOUND: { errorCode: 100, message: "User Id does not exist.", statusCode: 404}
+}

@@ -2,6 +2,8 @@ import { createSelector } from "@reduxjs/toolkit";
 
 // Access the raw plans state
 const plans = state => state?.plan?.plans || [];
+const planId = state => state?.plan?.planId;
+const tempPlanId = state => state?.plan.tempPlanId;
 
 // Sort plans by pricing
 const getSortedPlans = createSelector(
@@ -47,5 +49,7 @@ const getFeaturesComparison = createSelector(
 export {
     getPlans,
     getFeaturesComparison,
-    getSortedPlans
+    getSortedPlans,
+    tempPlanId,
+    planId
 };

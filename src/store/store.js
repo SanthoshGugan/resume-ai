@@ -8,6 +8,7 @@ import queryResultsReducer from './queryResultsSlice';
 import timelineReducer from './timelineSlice';
 import loaderReducer from './loaderSlice';
 import planReducer from './planSlice';
+import uiReducer from './uiSlice';
 
 
 import { persistStore, persistReducer } from 'redux-persist';
@@ -48,7 +49,8 @@ const rootReducer = combineReducers({
   queryResults: queryResultsReducer,
   timeline: timelineReducer,
   loader: loaderReducer,
-  plan: planReducer
+  plan: planReducer,
+  ui: uiReducer
 });
 
 // Configure persist settings

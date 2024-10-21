@@ -7,6 +7,8 @@ const selectUserFlags = state => state?.user?.flags;
 const selectFlagLoading = state => state?.user?.setLoadingFlags;
 const selectUserPlan = state => state?.user?.userPlan;
 const usage = state => state?.user?.usage;
+const userAuthenticationSelector = state => state?.user?.isAuthenticated;
+const userPlanSelector = state => state?.user?.userPlan;
 
 const userFlagsSelector = createSelector(
     [
@@ -41,5 +43,7 @@ export {
     userFlagsSelector,
     selectFlagLoading,
     isUserPremiumSelector,
-    totalMatchesSelector
+    totalMatchesSelector,
+    userAuthenticationSelector,
+    userPlanSelector
 }

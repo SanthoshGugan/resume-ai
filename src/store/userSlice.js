@@ -10,7 +10,8 @@ const initialState = {
   loadingFlags: false,
   usage:{
     totalMatches:0
-  }
+  },
+  userEmail: null
 };
 
 const userSlice = createSlice({
@@ -21,12 +22,15 @@ const userSlice = createSlice({
     loginUser: (state, action) => {
       state.isAuthenticated = true;
       state.details = action.payload.details;
-      state.userPlan = action.payload.userType;
+      state.userPlan = action.payload.userPlan;
+      state.userId = action.payload.userId;
+      state.userEmail = action.payload.userEmail;
     },
     logoutUser: (state) => {
       state.isAuthenticated = false;
       state.details = null;
       state.userPlan = 'guest';
+      state.userId = null;
     },
     setuserId: (state, action) => {
       const userId = action.payload;
