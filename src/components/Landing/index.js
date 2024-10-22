@@ -3,12 +3,15 @@ import React from 'react';
 import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card } from 'react-bootstrap';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { FaBolt, FaHourglassHalf } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import LandingHeader from '../LandingHeader/LandingHeader';
 
 const LandingPage = () => {
 
     const navigate = useNavigate();
+    const Location = useLocation();
+
+    console.log(`location:: ${JSON.stringify(Location)}`)
 
     // Style for WhatsApp-style message bubble
     const leftBubbleStyle = {
