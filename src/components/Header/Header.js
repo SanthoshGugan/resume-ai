@@ -4,6 +4,7 @@ import UserProfile from "../UserProfile/UserProfile";
 import { useSelector } from "react-redux";
 import { isUserPremiumSelector, userIdSelector } from "../../store/selectors/userSelector";
 import { FaCrown, FaExclamationCircle } from 'react-icons/fa';
+import { URLs } from "../../utils/urls";
 
 const styles = {
     avatarButton: {
@@ -81,7 +82,7 @@ const Header = () => {
                     {/* Show Get Premium Button only for free users */}
                     {!premiumFlag && (
                         <Button
-                            onClick={() => navigate('/pricing')}
+                            onClick={() => navigate(URLs.PRICING)}
                             className="premium-badge d-flex align-items-center me-3"
                             style={premiumButtonStyles}
                         >
@@ -131,7 +132,7 @@ const Header = () => {
             }}
         >
             <Col md={7} sm={8} className="d-flex justify-content-start">
-                <div onClick={() => navigate("/welcome")} style={{ cursor: 'pointer' }}>
+                <div onClick={() => navigate(URLs.HOME)} style={{ cursor: 'pointer' }}>
                     <Image
                         src="./logo5.png"
                         height="55"

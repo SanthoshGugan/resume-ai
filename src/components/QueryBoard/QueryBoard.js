@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateStatusForStep, updateStepToActive } from "../../store/timelineSlice";
 import { totalMatchesSelector } from "../../store/selectors/userSelector";
 import { setTotalMatches } from "../../store/userSlice";
+import { URLs } from "../../utils/urls";
 
 const QueryBoard = () => {
 
@@ -26,7 +27,7 @@ const QueryBoard = () => {
       dispatch(updateStatusForStep({ id: "match", status: "completed"}));
       dispatch(updateStatusForStep({ id: "reports", status: "enabled"}));
       dispatch(updateStepToActive({ id: "reports"}));    
-      navigate('/reports');
+      navigate(URLs.REPORTS);
     };
 
     return (

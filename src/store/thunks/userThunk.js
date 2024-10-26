@@ -8,7 +8,6 @@ export const userLogout = (navigate) => async  (dispatch, getState) => {
     signOut();
     dispatch(resetStore());
     dispatch(logoutUser());
-    // navigate('/login'); 
 };
 
 export const userSync = (id) => async (dispatch, getState) => {
@@ -34,18 +33,18 @@ export const userSync = (id) => async (dispatch, getState) => {
         const errorStatus = err?.response?.status;
         const errorCode = err?.response?.data?.errorCode;
 
-        if(errorStatus == API_ERROR.USER_NOT_FOUND.statusCode && errorCode == API_ERROR.USER_NOT_FOUND.errorCode) {
-            // user not found, so insert it.
-            const updateUserResponse = await updateUserFeature({
-                user: {
-                    id,
-                    plan_id: userPlan || 'guest'
-                }
-            });
-            console.log(`updateUserResponse:: ${JSON.stringify(updateUserResponse)}`);
-            dispatch(userSync(id));
-            return;
-        }
+        // if(errorStatus == API_ERROR.USER_NOT_FOUND.statusCode && errorCode == API_ERROR.USER_NOT_FOUND.errorCode) {
+        //     // user not found, so insert it.
+        //     const updateUserResponse = await updateUserFeature({
+        //         user: {
+        //             id,
+        //             plan_id: userPlan || 'guest'
+        //         }
+        //     });
+        //     console.log(`updateUserResponse:: ${JSON.stringify(updateUserResponse)}`);
+        //     dispatch(userSync(id));
+        //     return;
+        // }
         dispatch(setFlags({}));
     } finally {
         dispatch(setuserId(id));

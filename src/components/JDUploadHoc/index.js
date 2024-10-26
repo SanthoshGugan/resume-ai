@@ -12,6 +12,7 @@ import { isDimensionsChanged, isJDUpdateSkillInProgressSelector, isJDUploadInPro
 import StartOver from "../StartOver/StartOver";
 import StatusBox from "../StatusBox/StatusBox";
 import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants";
+import { URLs } from "../../utils/urls";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
@@ -65,7 +66,7 @@ const JDUploadHoc = ({ }) => {
 
     const skipNext = async (event) => {
         dispatch(skipSkillUpdateThunk());
-        navigate('/resume-upload')
+        navigate(URLs.RESUME_UPLOAD)
     }
 
     const handleClose = () => setShowAlert(false);

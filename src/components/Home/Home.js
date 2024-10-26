@@ -2,8 +2,6 @@ import { Button, Container } from "react-bootstrap";
 import Header from "../Header/Header";
 import Board from "../Board/Board";
 import Actions from "../Actions/Actions";
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import { useNavigate } from 'react-router-dom';
 
 import { Amplify } from 'aws-amplify';
 import awsconfig from '../../aws-exports';

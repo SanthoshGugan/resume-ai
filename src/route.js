@@ -12,6 +12,10 @@ import RazorpayButton from "./components/Payment/RazorpayButton";
 const route = createBrowserRouter([
     {
         path: '/',
+        element: <Landing />
+    },
+    {
+        path: '/app',
         element: <Home />,
         children: [
             {
@@ -32,19 +36,15 @@ const route = createBrowserRouter([
                 element: <Login />
             },
             {
-              path: "/",
+              path: "",
               element: <JDuploadHoc/>
             },
             {
-                path: "/reports",
+                path: "reports",
                 element: <DownloadCsv/>
             },
             
         ]
-    },
-    {
-        path: '/welcome',
-        element: <Landing />
     },
     {
         path: '/pricing',

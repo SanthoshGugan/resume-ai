@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { resetStore } from '../../store/thunks/commonThunk';
 import { previousPageSelector } from '../../store/selectors/uiSelector';
 import { setPaymentTriggered, setPreviousPage } from '../../store/uiSlice';
+import { URLs } from '../../utils/urls';
 
 const Login = ({isPassedToWithAuthenticator, signOut, user }) => {
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Login = ({isPassedToWithAuthenticator, signOut, user }) => {
             if(prevPage){
                 navigate(prevPage);
             } else {
-                navigate('/')
+                navigate(URLs.HOME)
             }
         }
     }, [user, navigate]);

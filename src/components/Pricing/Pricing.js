@@ -13,6 +13,7 @@ import Header from '../Header/Header';
 import { isPaymentTriggered, paymentPlanIdSelector } from '../../store/selectors/uiSelector';
 import { updatePaymentThunk } from '../../store/thunks/paymentThunk';
 import { userIdSelector } from '../../store/selectors/userSelector';
+import { URLs } from '../../utils/urls';
 
 const PricingPlan = () => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const PricingPlan = () => {
 
     const signUp = () => {
         dispatch(setPreviousPage(location.pathname))
-        navigate('/login');
+        navigate(URLs.LOGIN);
     };
 
     useEffect(() => {

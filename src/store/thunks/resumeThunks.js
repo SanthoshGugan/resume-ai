@@ -9,6 +9,7 @@ import { setResumeStatus } from "./loaderThunk";
 import { resetLoader, setLoaderProgress, setLoaderVisibility } from "../loaderSlice";
 import usePermissions from "../../hooks/usePermissions";
 import { setTotalMatches } from "../userSlice";
+import { URLs } from "../../utils/urls";
 
 export const fetchResumesThunk = ({ keys = [], interval = 5000 }) => async (dispatch, getState) => {
     console.log(`keys ::: ${JSON.stringify(keys)}`);
@@ -72,7 +73,7 @@ export const pollResumesThunk = (ids = [], interval = 5000, navigate) => async (
             dispatch(setResumeUploadStatus('completed'));
             dispatch(resetLoader());
             dispatch(setTotalMatches(totalMatches + 1));
-            navigate('/queries');
+            navigate(URLs.QUERIES);
         }
     } catch (err) {
         console.error('error while resume fetching :::: ', err);

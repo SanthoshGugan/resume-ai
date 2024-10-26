@@ -66,7 +66,6 @@ const UserProfile = () => {
     const signOutHandler = async () => {
       try {
         dispatch(userLogout(navigate))
-        // navigate('/login');
       } catch(err) {
         console.error(`error while signing out`, err);
       }
