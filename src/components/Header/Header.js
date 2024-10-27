@@ -111,7 +111,7 @@ const Header = () => {
             <Col md={2}>
                 <Button>
                     <Link
-                        to="/login"
+                        to={URLs.LOGIN}
                         style={{ color: "white", fontSize: "1rem", textDecoration: "none" }}>
                         Login
                     </Link>
