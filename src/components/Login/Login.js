@@ -1,6 +1,6 @@
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loginUser, setSignOut, setuserId } from '../../store/userSlice';
 import { useEffect } from 'react';
 import { resetStore } from '../../store/thunks/commonThunk';
@@ -12,6 +12,12 @@ const Login = ({isPassedToWithAuthenticator, signOut, user }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const previousPage = useSelector(state => previousPageSelector(state));
+    const location = useLocation();
+    
+    const redirectToPreviousPage = () => {
+        const from = location.state?.from?.pathname || '/';
+        navigate(from);
+    };
 
     useEffect(() => {
         if (user) {
@@ -25,18 +31,12 @@ const Login = ({isPassedToWithAuthenticator, signOut, user }) => {
             }
             // dispatch(setuserId(user?.userId));
             dispatch(loginUser({ payload }));
-            const prevPage = previousPage;
-            dispatch(setPreviousPage(null));
-            
-            if(prevPage == '/pricing'){
+            const from = location.state?.from?.pathname || '/';
+
+            if(from == '/pricing'){
                 dispatch(setPaymentTriggered(true));
             }
-
-            if(prevPage){
-                navigate(prevPage);
-            } else {
-                navigate(URLs.HOME)
-            }
+            redirectToPreviousPage();
         }
     }, [user, navigate]);
     return (

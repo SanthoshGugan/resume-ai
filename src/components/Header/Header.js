@@ -1,5 +1,5 @@
 import { Button, Col, Container, Image, OverlayTrigger, Row, Tooltip } from "react-bootstrap"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import UserProfile from "../UserProfile/UserProfile";
 import { useSelector } from "react-redux";
 import { isUserPremiumSelector, userIdSelector } from "../../store/selectors/userSelector";
@@ -56,6 +56,8 @@ const Header = () => {
     const navigate = useNavigate();
     const userId = useSelector(state => userIdSelector(state));
     const premiumFlag = useSelector(state => isUserPremiumSelector(state));
+    const location = useLocation();
+    
     console.log(`premiumflag : ${premiumFlag}`);
 
     const renderFreeUserBadge = () => (
@@ -107,14 +109,21 @@ const Header = () => {
             );
         }
 
+        const handleLoginRedirect = () => {
+            navigate(URLs.LOGIN, { state: { from: location } });
+        };
+
         return (
             <Col md={2}>
-                <Button>
+                {/* <Button>
                     <Link
                         to={URLs.LOGIN}
                         style={{ color: "white", fontSize: "1rem", textDecoration: "none" }}>
                         Login
                     </Link>
+                </Button> */}
+                <Button onClick={handleLoginRedirect}>
+                    Login
                 </Button>
             </Col>
         );
@@ -134,7 +143,7 @@ const Header = () => {
             <Col md={7} sm={8} className="d-flex justify-content-start">
                 <div onClick={() => navigate(URLs.HOME)} style={{ cursor: 'pointer' }}>
                     <Image
-                        src="./logo5.png"
+                        src="../logo5.png"
                         height="55"
                         width="189"
                         className="d-inline-block align-top"
