@@ -8,7 +8,6 @@ export const userLogout = (navigate) => async  (dispatch, getState) => {
     signOut();
     dispatch(resetStore());
     dispatch(logoutUser());
-    // navigate('/login'); 
 };
 
 export const userSync = (id) => async (dispatch, getState) => {

@@ -5,6 +5,7 @@ import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { FaBolt, FaHourglassHalf } from "react-icons/fa6";
 import { useNavigate, useLocation } from 'react-router-dom';
 import LandingHeader from '../LandingHeader/LandingHeader';
+import { URLs } from '../../utils/urls';
 
 const LandingPage = () => {
 
@@ -48,11 +49,11 @@ const LandingPage = () => {
     };
 
     const callToAction = () => {
-        navigate(`/`);
+        navigate(URLs.APP_ROOT);
     }
 
     const signUp = () => {
-        navigate('/login');
+        navigate(URLs.LOGIN);
     };
 
     // Add SEO Meta Tags

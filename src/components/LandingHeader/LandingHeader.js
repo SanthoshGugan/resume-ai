@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, Image, Nav, Navbar } from 'react-bootstrap';
 import { FaCrown } from 'react-icons/fa'; // Crown Icon from React Icons
 import { Link, useNavigate } from 'react-router-dom';
+import { URLs } from '../../utils/urls';
 
 const LandingHeader = ({ signUp, buyPremium }) => {
     const navigate = useNavigate();
@@ -46,7 +47,7 @@ const LandingHeader = ({ signUp, buyPremium }) => {
           <Nav className="align-items-center">
             {/* Premium Badge Button */}
             <Button
-              onClick={() => navigate('/pricing')}
+              onClick={() => navigate(URLs.PRICING)}
               className="premium-badge d-flex align-items-center me-3"
               style={premiumButtonStyles}
             >

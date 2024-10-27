@@ -8,6 +8,7 @@ import { paymentOrderCreationApi, paymentCompletionApi } from "../../api/payment
 import { setUserPlan } from "../../store/userSlice";
 import { isPaymentTriggered } from "../../store/selectors/uiSelector";
 import { updatePaymentThunk } from "../../store/thunks/paymentThunk";
+import { URLs } from "../../utils/urls";
 const apiKey = process.env.REACT_APP_PAYMENT_API_KEY;
 
 const RazorpayButton = ({ amount, planId }) => {
@@ -115,7 +116,7 @@ const RazorpayButton = ({ amount, planId }) => {
     dispatch(setPreviousPage(location.pathname));
     dispatch(setPaymentAmount(amount));
     dispatch(setPaymentPlanId(planId))
-    navigate('/login');
+    navigate(URLs.LOGIN);
   };
 
   const handleLoginClose = () => setShowLogin(false);
