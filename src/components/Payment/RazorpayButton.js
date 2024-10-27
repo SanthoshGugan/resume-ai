@@ -113,10 +113,10 @@ const RazorpayButton = ({ amount, planId }) => {
     // Call your internal login flow function here
     // console.log('Invoke your internal login flow');
     setShowLogin(false);  // Close the modal after login is triggered
-    dispatch(setPreviousPage(location.pathname));
+    // dispatch(setPreviousPage(location.pathname));
     dispatch(setPaymentAmount(amount));
     dispatch(setPaymentPlanId(planId))
-    navigate(URLs.LOGIN);
+    navigate(URLs.LOGIN, { state: { from: location } });
   };
 
   const handleLoginClose = () => setShowLogin(false);
