@@ -7,5 +7,7 @@ export const URLs = {
     LOGIN: "/app/login",
     REPORTS: "/app/reports",
     PRICING: "/pricing",
-    PAYMENT: "/payment"
+    PAYMENT: "/payment",
+    ABOUTUS: "/aboutus",
+    PRIVACY_POLICY: "/privacyPolicy"
 };

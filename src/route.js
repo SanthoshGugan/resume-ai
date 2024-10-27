@@ -8,6 +8,9 @@ import Login from "./components/Login/Login";
 import DownloadCsv from "./components/Reports/DownloadCsv";
 import PricingPlan from "./components/Pricing/Pricing";
 import RazorpayButton from "./components/Payment/RazorpayButton";
+import AboutUs from "./components/About/About";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+import LandingHeader from "./components/LandingHeader/LandingHeader";
 
 const route = createBrowserRouter([
     {
@@ -53,7 +56,16 @@ const route = createBrowserRouter([
     {
         path: '/payment',
         element: <RazorpayButton />
-    }
+    },
+    {
+        path: '/aboutus',
+        element: <><LandingHeader/><AboutUs/></> 
+    },
+    {
+        path: '/privacyPolicy',
+        element: <><LandingHeader/><PrivacyPolicy/></>
+    },
+
 ]);
 
 export default route;

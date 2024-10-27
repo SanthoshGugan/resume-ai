@@ -35,12 +35,18 @@ const LandingHeader = ({ signUp, buyPremium }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           {/* Align Home and Pricing to the left */}
           <Nav className="me-auto align-items-center mx-5 fw-bold">
-            <Nav.Link as={Link} to="/welcome" className="me-3">
+            <Nav.Link as={Link} to="/" className="me-3">
               Home
             </Nav.Link>
             {/* <Nav.Link as={Link} to="/pricing" className="me-3">
               Pricing
             </Nav.Link> */}
+             <Nav.Link as={Link} to={URLs.ABOUTUS} className="me-3">
+              About us
+            </Nav.Link> 
+            <Nav.Link as={Link} to={URLs.PRIVACY_POLICY} className="me-3">
+              Privacy Policy
+            </Nav.Link> 
           </Nav>
 
           {/* Right Side: Upsell and Sign Up */}
