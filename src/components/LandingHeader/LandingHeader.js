@@ -38,22 +38,22 @@ const LandingHeader = ({ signUp, buyPremium }) => {
             <Nav.Link as={Link} to="/welcome" className="me-3">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/pricing" className="me-3">
+            {/* <Nav.Link as={Link} to="/pricing" className="me-3">
               Pricing
-            </Nav.Link>
+            </Nav.Link> */}
           </Nav>
 
           {/* Right Side: Upsell and Sign Up */}
           <Nav className="align-items-center">
             {/* Premium Badge Button */}
-            <Button
+            {/* <Button
               onClick={() => navigate(URLs.PRICING)}
               className="premium-badge d-flex align-items-center me-3"
               style={premiumButtonStyles}
             >
               <FaCrown className="me-2" size={20} />
               Get Premium
-            </Button>
+            </Button> */}
 
             {/* Sign Up Button */}
             <Button variant="primary" onClick={signUp} className="px-4">

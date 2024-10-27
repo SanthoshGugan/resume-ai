@@ -46,10 +46,10 @@ const route = createBrowserRouter([
             
         ]
     },
-    {
-        path: '/pricing',
-        element: <PricingPlan />
-    },
+    // {
+    //     path: '/pricing',
+    //     element: <PricingPlan />
+    // },
     {
         path: '/payment',
         element: <RazorpayButton />

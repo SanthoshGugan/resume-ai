@@ -80,7 +80,7 @@ const Header = () => {
 
 
                     {/* Show Get Premium Button only for free users */}
-                    {!premiumFlag && (
+                    {/* {!premiumFlag && (
                         <Button
                             onClick={() => navigate(URLs.PRICING)}
                             className="premium-badge d-flex align-items-center me-3"
@@ -89,7 +89,7 @@ const Header = () => {
                             <FaCrown className="me-2" size={20} />
                             Get Premium
                         </Button>
-                    )}
+                    )} */}
                     {/* Group UserProfile and Premium Button */}
                     <div style={styles.buttonGroup}>
                         <UserProfile />
