@@ -6,9 +6,6 @@ import { userIdSelector } from '../../store/selectors/userSelector';
 
 const HorizontalTimeline = ({ activeStep }) => {
   const steps = useSelector(state => stepsSelector(state));
-  const userId = useSelector(state => userIdSelector(state));
-
-  // if (!userId) return <></>;
 
   return (
     <div style={timelineContainerStyle}>

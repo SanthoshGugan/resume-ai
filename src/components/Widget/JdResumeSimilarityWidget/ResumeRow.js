@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Card, Row, Col, Button } from 'react-bootstrap';
+import { Badge, Card, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import ResumeCardSummary from './ResumeCardSummary';
 import SkillsList from './SkillList';
 import { useSelector } from 'react-redux';
@@ -16,10 +16,10 @@ import { jdSkillsByCategorySelector } from '../../../store/selectors/jdSkillSele
 import { resumeSkillListSelector } from '../../../store/selectors/resumeSelector';
 import { HiEyeOff } from 'react-icons/hi';
 
-import { FaEye } from 'react-icons/fa';
+import { FaExclamationCircle, FaEye } from 'react-icons/fa';
 import { downloadFile } from '../../../api/s3FileUploadApi';
 import { downloadLink } from '../../../utils/reports';
-import { KEY_DELIMTER } from '../../../utils/constants';
+
 
 const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
   const isOpen = openIndex === index;
@@ -52,14 +52,43 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
     // Example: window.location.href = `/api/download/${id}`;
   };
 
+  const renderName = () => {
+    const name = metadata?.name?.[0];
+    if (name) {
+      return <>{name}</>;
+    }
+    if (!id) return <>Unknown File</>;
+
+    const filename = id.split("____").shift() || "Unknown File";
+
+    // Tooltip text for the exclamation mark
+    const tooltip = (
+      <Tooltip id="tooltip">
+        Showing filename as candidate name could not be extracted.
+      </Tooltip>
+    );
+
+    return (
+      <div className='d-flex justify-content-start align-items-center'>
+        <div style={{ marginRight: '0.5rem'}}>{filename}</div>
+            
+        <OverlayTrigger placement="top" overlay={tooltip}>
+          <Badge bg="warning" style={{ cursor: 'pointer' }}>
+            <FaExclamationCircle />
+          </Badge>
+        </OverlayTrigger>
+      </div>
+    );
+  };
+
   return (
     <>
       {/* Flex row */}
       <div className="flex-row" onClick={() => toggleRow(index)}>
         {showSimilarity && (
-          <div className="flex-row-item ">
-            {isOpen ? <FaEye size={20} className='m-2'/> : <HiEyeOff className='m-2'/>}
-            {metadata?.name?.[0] || 'Unknown Name'}
+          <div className="flex-row-item d-flex">
+            {isOpen ? <FaEye size={20} className='m-2' /> : <HiEyeOff className='m-2' />}
+            {renderName()}
           </div>
         )}
         {showSimilarity && (
@@ -95,7 +124,7 @@ const ResumeRow = ({ resume, index, openIndex, toggleRow }) => {
           </div>
         )}
         {showCompanies && (
-          <div className="flex-row-item">
+          <div className="flex-row-item company-row-item ">
             {companies && companies.length > 0 ? (
               companies.map(company => (
                 <Badge bg="info" key={company} className="me-1">{company}</Badge>

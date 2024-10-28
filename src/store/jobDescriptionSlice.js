@@ -31,7 +31,7 @@ const jobDescriptionSlice = createSlice({
     },
     updatedJD: (state, action) => {
       const { summary, dimensions: str, status, text, id } = action.payload;
-      const dimensions = JSON.parse(str);
+      const dimensions = JSON.parse(str || "{}");
       state.jd = {
         ...state.jd,
         summary,

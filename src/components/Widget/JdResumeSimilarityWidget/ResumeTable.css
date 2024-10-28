@@ -12,14 +12,23 @@
 }
 
 .flex-header-item {
-  flex: 1; /* Each header takes equal width */
+  flex: 1 0;
+  /* Allows the item to grow/shrink between a min width of 200px */
   padding: 10px;
-  font-weight: bold;
   border-right: 1px solid #dee2e6;
+  min-width: 150px;
+  /* Minimum width for each flex item */
+  max-width: 300px;
+  /* Maximum width for each flex item */
+}
+
+.company-header-item {
+  flex: 1.5 1 5rem;
 }
 
 .flex-header-item:last-child {
-  border-right: none; /* Remove the border on the last header item */
+  border-right: none;
+  /* Remove the border on the last header item */
 }
 
 .flex-table-body {

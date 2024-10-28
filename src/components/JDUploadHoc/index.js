@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { fetchGlobalSkills, skipSkillUpdateThunk, updateJdThunk, uploadJDThunk } from "../../store/thunks/jdThunks";
+import React, { useState } from "react";
+import { skipSkillUpdateThunk, updateJdThunk, uploadJDThunk } from "../../store/thunks/jdThunks";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import SkillSelector from "../JD/SkillSelector";
 import { isJdUpdateSkillVisible, selectJdSkillUpdateStatus } from "../../store/selectors/jdSkillSelector";
-import { setIsJDAdded } from "../../store/jobDescriptionSlice";
+import { jdReset, setIsJDAdded } from "../../store/jobDescriptionSlice";
 import { useNavigate } from 'react-router-dom';
 import JDFileUploader from "../JDFileUpload";
 import { FaCheckCircle } from "react-icons/fa";
@@ -12,6 +12,7 @@ import { isDimensionsChanged, isJDUpdateSkillInProgressSelector, isJDUploadInPro
 import StartOver from "../StartOver/StartOver";
 import StatusBox from "../StatusBox/StatusBox";
 import { JD_UPDATE_SKILL_STATUS, JD_UPLOAD_STATUS } from "../../utils/constants";
+import { URLs } from "../../utils/urls";
 
 const BUCKET_NAME = `${process.env.REACT_APP_JD_BUCKET_NAME}`;
 
@@ -65,7 +66,7 @@ const JDUploadHoc = ({ }) => {
 
     const skipNext = async (event) => {
         dispatch(skipSkillUpdateThunk());
-        navigate('/resume-upload')
+        navigate(URLs.RESUME_UPLOAD)
     }
 
     const handleClose = () => setShowAlert(false);
@@ -82,7 +83,7 @@ const JDUploadHoc = ({ }) => {
                     </Alert>
                 </Col>
                 <Col>
-                    <StartOver asIcon onClick={() => setUploadedFiles([])}/>
+                    <StartOver asIcon onClick={() => setUploadedFiles([])} />
                 </Col>
             </Row>
         );
@@ -96,16 +97,16 @@ const JDUploadHoc = ({ }) => {
             {!updateFlag && (
                 <Alert variant="info" dismissible>
                     Currently, we only support Software Engineering Full-Stack job descriptions. If you need support for other domains, please reach out to us at
-                    <span style={{ marginLeft: '5px'}}><a href="mailto:info@sortmyresumes.com" target="_blank">info@sortmyresumes.com</a></span>
+                    <span style={{ marginLeft: '5px' }}><a href="mailto:info@sortmyresumes.com" target="_blank">info@sortmyresumes.com</a></span>
                 </Alert>
             )}
             {isUploadOrUpdateFailed && uploadedFiles?.length > 0 && (
                 <Alert
                     variant="warning"
                     className="d-flex justify-content-center align-items-center"
-                    style={{ gap: '1rem'}}
+                    style={{ gap: '1rem' }}
                 >
-                    Job Description Upload/Update failed. please start over <StartOver asIcon onClick={() => setUploadedFiles([])}/>
+                    Job Description Upload/Update failed. please start over <StartOver asIcon onClick={() => dispatch(jdReset())} />
                 </Alert>
             )}
             {!updateFlag && (<h2 className="d-flex justify-content-center align-items-center flex-column">Upload your Job Description</h2>)}
@@ -132,7 +133,7 @@ const JDUploadHoc = ({ }) => {
                         disabled={jdUploadInProgressFlag || isUploadOrUpdateFailed}
                     >
                         <span className="fw-semibold">Upload</span>
-                        {jdUploadInProgressFlag  && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
+                        {jdUploadInProgressFlag && <Spinner style={{ marginLeft: '5px' }} size="sm" />}
                     </Button>
 
                     {(jdUploadInProgressFlag) && (
@@ -201,16 +202,6 @@ const JDUploadHoc = ({ }) => {
 
 
             )}
-
-
-            {/* Conditionally render status overlay based on jdUploadStatus */}
-            {/* {jdUploadStatus === JD_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS && (
-                <ScreenProgress
-                    sourceStatus={jdUploadStatus}
-                    targetStatus={JD_UPLOAD_STATUS.RESUME_WORKFLOW_PROGRESS}
-                    progressMessages={progressMessages}
-                />
-            )} */}
         </div>
     );
 };

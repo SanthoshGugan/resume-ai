@@ -3,11 +3,16 @@ import React from 'react';
 import { Navbar, Nav, Button, Container, Row, Col, Form, Carousel, Image, Card } from 'react-bootstrap';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { FaBolt, FaHourglassHalf } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import LandingHeader from '../LandingHeader/LandingHeader';
+import { URLs } from '../../utils/urls';
 
 const LandingPage = () => {
 
     const navigate = useNavigate();
+    const Location = useLocation();
+
+    console.log(`location:: ${JSON.stringify(Location)}`)
 
     // Style for WhatsApp-style message bubble
     const leftBubbleStyle = {
@@ -44,11 +49,11 @@ const LandingPage = () => {
     };
 
     const callToAction = () => {
-        navigate(`/`);
+        navigate(URLs.APP_ROOT);
     }
 
     const signUp = () => {
-        navigate('/login');
+        navigate(URLs.LOGIN);
     };
 
     // Add SEO Meta Tags
@@ -150,7 +155,7 @@ const LandingPage = () => {
     return (
         <div>
             {/* Header Section */}
-            {renderHeader()}
+            <LandingHeader signUp={signUp}/>
 
             {/* Banner Section */}
             {renderBanner()}

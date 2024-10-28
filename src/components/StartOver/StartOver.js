@@ -5,6 +5,7 @@ import { IoIosRefresh } from "react-icons/io";
 import { startOver } from '../../store/thunks/commonThunk';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { URLs } from '../../utils/urls';
 
 const StartOver = ({ onClick, asIcon = false }) => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const StartOver = ({ onClick, asIcon = false }) => {
     if (onClick) {
       onClick();
     }
-    navigate('/');
+    navigate(URLs.APP_ROOT);
   }
 
   return (
