@@ -3,9 +3,13 @@ import { Button, Container, Image, Nav, Navbar } from 'react-bootstrap';
 import { FaCrown } from 'react-icons/fa'; // Crown Icon from React Icons
 import { Link, useNavigate } from 'react-router-dom';
 import { URLs } from '../../utils/urls';
+import { userIdSelector } from '../../store/selectors/userSelector';
+import UserProfile from '../UserProfile/UserProfile';
+import { useSelector } from 'react-redux';
 
 const LandingHeader = ({ signUp, buyPremium }) => {
     const navigate = useNavigate();
+    const userId = useSelector(state => userIdSelector(state));
   // Styles moved to variables
   const premiumButtonStyles = {
     backgroundColor: '#f0c14b',
@@ -60,11 +64,13 @@ const LandingHeader = ({ signUp, buyPremium }) => {
               <FaCrown className="me-2" size={20} />
               Get Premium
             </Button> */}
-
-            {/* Sign Up Button */}
-            <Button variant="primary" onClick={signUp} className="px-4">
-              Sign Up
-            </Button>
+            {
+              userId ? (<UserProfile/>) : (
+                <Button variant="primary" onClick={signUp} className="px-4">
+                  Sign Up
+                </Button>
+              )
+            }
           </Nav>
         </Navbar.Collapse>
       </Container>
