@@ -1,15 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Container, Image, Nav, Navbar } from 'react-bootstrap';
 import { FaCrown } from 'react-icons/fa'; // Crown Icon from React Icons
 import { Link, useNavigate } from 'react-router-dom';
 import { URLs } from '../../utils/urls';
 import { userIdSelector } from '../../store/selectors/userSelector';
 import UserProfile from '../UserProfile/UserProfile';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPlans } from '../../store/selectors/planSelector';
+import { fetchPlans } from '../../store/thunks/planThunk';
+import { getCurrentUser } from 'aws-amplify/auth';
+import { userSync } from '../../store/thunks/userThunk';
+import { fetchAllPlans } from '../../api/planApi';
+import { setFlags, setUserGuest } from '../../store/userSlice';
 
 const LandingHeader = ({ signUp, buyPremium }) => {
-    const navigate = useNavigate();
     const userId = useSelector(state => userIdSelector(state));
+    const dispatch = useDispatch();
+
+    const setGuestFlags = async () => {
+      const { data } = await fetchAllPlans();
+      const { plans } = data;
+      const guestPlan = plans.find(plan => plan.id === "guest");
+      dispatch(setFlags(guestPlan?.flags));
+    }
+
+    useEffect(() => {
+      const initUser = async () => {
+          try {
+              const { username, userId, signInDetails } = await getCurrentUser();
+              console.log(`userId on changes `, userId);
+              dispatch(userSync(userId));
+          } catch (err) {
+              console.log(`user not logged in`);
+              dispatch(setUserGuest());
+              await setGuestFlags();
+          }
+      };
+      initUser();
+    }, [userId]);
+
+
   // Styles moved to variables
   const premiumButtonStyles = {
     backgroundColor: '#f0c14b',

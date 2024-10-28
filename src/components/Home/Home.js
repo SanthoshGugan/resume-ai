@@ -9,9 +9,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser, } from 'aws-amplify/auth';
 import { userIdSelector, userSignOutSelector } from "../../store/selectors/userSelector";
-import { setUserGuest, setuserId } from "../../store/userSlice";
+import { setFlags, setUserGuest, setuserId } from "../../store/userSlice";
 import Loader from "../Loader/Loader";
 import { userSync } from "../../store/thunks/userThunk";
+import { fetchAllPlans } from "../../api/planApi";
 
 Amplify.configure(awsconfig);
 
@@ -19,16 +20,25 @@ const Home = () => {
     const signOut = useSelector(state => userSignOutSelector(state));
     const userId = useSelector(state => userIdSelector(state));
     const dispatch = useDispatch();
+    
+
+    const setGuestFlags = async () => {
+        const { data } = await fetchAllPlans();
+        const { plans } = data;
+        const guestPlan = plans.find(plan => plan.id === "guest");
+        dispatch(setFlags(guestPlan?.flags));
+    }
 
     useEffect(() => {
         const initUser = async () => {
             try {
                 const { username, userId, signInDetails } = await getCurrentUser();
-                console.log(`iserId on changes `, userId);
+                console.log(`userId on changes `, userId);
                 dispatch(userSync(userId));
             } catch (err) {
                 console.log(`user not logged in`);
                 dispatch(setUserGuest());
+                await setGuestFlags();
             }
         };
         initUser();
@@ -42,6 +52,7 @@ const Home = () => {
             } catch (err) {
                 console.log(`user not logged in`);
                 dispatch(setUserGuest());
+                await setGuestFlags();
             }
         };
         initUser();
