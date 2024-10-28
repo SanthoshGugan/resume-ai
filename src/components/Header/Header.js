@@ -1,9 +1,10 @@
 import { Button, Col, Container, Image, OverlayTrigger, Row, Tooltip } from "react-bootstrap"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import UserProfile from "../UserProfile/UserProfile";
 import { useSelector } from "react-redux";
 import { isUserPremiumSelector, userIdSelector } from "../../store/selectors/userSelector";
 import { FaCrown, FaExclamationCircle } from 'react-icons/fa';
+import { URLs } from "../../utils/urls";
 
 const styles = {
     avatarButton: {
@@ -55,6 +56,8 @@ const Header = () => {
     const navigate = useNavigate();
     const userId = useSelector(state => userIdSelector(state));
     const premiumFlag = useSelector(state => isUserPremiumSelector(state));
+    const location = useLocation();
+    
     console.log(`premiumflag : ${premiumFlag}`);
 
     const renderFreeUserBadge = () => (
@@ -79,16 +82,16 @@ const Header = () => {
 
 
                     {/* Show Get Premium Button only for free users */}
-                    {!premiumFlag && (
+                    {/* {!premiumFlag && (
                         <Button
-                            onClick={() => navigate('/pricing')}
+                            onClick={() => navigate(URLs.PRICING)}
                             className="premium-badge d-flex align-items-center me-3"
                             style={premiumButtonStyles}
                         >
                             <FaCrown className="me-2" size={20} />
                             Get Premium
                         </Button>
-                    )}
+                    )} */}
                     {/* Group UserProfile and Premium Button */}
                     <div style={styles.buttonGroup}>
                         <UserProfile />
@@ -106,14 +109,21 @@ const Header = () => {
             );
         }
 
+        const handleLoginRedirect = () => {
+            navigate(URLs.LOGIN, { state: { from: location } });
+        };
+
         return (
             <Col md={2}>
-                <Button>
+                {/* <Button>
                     <Link
-                        to="/login"
+                        to={URLs.LOGIN}
                         style={{ color: "white", fontSize: "1rem", textDecoration: "none" }}>
                         Login
                     </Link>
+                </Button> */}
+                <Button onClick={handleLoginRedirect}>
+                    Login
                 </Button>
             </Col>
         );
@@ -131,9 +141,9 @@ const Header = () => {
             }}
         >
             <Col md={7} sm={8} className="d-flex justify-content-start">
-                <div onClick={() => navigate("/welcome")} style={{ cursor: 'pointer' }}>
+                <div onClick={() => navigate(URLs.HOME)} style={{ cursor: 'pointer' }}>
                     <Image
-                        src="./logo5.png"
+                        src="../logo5.png"
                         height="55"
                         width="189"
                         className="d-inline-block align-top"

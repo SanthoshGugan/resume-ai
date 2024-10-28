@@ -8,10 +8,17 @@ import Login from "./components/Login/Login";
 import DownloadCsv from "./components/Reports/DownloadCsv";
 import PricingPlan from "./components/Pricing/Pricing";
 import RazorpayButton from "./components/Payment/RazorpayButton";
+import AboutUs from "./components/About/About";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+import LandingHeader from "./components/LandingHeader/LandingHeader";
 
 const route = createBrowserRouter([
     {
         path: '/',
+        element: <Landing />
+    },
+    {
+        path: '/app',
         element: <Home />,
         children: [
             {
@@ -32,28 +39,33 @@ const route = createBrowserRouter([
                 element: <Login />
             },
             {
-              path: "/",
+              path: "",
               element: <JDuploadHoc/>
             },
             {
-                path: "/reports",
+                path: "reports",
                 element: <DownloadCsv/>
             },
             
         ]
     },
-    {
-        path: '/welcome',
-        element: <Landing />
-    },
-    {
-        path: '/pricing',
-        element: <PricingPlan />
-    },
+    // {
+    //     path: '/pricing',
+    //     element: <PricingPlan />
+    // },
     {
         path: '/payment',
         element: <RazorpayButton />
-    }
+    },
+    {
+        path: '/aboutus',
+        element: <><LandingHeader/><AboutUs/></> 
+    },
+    {
+        path: '/privacyPolicy',
+        element: <><LandingHeader/><PrivacyPolicy/></>
+    },
+
 ]);
 
 export default route;

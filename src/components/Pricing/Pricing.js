@@ -2,32 +2,57 @@ import React, { useEffect } from 'react';
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import LandingHeader from '../LandingHeader/LandingHeader';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import RazorpayButton from '../Payment/RazorpayButton';
 import { useDispatch, useSelector } from "react-redux";
 import { getSortedPlans, getFeaturesComparison } from '../../store/selectors/planSelector';
 import { fetchPlans } from '../../store/thunks/planThunk';
 import './Pricing.css';
+import { setPreviousPage } from '../../store/uiSlice';
+import Header from '../Header/Header';
+import { isPaymentTriggered, paymentPlanIdSelector } from '../../store/selectors/uiSelector';
+import { updatePaymentThunk } from '../../store/thunks/paymentThunk';
+import { userIdSelector } from '../../store/selectors/userSelector';
+import { URLs } from '../../utils/urls';
 
 const PricingPlan = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const plans = useSelector(state => getSortedPlans(state));
     const featureComparison = useSelector(state => getFeaturesComparison(state));
+    const location = useLocation();
+    const paymentTriggered = useSelector(state => isPaymentTriggered(state));
+    const paymentPlanId = useSelector(state => paymentPlanIdSelector(state));
+    const paymentAmount = useSelector(state => paymentPlanIdSelector(state));
+    const userId = useSelector(state => userIdSelector(state));
 
     const signUp = () => {
-        navigate('/login');
+        dispatch(setPreviousPage(location.pathname))
+        navigate(URLs.LOGIN);
     };
 
     useEffect(() => {
         dispatch(fetchPlans());
     }, [dispatch]);
 
-    console.log(`plans:: ${JSON.stringify(plans)}`);
+    const RenderPayment = ({ plan }) => {
+        return (
+            <>
+             <RazorpayButton amount={plan.pricing} planId={plan.id} />
+            </>
+        )
+    }
+
+    useEffect(() => {
+        if(userId && paymentTriggered && paymentPlanId && paymentAmount){
+            dispatch(updatePaymentThunk(paymentAmount, paymentPlanId));
+        }
+    }, [userId])
 
     return (
         <div>
-            <LandingHeader signUp={signUp} />
+            {/* <LandingHeader signUp={signUp} /> */}
+            <Header></Header>
             <Container className='my-5'>
                 <h2 className="text-center mb-4">Our Pricing Plans</h2>
                 <div className="banner-section text-center text-white py-5 my-5" style={{ backgroundColor: '#007bff' }}>
@@ -56,9 +81,9 @@ const PricingPlan = () => {
                                         ))}
                                     </div>
                                     {plan.pricing > 0 ? (
-                                        <RazorpayButton amount={plan.pricing} planId={plan.id} />
+                                        <RenderPayment plan={plan}/>
                                     ) : (
-                                        <Button variant="secondary" size="md">Your Current Plan</Button>
+                                        <Button variant="secondary" size="md">Free Plan</Button>
                                     )}
                                 </Card.Body>
                             </Card>
