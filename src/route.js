@@ -1,12 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Landing from "./components/Landing";
 import Home from "./components/Home/Home";
-import ResumesUploadHOC from "./components/ResumesUploadHOC"
-import JDuploadHoc from "./components/JDUploadHoc"
+import ResumesUploadHOC from "./components/ResumesUploadHOC";
+import JDuploadHoc from "./components/JDUploadHoc";
 import QueryBoard from "./components/QueryBoard/QueryBoard";
 import Login from "./components/Login/Login";
 import DownloadCsv from "./components/Reports/DownloadCsv";
-import PricingPlan from "./components/Pricing/Pricing";
 import RazorpayButton from "./components/Payment/RazorpayButton";
 import AboutUs from "./components/About/About";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
@@ -24,47 +23,45 @@ const route = createBrowserRouter([
         children: [
             {
                 path: 'jd-upload',
-                element: <JDuploadHoc/>
+                element: <JDuploadHoc />
             },
             {
                 path: 'resume-upload',
-                element: <ResumesUploadHOC/>
+                element: <ResumesUploadHOC />
             },
             {
                 path: 'queries',
                 element: <QueryBoard />
-               
             },
             {
                 path: 'login',
                 element: <Login />
             },
             {
-              path: "",
-              element: <JDuploadHoc/>
+                path: '',
+                element: <JDuploadHoc />
             },
             {
-                path: "reports",
-                element: <DownloadCsv/>
-            },
-            
+                path: 'reports',
+                element: <DownloadCsv />
+            }
         ]
     },
-    // {
-    //     path: '/pricing',
-    //     element: <PricingPlan />
-    // },
     {
         path: '/payment',
         element: <RazorpayButton />
     },
+    // {
+    //     path: '/pricing',
+    //     element: <PricingPlan /> // Uncomment this route when ready to use the Pricing page
+    // },
     {
-        path: '/aboutus',
-        element: <><LandingHeader/><AboutUs/></> 
+        path: '/about-us',
+        element: <><LandingHeader /><AboutUs /></> 
     },
     {
-        path: '/privacyPolicy',
-        element: <><LandingHeader/><PrivacyPolicy/></>
+        path: '/privacy-policy',
+        element: <><LandingHeader /><PrivacyPolicy /></>
     },
     {
         path: '/welcome',

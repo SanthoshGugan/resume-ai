@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:xhtml="http://www.w3.org/1999/xhtml" 
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- Home Page -->
+  <url>
+    <loc>https://www.sortmyresumes.com/</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <!-- App Main Page -->
+  <url>
+    <loc>https://www.sortmyresumes.com/app</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <!-- Sub-routes under /app -->
+  <url>
+    <loc>https://www.sortmyresumes.com/app/resume-upload</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <url>
+    <loc>https://www.sortmyresumes.com/app/queries</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <url>
+    <loc>https://www.sortmyresumes.com/app/reports</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Login and Signup Page -->
+  <url>
+    <loc>https://www.sortmyresumes.com/app/login</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- About Us Page -->
+  <url>
+    <loc>https://www.sortmyresumes.com/about-us</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Privacy Policy Page -->
+  <url>
+    <loc>https://www.sortmyresumes.com/privacy-policy</loc>
+    <lastmod>2024-10-29T06:27:34+01:00</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+
+</urlset>
