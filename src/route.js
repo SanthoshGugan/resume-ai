@@ -47,10 +47,10 @@ const route = createBrowserRouter([
             }
         ]
     },
-    {
-        path: '/payment',
-        element: <RazorpayButton />
-    },
+    // {
+    //     path: '/payment',
+    //     element: <RazorpayButton />
+    // },
     // {
     //     path: '/pricing',
     //     element: <PricingPlan /> // Uncomment this route when ready to use the Pricing page
