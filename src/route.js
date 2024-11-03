@@ -72,7 +72,7 @@ const route = createBrowserRouter([
     },
     {
         path: '*',  // This wildcard route should be the last entry
-        element: <ErrorPagex />  // Your custom error component
+        element: <ErrorPage/>  // Your custom error component
     }
 
 ]);
