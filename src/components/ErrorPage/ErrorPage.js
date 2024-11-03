@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -55,6 +56,11 @@ const ErrorPage = () => {
 
     return (
         <div style={containerStyle}>
+            <Helmet>
+                <title>Page Not Found | SortMyResumes</title>
+                <meta name="description" content="The page you are looking for does not exist. Please check the URL or return to the homepage." />
+                <meta name="robots" content="noindex, follow" />
+            </Helmet>
             <FaExclamationTriangle size={70} style={iconStyle} />
             <h1 style={titleStyle}>Oops! Looks like this page is missing.</h1>
             <p style={messageStyle}>
