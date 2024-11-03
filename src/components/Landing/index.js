@@ -103,7 +103,7 @@ const LandingPage = () => {
                         {/* Left bottom overlay (WhatsApp message bubble style) */}
                         <Row style={leftBubbleStyle}>
                             <Col md={2} style={{ fontSize: '3rem', padding: 0, justifyContent: 'space-between' }} className='d-flex align-items-center'>
-                                <FaHourglassHalf size="2rem" color='gold'/>
+                                <FaHourglassHalf size="2rem" color='gold' />
                             </Col>
                             <Col md={10} style={{ padding: 0, textAlign: 'center' }}>
                                 Cut resume filtering by 50%
@@ -116,7 +116,7 @@ const LandingPage = () => {
                                 Instantly compare 100s of resumes
                             </Col>
                             <Col md={2} style={{ fontSize: '3rem', padding: 0, justifyContent: 'space-between' }} className='d-flex justify-content-center align-items-center'>
-                                <FaBolt size="2rem" color='gold'/>
+                                <FaBolt size="2rem" color='gold' />
                             </Col>
                         </div>
                     </Col>
@@ -127,7 +127,7 @@ const LandingPage = () => {
 
     const renderHeader = () => {
         return (
-            <Navbar expand="lg" className="shadow-sm sticky-top" style={{backgroundColor: "rgb(255 255 255)"}}>
+            <Navbar expand="lg" className="shadow-sm sticky-top" style={{ backgroundColor: "rgb(255 255 255)" }}>
                 <Container>
                     <Navbar.Brand href="#home">
                         <Image
@@ -152,13 +152,65 @@ const LandingPage = () => {
         );
     };
 
+    const renderDemoVideoSection = () => {
+        return (
+            <Container fluid className="py-5" style={{ backgroundColor: '#f8f9fa' }}>
+                <Row className="justify-content-center align-items-center">
+                    {/* Video on the Left */}
+                    <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)', overflow: 'hidden', borderRadius: '10px' }}>
+                            <video
+                                src="https://landing-page-assets-8971676609.s3.ap-south-1.amazonaws.com/demo.mp4"
+                                autoPlay
+                                muted
+                                controls
+                                loop
+                                className="w-100"
+                                style={{
+                                    borderRadius: '10px',
+                                    backgroundColor: '#f8f9fa',
+                                }}
+                            />
+                        </div>
+                    </Col>
+    
+                    {/* Title and Description on the Right, Centered Vertically */}
+                    <Col md={5} className="d-flex flex-column justify-content-center text-center" style={{ paddingLeft: '2rem' }}>
+                        <h2 style={{
+                            fontSize: '2.2rem',
+                            fontWeight: '600',
+                            color: '#4a4a4a',
+                            lineHeight: '1.3',
+                            marginBottom: '1rem',
+                        }}>
+                            Experience AI in Action
+                        </h2>
+                        <p style={{
+                            fontSize: '1.1rem',
+                            color: '#6a6a6a',
+                            lineHeight: '1.6',
+                            fontWeight: '400',
+                            maxWidth: '80%',
+                            margin: '0 auto',
+                        }}>
+                            Our AI-powered resume filtering tool analyzes hundreds of resumes in seconds, matching top talent with job descriptions effortlessly. See firsthand how our technology streamlines hiring, saves you time, and enables smarter decisions.
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    };
+
     return (
         <div>
             {/* Header Section */}
-            <LandingHeader signUp={signUp}/>
+            <LandingHeader signUp={signUp} />
 
             {/* Banner Section */}
             {renderBanner()}
+
+            {/* Product Demo Video Section */}
+            {renderDemoVideoSection()}
 
             {/* Features Section */}
             <Container className="my-5 p">
@@ -169,7 +221,7 @@ const LandingPage = () => {
                         <h4>Accurate Matching</h4>
                         <p>Using cutting-edge AI, we ensure the right resumes are matched to your job descriptions with precision. Our system understands job-specific skills, helping you quickly find the best-fit candidates, reducing shortlisting time and effort.</p>
                     </Col>
-                    <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem'}}>
+                    <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem' }}>
                         <Image src='./robo_resume_bg.png' width="200px" height="200px" alt="AI matching resumes" />
                     </Col>
                 </Row>
@@ -192,7 +244,7 @@ const LandingPage = () => {
                         <p>Your data is in safe hands. Our platform ensures that all resume data is securely processed with end-to-end encryption, protecting sensitive information at every step. Trust our reliable system to deliver consistent, accurate results while maintaining the highest security standards.</p>
                     </Col>
 
-                    <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem'}}>
+                    <Col md={6} className="d-flex justify-content-start align-items-center" style={{ paddingLeft: '5rem' }}>
                         <Image src='./secure_bg.png' width="200px" height="200px" alt="Secure data handling illustration" />
                     </Col>
                 </Row>
