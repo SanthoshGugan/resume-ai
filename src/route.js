@@ -10,6 +10,12 @@ import QueryBoard from "./components/QueryBoard/QueryBoard";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/Login/Login";
 import DownloadCsv from "./components/Reports/DownloadCsv";
+import PricingPlan from "./components/Pricing/Pricing";
+import RazorpayButton from "./components/Payment/RazorpayButton";
+import AboutUs from "./components/About/About";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+import LandingHeader from "./components/LandingHeader/LandingHeader";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 const route = createBrowserRouter([
     {
@@ -48,6 +54,15 @@ const route = createBrowserRouter([
         path: '/welcome',
         element: <Landing />
     },
+    {
+        path: '/welcome',
+        element: <Navigate to="/" replace />
+    },
+    {
+        path: '*',  // This wildcard route should be the last entry
+        element: <ErrorPagex />  // Your custom error component
+    }
+
 ]);
 
 export default route;
