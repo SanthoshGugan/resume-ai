@@ -1,13 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import App from "./App";
-import ResumeAi from "./components/ResumeAi";
 import Landing from "./components/Landing";
-import ResumeManagerContainer from "./components/ResumeManager/ResumeManagerContainer";
 import Home from "./components/Home/Home";
 import ResumesUploadHOC from "./components/ResumesUploadHOC"
 import JDuploadHoc from "./components/JDUploadHoc"
 import QueryBoard from "./components/QueryBoard/QueryBoard";
-import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/Login/Login";
 import DownloadCsv from "./components/Reports/DownloadCsv";
 import PricingPlan from "./components/Pricing/Pricing";
@@ -20,6 +16,10 @@ import ErrorPage from "./components/ErrorPage/ErrorPage";
 const route = createBrowserRouter([
     {
         path: '/',
+        element: <Landing />
+    },
+    {
+        path: '/app',
         element: <Home />,
         children: [
             {
@@ -40,19 +40,31 @@ const route = createBrowserRouter([
                 element: <Login />
             },
             {
-              path: "/",
+              path: "",
               element: <JDuploadHoc/>
             },
             {
-                path: "/reports",
+                path: "reports",
                 element: <DownloadCsv/>
-            }
+            },
             
         ]
     },
+    // {
+    //     path: '/pricing',
+    //     element: <PricingPlan />
+    // },
     {
-        path: '/welcome',
-        element: <Landing />
+        path: '/payment',
+        element: <RazorpayButton />
+    },
+    {
+        path: '/aboutus',
+        element: <><LandingHeader/><AboutUs/></> 
+    },
+    {
+        path: '/privacyPolicy',
+        element: <><LandingHeader/><PrivacyPolicy/></>
     },
     {
         path: '/welcome',

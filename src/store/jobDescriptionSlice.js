@@ -15,7 +15,9 @@ const initialState = {
   isJDAdded: false,
   jdUploadStatus: JD_UPLOAD_STATUS.JD_WORKFLOW_IDLE,
   jdSkillUpdateSkill: '',
-  jdUpdateSkillStatus: JD_UPDATE_SKILL_STATUS.IDLE
+  jdUpdateSkillStatus: JD_UPDATE_SKILL_STATUS.IDLE,
+  jdFetchRetries: 0,
+  maxAllowedJdRetries: 18
 };
 
 const jobDescriptionSlice = createSlice({
@@ -29,7 +31,7 @@ const jobDescriptionSlice = createSlice({
     },
     updatedJD: (state, action) => {
       const { summary, dimensions: str, status, text, id } = action.payload;
-      const dimensions = JSON.parse(str);
+      const dimensions = JSON.parse(str || "{}");
       state.jd = {
         ...state.jd,
         summary,
@@ -81,6 +83,10 @@ const jobDescriptionSlice = createSlice({
     },
     setJdSkillUpdateFailed: (state, action) => {
       state.jdSkillUpdateSkill = JD_UPDATE_SKILL_STATUS.FAILED;
+    },
+    setJdRetries: (state, action) => {
+      const retries = action.payload;
+      state.jdFetchRetries = retries;
     }
   },
 });
@@ -99,7 +105,8 @@ export const {
   setJDSkillUpdateSkill,
   setJDUpdateSkillStatus,
   setJdFetchFailed,
-  setJdSkillUpdateFailed
+  setJdSkillUpdateFailed,
+  setJdRetries
 } = jobDescriptionSlice.actions;
 
 export default jobDescriptionSlice.reducer;

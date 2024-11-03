@@ -7,6 +7,9 @@ import userReducer from './userSlice';
 import queryResultsReducer from './queryResultsSlice';
 import timelineReducer from './timelineSlice';
 import loaderReducer from './loaderSlice';
+import planReducer from './planSlice';
+import uiReducer from './uiSlice';
+
 
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for web
@@ -45,7 +48,9 @@ const rootReducer = combineReducers({
   user: userReducer,
   queryResults: queryResultsReducer,
   timeline: timelineReducer,
-  loader: loaderReducer
+  loader: loaderReducer,
+  plan: planReducer,
+  ui: uiReducer
 });
 
 // Configure persist settings
