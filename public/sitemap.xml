@@ -23,7 +23,7 @@
   <!-- Sub-routes under /app -->
 
    <url>
-    <loc>https://www.sortmyresumes.com/app</loc>
+    <loc>https://www.sortmyresumes.com/app/jd-upload</loc>
     <lastmod>2024-10-29T06:27:34+01:00</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
